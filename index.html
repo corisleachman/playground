@@ -1,0 +1,879 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Coris Leachman - Agency Growth Consultant</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { 
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            color: #1a1a1a;
+            background: #faf9f7;
+            line-height: 1.6;
+        }
+        html { scroll-behavior: smooth; }
+
+        /* BASE */
+        .container { max-width: 1000px; margin: 0 auto; padding: 0 40px; }
+        @media (max-width: 768px) {
+            .container { padding: 0 24px; }
+        }
+
+        /* NAV */
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: rgba(250, 249, 247, 0.98);
+            backdrop-filter: blur(10px);
+            padding: 20px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 1000;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+            opacity: 0;
+            transform: translateY(-100%);
+            transition: all 0.4s ease;
+        }
+
+        nav.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        nav .logo {
+            font-weight: 900;
+            font-size: 14px;
+            color: #ff6c2f;
+            letter-spacing: 2px;
+        }
+
+        nav a {
+            color: #666;
+            text-decoration: none;
+            font-size: 13px;
+            font-weight: 600;
+            margin-left: 32px;
+            transition: color 0.3s ease;
+        }
+
+        nav a:hover {
+            color: #ff6c2f;
+        }
+
+        /* HERO */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            padding: 100px 40px 60px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, rgba(255, 108, 47, 0.1) 0%, transparent 70%);
+            border-radius: 50%;
+            right: -150px;
+            top: 50%;
+            transform: translateY(-50%);
+            pointer-events: none;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            flex: 1;
+        }
+
+        .hero-pretitle {
+            font-size: 14px;
+            color: #ff6c2f;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 16px;
+        }
+
+        .hero-name {
+            font-size: 96px;
+            font-weight: 900;
+            color: #1a1a1a;
+            line-height: 0.95;
+            margin-bottom: 20px;
+            letter-spacing: -2px;
+        }
+
+        .hero-name strong {
+            color: #ff6c2f;
+        }
+
+        .hero-tagline {
+            font-size: 24px;
+            color: #555;
+            margin-bottom: 40px;
+            line-height: 1.4;
+            max-width: 600px;
+        }
+
+        .hero-cta {
+            display: flex;
+            gap: 16px;
+            margin-bottom: 80px;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 18px 36px;
+            font-size: 15px;
+            border: 2px solid #ff6c2f;
+            background: #ff6c2f;
+            color: white;
+            cursor: pointer;
+            border-radius: 2px;
+            font-weight: 700;
+            transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .btn:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 16px 32px rgba(255, 108, 47, 0.25);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: #ff6c2f;
+        }
+
+        .btn-secondary:hover {
+            background: rgba(255, 108, 47, 0.08);
+        }
+
+        .hero-stats {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 40px;
+        }
+
+        @media (max-width: 768px) {
+            .hero-stats { grid-template-columns: repeat(2, 1fr); gap: 24px; }
+            .hero-name { font-size: 64px; }
+            .hero-tagline { font-size: 20px; }
+        }
+
+        .stat-value {
+            font-size: 42px;
+            font-weight: 900;
+            color: #ff6c2f;
+            line-height: 1;
+            margin-bottom: 8px;
+        }
+
+        .stat-label {
+            font-size: 12px;
+            color: #999;
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+            font-weight: 600;
+            line-height: 1.4;
+        }
+
+        /* SECTION */
+        .section {
+            padding: 120px 0;
+            border-top: 1px solid rgba(0, 0, 0, 0.05);
+        }
+
+        .section:first-of-type {
+            border-top: none;
+        }
+
+        .section-num {
+            font-size: 120px;
+            font-weight: 900;
+            color: rgba(255, 108, 47, 0.08);
+            line-height: 0.8;
+            margin-bottom: 40px;
+            position: relative;
+            z-index: 0;
+        }
+
+        .section-title {
+            font-size: 52px;
+            font-weight: 900;
+            color: #1a1a1a;
+            margin-bottom: 24px;
+            line-height: 1.2;
+            letter-spacing: -1px;
+        }
+
+        .section-title strong {
+            color: #ff6c2f;
+        }
+
+        .section-body {
+            font-size: 18px;
+            color: #555;
+            line-height: 1.8;
+            max-width: 700px;
+            margin-bottom: 40px;
+        }
+
+        /* CHALLENGES */
+        .challenges-intro {
+            margin-bottom: 80px;
+        }
+
+        .challenges-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 32px;
+            margin-bottom: 60px;
+        }
+
+        @media (max-width: 768px) {
+            .challenges-grid { grid-template-columns: 1fr; }
+        }
+
+        .challenge-card {
+            background: white;
+            padding: 40px;
+            border: 1px solid #e5e0db;
+            border-radius: 2px;
+            transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .challenge-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 4px;
+            height: 0;
+            background: #ff6c2f;
+            transition: height 0.4s ease;
+        }
+
+        .challenge-card:hover {
+            border-color: #ff6c2f;
+            transform: translateY(-8px);
+            box-shadow: 0 20px 40px rgba(255, 108, 47, 0.12);
+        }
+
+        .challenge-card:hover::before {
+            height: 100%;
+        }
+
+        .challenge-num {
+            font-size: 48px;
+            font-weight: 900;
+            color: #ff6c2f;
+            line-height: 1;
+            margin-bottom: 16px;
+        }
+
+        .challenge-title {
+            font-size: 20px;
+            font-weight: 800;
+            color: #1a1a1a;
+            margin-bottom: 12px;
+        }
+
+        .challenge-desc {
+            font-size: 15px;
+            color: #666;
+            line-height: 1.6;
+        }
+
+        /* CREDENTIALS */
+        .creds-box {
+            background: white;
+            padding: 80px 60px;
+            border: 1px solid #e5e0db;
+            border-radius: 2px;
+            margin-bottom: 80px;
+        }
+
+        @media (max-width: 768px) {
+            .creds-box { padding: 40px 24px; }
+        }
+
+        .creds-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 48px;
+        }
+
+        @media (max-width: 768px) {
+            .creds-grid { grid-template-columns: repeat(2, 1fr); gap: 32px; }
+        }
+
+        .cred-item {
+            text-align: center;
+        }
+
+        .cred-value {
+            font-size: 56px;
+            font-weight: 900;
+            color: #ff6c2f;
+            line-height: 1;
+            margin-bottom: 12px;
+        }
+
+        .cred-label {
+            font-size: 14px;
+            color: #666;
+            line-height: 1.5;
+        }
+
+        /* SERVICES */
+        .services-container {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 32px;
+        }
+
+        @media (max-width: 768px) {
+            .services-container { grid-template-columns: 1fr; }
+        }
+
+        .service-card {
+            background: #ff6c2f;
+            color: white;
+            padding: 48px;
+            border-radius: 2px;
+            transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .service-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: -100%;
+            width: 100%;
+            height: 100%;
+            background: rgba(255, 255, 255, 0.1);
+            transition: right 0.4s ease;
+        }
+
+        .service-card:hover {
+            transform: translateY(-12px);
+            box-shadow: 0 24px 48px rgba(255, 108, 47, 0.3);
+        }
+
+        .service-card:hover::before {
+            right: 0;
+        }
+
+        .service-title {
+            font-size: 24px;
+            font-weight: 800;
+            margin-bottom: 20px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .service-list {
+            font-size: 15px;
+            line-height: 1.8;
+            position: relative;
+            z-index: 1;
+        }
+
+        .service-list li {
+            list-style: none;
+            margin-bottom: 12px;
+            padding-left: 20px;
+            position: relative;
+        }
+
+        .service-list li:before {
+            content: '✓';
+            position: absolute;
+            left: 0;
+            opacity: 0.8;
+        }
+
+        /* TIMELINE */
+        .timeline {
+            position: relative;
+        }
+
+        .timeline-item {
+            display: grid;
+            grid-template-columns: 160px 1fr;
+            gap: 48px;
+            margin-bottom: 80px;
+            align-items: start;
+        }
+
+        @media (max-width: 768px) {
+            .timeline-item { grid-template-columns: 80px 1fr; gap: 24px; }
+        }
+
+        .timeline-step {
+            position: relative;
+        }
+
+        .timeline-num {
+            font-size: 64px;
+            font-weight: 900;
+            color: #ff6c2f;
+            line-height: 1;
+            margin-bottom: 12px;
+        }
+
+        .timeline-label {
+            font-size: 12px;
+            color: #999;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-weight: 700;
+        }
+
+        .timeline-step::after {
+            content: '';
+            position: absolute;
+            left: 40px;
+            top: 90px;
+            width: 2px;
+            height: 160px;
+            background: linear-gradient(to bottom, #ff6c2f, transparent);
+        }
+
+        .timeline-item:last-child .timeline-step::after {
+            display: none;
+        }
+
+        .timeline-content {
+            background: white;
+            padding: 40px;
+            border: 1px solid #e5e0db;
+            border-radius: 2px;
+            transition: all 0.4s ease;
+        }
+
+        .timeline-item:hover .timeline-content {
+            border-color: #ff6c2f;
+            box-shadow: 0 16px 32px rgba(255, 108, 47, 0.12);
+        }
+
+        .timeline-goal {
+            font-size: 18px;
+            font-weight: 800;
+            color: #1a1a1a;
+            margin-bottom: 12px;
+        }
+
+        .timeline-details {
+            font-size: 15px;
+            color: #666;
+            line-height: 1.7;
+        }
+
+        .timeline-details strong {
+            color: #ff6c2f;
+        }
+
+        /* TESTIMONIALS */
+        .testimonials-intro {
+            margin-bottom: 60px;
+        }
+
+        .testimonials-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 32px;
+        }
+
+        @media (max-width: 768px) {
+            .testimonials-grid { grid-template-columns: 1fr; }
+        }
+
+        .testimonial {
+            background: white;
+            padding: 40px;
+            border: 1px solid #e5e0db;
+            border-radius: 2px;
+        }
+
+        .testimonial-quote {
+            font-size: 16px;
+            color: #1a1a1a;
+            font-weight: 600;
+            margin-bottom: 16px;
+            line-height: 1.6;
+        }
+
+        .testimonial-text {
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 20px;
+            line-height: 1.6;
+            font-style: italic;
+        }
+
+        .testimonial-author {
+            font-size: 13px;
+            color: #999;
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+            font-weight: 600;
+        }
+
+        /* FOOTER CTA */
+        .footer-cta {
+            background: linear-gradient(135deg, #ff6c2f 0%, #e55a1f 100%);
+            color: white;
+            padding: 100px 60px;
+            text-align: center;
+            border-radius: 2px;
+            margin-bottom: 100px;
+        }
+
+        @media (max-width: 768px) {
+            .footer-cta { padding: 60px 24px; }
+        }
+
+        .footer-cta h2 {
+            font-size: 56px;
+            font-weight: 900;
+            margin-bottom: 24px;
+            line-height: 1.2;
+        }
+
+        .footer-cta p {
+            font-size: 18px;
+            margin-bottom: 48px;
+            opacity: 0.95;
+        }
+
+        .contact-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 40px;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        @media (max-width: 768px) {
+            .contact-grid { grid-template-columns: repeat(2, 1fr); gap: 24px; }
+        }
+
+        .contact-item {
+            text-align: center;
+        }
+
+        .contact-label {
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 8px;
+            opacity: 0.9;
+            font-weight: 700;
+        }
+
+        .contact-value {
+            font-size: 16px;
+            font-weight: 700;
+        }
+
+        .contact-value a {
+            color: white;
+            text-decoration: none;
+            transition: opacity 0.3s;
+        }
+
+        .contact-value a:hover {
+            opacity: 0.8;
+        }
+    </style>
+</head>
+<body>
+    <nav id="navbar">
+        <div class="logo">CORIS LEACHMAN</div>
+        <div style="display: flex; gap: 12px;">
+            <a href="#challenges">The Challenge</a>
+            <a href="#services">Services</a>
+            <a href="#process">Process</a>
+            <a href="#contact">Contact</a>
+        </div>
+    </nav>
+
+    <!-- HERO -->
+    <section class="hero">
+        <div class="hero-content">
+            <div class="hero-pretitle">New Business & Marketing Consultant</div>
+            <h1 class="hero-name">Your growth is <strong>stalled</strong>.<br>Let's <strong>unlock</strong> it.</h1>
+            <p class="hero-tagline">20 years helping ambitious agencies move from stuck to scaling. Fast.</p>
+            
+            <div class="hero-cta">
+                <button class="btn" onclick="document.getElementById('contact').scrollIntoView()">Start a Conversation</button>
+                <button class="btn btn-secondary">£500/day +VAT</button>
+            </div>
+
+            <div class="hero-stats">
+                <div>
+                    <div class="stat-value">£3M+</div>
+                    <div class="stat-label">New logos in<br>3 years</div>
+                </div>
+                <div>
+                    <div class="stat-value">20</div>
+                    <div class="stat-label">Years in<br>agency growth</div>
+                </div>
+                <div>
+                    <div class="stat-value">55</div>
+                    <div class="stat-label">Grew agency<br>from 3 to</div>
+                </div>
+                <div>
+                    <div class="stat-value">20%+</div>
+                    <div class="stat-label">Client revenue<br>growth YoY</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="container">
+        <!-- CHALLENGES -->
+        <section class="section" id="challenges">
+            <div class="section-num">01</div>
+            <h2 class="section-title">The work is strong.<br>But <strong>growth</strong> has stalled.</h2>
+            <p class="section-body">You've built something real. Your team delivers. Clients are happy. But the pipeline is inconsistent. Growth feels slower than it should. And you're not sure if you're missing something fundamental — or just need the right push in the right direction.</p>
+
+            <div class="section-body" style="font-size: 16px; color: #999; margin-top: 40px;">These are the eight blockers I see most often:</div>
+
+            <div class="challenges-grid" style="margin-top: 60px;">
+                <div class="challenge-card">
+                    <div class="challenge-num">1</div>
+                    <div class="challenge-title">Market Readiness</div>
+                    <div class="challenge-desc">Foundations aren't solid. Pushing growth ahead would just amplify the cracks and waste money.</div>
+                </div>
+                <div class="challenge-card">
+                    <div class="challenge-num">2</div>
+                    <div class="challenge-title">Disconnected Teams</div>
+                    <div class="challenge-desc">Everything feels siloed. Delivery is busy but not feeding growth. There's no shared view of what you're pushing toward.</div>
+                </div>
+                <div class="challenge-card">
+                    <div class="challenge-num">3</div>
+                    <div class="challenge-title">No Productised Offer</div>
+                    <div class="challenge-desc">There's no defined programme with a fixed outcome. It feels open-ended, making it harder for prospects to buy.</div>
+                </div>
+                <div class="challenge-card">
+                    <div class="challenge-num">4</div>
+                    <div class="challenge-title">Weak Positioning</div>
+                    <div class="challenge-desc">Website, copy, case studies exist. But the positioning isn't landing hard in a compelling way.</div>
+                </div>
+                <div class="challenge-card">
+                    <div class="challenge-num">5</div>
+                    <div class="challenge-title">No Orchestration</div>
+                    <div class="challenge-desc">You don't have enough internal bandwidth to align everything and drive it through with momentum.</div>
+                </div>
+                <div class="challenge-card">
+                    <div class="challenge-num">6</div>
+                    <div class="challenge-title">Pace Doesn't Match Ambition</div>
+                    <div class="challenge-desc">Progress feels slower and lighter than it should. You're capable of more.</div>
+                </div>
+                <div class="challenge-card">
+                    <div class="challenge-num">7</div>
+                    <div class="challenge-title">Pipeline Blind Spot</div>
+                    <div class="challenge-desc">No clear pipeline stages. Forecasting feels like guesswork. You can't see what's really in play.</div>
+                </div>
+                <div class="challenge-card">
+                    <div class="challenge-num">8</div>
+                    <div class="challenge-title">Senior Cost Barriers</div>
+                    <div class="challenge-desc">You need senior growth thinking. But you can't justify £120k–£150k for a full-time hire right now.</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- CREDENTIALS -->
+        <section class="section">
+            <div class="section-num">02</div>
+            <h2 class="section-title">I've built this engine <strong>before</strong>.</h2>
+            
+            <div class="creds-box">
+                <div class="creds-grid">
+                    <div class="cred-item">
+                        <div class="cred-value">£3M+</div>
+                        <div class="cred-label">In new logos across a 3-year period</div>
+                    </div>
+                    <div class="cred-item">
+                        <div class="cred-value">20</div>
+                        <div class="cred-label">Years driving agency growth from the inside</div>
+                    </div>
+                    <div class="cred-item">
+                        <div class="cred-value">3→55</div>
+                        <div class="cred-label">Grew an agency from 3 people to 55+</div>
+                    </div>
+                    <div class="cred-item">
+                        <div class="cred-value">20%+</div>
+                        <div class="cred-label">Average client revenue growth YoY</div>
+                    </div>
+                </div>
+            </div>
+
+            <p class="section-body" style="margin-top: 60px;">I've led new business from zero, built teams, installed systems, created award-winning growth campaigns, and helped founders navigate the exact transitions you're facing now. This isn't theory. It's lived experience across three decades of agency growth.</p>
+        </section>
+
+        <!-- SERVICES -->
+        <section class="section" id="services">
+            <div class="section-num">03</div>
+            <h2 class="section-title">Four core levers.<br><strong>Maximum</strong> impact.</h2>
+            <p class="section-body">This is where we focus. Pick one. Pick all four. We build together.</p>
+
+            <div class="services-container" style="margin-top: 60px;">
+                <div class="service-card">
+                    <div class="service-title">Growth & Positioning Strategy</div>
+                    <ul class="service-list">
+                        <li>Business growth strategy & planning</li>
+                        <li>Defining your go-to-market strategy</li>
+                        <li>Competitor mapping & positioning</li>
+                        <li>Audit of current growth performance</li>
+                    </ul>
+                </div>
+                <div class="service-card">
+                    <div class="service-title">New Business Operations</div>
+                    <ul class="service-list">
+                        <li>Blueprint to build your NB function</li>
+                        <li>Growth ops planning & process</li>
+                        <li>Lead gen tools & CRM setup</li>
+                        <li>Agency partner management</li>
+                    </ul>
+                </div>
+                <div class="service-card">
+                    <div class="service-title">Lead Generation & Pipeline</div>
+                    <ul class="service-list">
+                        <li>Outbound strategy & campaign</li>
+                        <li>Ideal customer profile & personas</li>
+                        <li>Outreach messaging & execution</li>
+                        <li>Referral & partnership strategy</li>
+                    </ul>
+                </div>
+                <div class="service-card">
+                    <div class="service-title">Collateral & Content</div>
+                    <ul class="service-list">
+                        <li>Collateral audit & refresh</li>
+                        <li>Thought leadership co-creation</li>
+                        <li>Campaign concepting</li>
+                        <li>Content strategy & execution</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- PROCESS -->
+        <section class="section" id="process">
+            <div class="section-num">04</div>
+            <h2 class="section-title">How we work <strong>together</strong>.</h2>
+            <p class="section-body">No fluff. No delays. Just clarity and momentum.</p>
+
+            <div class="timeline" style="margin-top: 60px;">
+                <div class="timeline-item">
+                    <div class="timeline-step">
+                        <div class="timeline-num">1</div>
+                        <div class="timeline-label">Discovery</div>
+                    </div>
+                    <div class="timeline-content">
+                        <div class="timeline-goal">Discovery Call</div>
+                        <div class="timeline-details">45–60 min conversation with you or your leadership team. We explore your goals, pipeline, marketing, historic growth efforts, and whether we're a fit. <strong>Outcome:</strong> Clear picture of where you stand.</div>
+                    </div>
+                </div>
+
+                <div class="timeline-item">
+                    <div class="timeline-step">
+                        <div class="timeline-num">2</div>
+                        <div class="timeline-label">Mapping</div>
+                    </div>
+                    <div class="timeline-content">
+                        <div class="timeline-goal">Opportunity Mapping</div>
+                        <div class="timeline-details">You complete a focused questionnaire. I may request key assets (credentials deck, email campaigns, pipeline reports). <strong>Outcome:</strong> I identify the core issues holding you back and the highest-impact levers to pull.</div>
+                    </div>
+                </div>
+
+                <div class="timeline-item">
+                    <div class="timeline-step">
+                        <div class="timeline-num">3</div>
+                        <div class="timeline-label">Proposal</div>
+                    </div>
+                    <div class="timeline-content">
+                        <div class="timeline-goal">Proposal & Plan of Action</div>
+                        <div class="timeline-details">A written proposal with scope options (retainer vs short project), deliverables, and quick wins. <strong>Next:</strong> A call to review, discuss alignment, and decide if we move forward together.</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- TESTIMONIALS -->
+        <section class="section">
+            <div class="section-num">05</div>
+            <h2 class="section-title">What they say <strong>after</strong>.</h2>
+
+            <div class="testimonials-grid" style="margin-top: 60px;">
+                <div class="testimonial">
+                    <div class="testimonial-quote">The clarity was immediate.</div>
+                    <div class="testimonial-text">Your analysis cut through everything we've been circling for months. Within one session, we had a roadmap. That never happens.</div>
+                    <div class="testimonial-author">Founder, Digital Agency (£2M ARR)</div>
+                </div>
+                <div class="testimonial">
+                    <div class="testimonial-quote">Finally someone who speaks our language.</div>
+                    <div class="testimonial-text">You've been in the trenches. You know what it's actually like to build a new business engine. That makes all the difference.</div>
+                    <div class="testimonial-author">Managing Director, Creative Studio</div>
+                </div>
+                <div class="testimonial">
+                    <div class="testimonial-quote">This was the unlock we needed.</div>
+                    <div class="testimonial-text">Three months in, pipeline is healthier, team is aligned, and we're moving with purpose. The investment paid for itself in the first quarter.</div>
+                    <div class="testimonial-author">COO, Brand & Design Agency</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- CTA -->
+        <section class="section" id="contact">
+            <div class="footer-cta">
+                <h2>Let's Talk</h2>
+                <p>If this resonates, let's have a real conversation about what's possible for your business.</p>
+                
+                <div class="contact-grid">
+                    <div class="contact-item">
+                        <div class="contact-label">Email</div>
+                        <div class="contact-value"><a href="mailto:coris.leachman@gmail.com">coris.leachman@gmail.com</a></div>
+                    </div>
+                    <div class="contact-item">
+                        <div class="contact-label">Phone</div>
+                        <div class="contact-value">+44 7380 331 824</div>
+                    </div>
+                    <div class="contact-item">
+                        <div class="contact-label">Rate</div>
+                        <div class="contact-value">£500/day +VAT</div>
+                    </div>
+                    <div class="contact-item">
+                        <div class="contact-label">Location</div>
+                        <div class="contact-value">London-based</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <script>
+        // Navbar visibility on scroll
+        const navbar = document.getElementById('navbar');
+        window.addEventListener('scroll', () => {
+            navbar.classList.toggle('visible', window.scrollY > 400);
+        });
+    </script>
+</body>
+</html>
