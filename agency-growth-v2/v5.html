@@ -70,9 +70,58 @@
     .ch-role{font-family:'Inter',system-ui,sans-serif;font-size:clamp(.85rem,1.4vw,1.1rem);font-weight:800;text-transform:uppercase;letter-spacing:.22em;color:rgba(255,255,255,.9);margin-bottom:clamp(8px,1.5vw,18px);text-align:center}
     .ch-name{font-family:'Anton',Impact,sans-serif;font-size:clamp(4rem,13vw,16rem);line-height:.82;letter-spacing:-.03em;text-transform:uppercase;color:#000;text-align:center;width:100%;padding:0 .5vw;word-break:break-word}
     .ch-footer{position:absolute;bottom:0;left:0;right:0;z-index:2;display:flex;justify-content:space-between;align-items:center;padding:clamp(16px,2.5vw,28px) clamp(20px,4vw,60px);border-top:1px solid rgba(255,255,255,.18);font-family:'Inter',system-ui,sans-serif;font-size:clamp(.65rem,1vw,.78rem);font-weight:800;text-transform:uppercase;letter-spacing:.14em;color:rgba(255,255,255,.85)}
+
+    /* ── Scroll-reveal intro block ── */
+    .intro-block{position:relative;height:280vh;background:var(--bg)}
+    .intro-sticky{position:sticky;top:0;height:100vh;overflow:hidden;display:flex;align-items:center;justify-content:center}
+    .intro-photo{
+      position:absolute;
+      width:clamp(260px,32vw,480px);
+      aspect-ratio:1/1.1;
+      border-radius:28px;
+      overflow:hidden;
+      z-index:2;
+      box-shadow:0 40px 100px rgba(0,0,0,.18);
+    }
+    .intro-photo img{width:100%;height:100%;object-fit:cover;object-position:top center}
+    .intro-line{
+      position:absolute;
+      left:0;right:0;
+      text-align:center;
+      font-family:'Anton',Impact,sans-serif;
+      font-size:clamp(3rem,8vw,9rem);
+      line-height:.9;
+      letter-spacing:-.03em;
+      text-transform:uppercase;
+      color:var(--ink);
+      z-index:1;
+      will-change:transform,filter,opacity;
+    }
+    .intro-line-top{top:50%;transform:translateY(-50%)}
+    .intro-line-bottom{top:50%;transform:translateY(-50%);z-index:3}
+    .intro-photo-blur{
+      position:absolute;
+      inset:0;
+      backdrop-filter:blur(0px);
+      -webkit-backdrop-filter:blur(0px);
+      z-index:2;
+      border-radius:28px;
+      pointer-events:none;
+      transition:backdrop-filter .05s linear,-webkit-backdrop-filter .05s linear;
+    }
   </style>
 </head>
 <body>
+  <section class="intro-block" id="intro-block">
+    <div class="intro-sticky" id="intro-sticky">
+      <div class="intro-line intro-line-top" id="intro-line-top">Fix the gaps that are</div>
+      <div class="intro-photo" id="intro-photo">
+        <img src="https://raw.githubusercontent.com/corisleachman/playground/main/agency-growth-v2/Coris%20Leachman%20profile%20photo.jpeg" alt="Coris Leachman" />
+        <div class="intro-photo-blur" id="intro-photo-blur"></div>
+      </div>
+      <div class="intro-line intro-line-bottom" id="intro-line-bottom">slowing your agency's growth.</div>
+    </div>
+  </section>
   <section class="cinematic-hero">
     <div class="ch-bg"></div>
     <div class="ch-overlay"></div>
@@ -106,6 +155,55 @@
     function updateTextHighlights(){highlightables.forEach((el)=>{const rect=el.getBoundingClientRect(); const vh=window.innerHeight; const progress=clamp((vh*0.78-rect.top)/(vh*0.62),0,1); el.style.backgroundPosition=`${100-(progress*100)}% 0`;}); accentWords.forEach((el)=>{const rect=el.getBoundingClientRect(); const vh=window.innerHeight; const progress=clamp((vh*0.8-rect.top)/(vh*0.56),0,1); el.style.backgroundPosition=`${100-(progress*100)}% 0`;});}
     function updateAll(){updateStoryFocus(); updateTextHighlights();}
     updateAll(); window.addEventListener('scroll',updateAll,{passive:true}); window.addEventListener('resize',updateAll);
+
+    // ── Intro scroll sequence ──
+    (function(){
+      const block   = document.getElementById('intro-block');
+      const lineTop = document.getElementById('intro-line-top');
+      const lineBot = document.getElementById('intro-line-bottom');
+      const photo   = document.getElementById('intro-photo');
+      const blurEl  = document.getElementById('intro-photo-blur');
+
+      function raf(fn){ window.addEventListener('scroll', fn, {passive:true}); fn(); }
+
+      raf(function(){
+        const scrollY   = window.scrollY;
+        const blockTop  = block.offsetTop;
+        const blockH    = block.offsetHeight;
+        const vh        = window.innerHeight;
+        // progress 0→1 across the scroll distance of the block
+        const raw       = (scrollY - blockTop) / (blockH - vh);
+        const p         = Math.max(0, Math.min(1, raw));
+
+        // --- Photo: starts centred, scrolls up to exit at top ---
+        // stays put until p>0.6, then rides up
+        const photoRide = p < 0.6 ? 0 : (p - 0.6) / 0.4;
+        photo.style.transform = `translateY(${-photoRide * 55}vh)`;
+
+        // --- Line top: scrolls up and blurs behind photo ---
+        // moves up from natural position; blur kicks in when it reaches photo zone
+        const topMove = p * 140; // px upward travel total
+        lineTop.style.transform = `translateY(calc(-50% - ${topMove}px))`;
+        // blur: starts at p=0.25, maxes at p=0.55
+        const blurP = Math.max(0, Math.min(1, (p - 0.25) / 0.3));
+        const blurPx = blurP * 18;
+        blurEl.style.backdropFilter = `blur(${blurPx}px)`;
+        blurEl.style.webkitBackdropFilter = `blur(${blurPx}px)`;
+        // fade top line slightly as it blurs
+        lineTop.style.opacity = 1 - blurP * 0.15;
+
+        // --- Line bottom: starts below, rides up to sit under photo, then sticks with it ---
+        // early: sits 120px below centre; at p=0.4 it has caught up to just below photo
+        // after p=0.4 it matches photo's upward ride
+        const botEarly = (1 - Math.min(p / 0.4, 1)) * 160; // closes gap
+        const botRide  = p < 0.4 ? 0 : ((p - 0.4) / 0.6) * photoRide * 55;
+        // offset to sit just below photo bottom: photo is aspect 1/1.1, so ~55% of its height below centre
+        const photoH   = photo.offsetHeight || 400;
+        const botOffset = photoH * 0.58;
+        lineBot.style.transform = `translateY(calc(-50% + ${botOffset + botEarly}px - ${botRide}vh))`;
+        lineBot.style.opacity   = Math.min(1, p / 0.2);
+      });
+    })();
   </script>
 </body>
 </html>
