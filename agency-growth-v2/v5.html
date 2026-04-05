@@ -22,7 +22,7 @@
     .topbar-inner{width:min(calc(100vw - 56px),1100px);padding:14px 20px;display:flex;align-items:center;justify-content:space-between;gap:18px;margin:0 auto}
     .brand{display:flex;gap:12px;align-items:center;min-width:0}.brand-kicker{width:12px;height:12px;border-radius:50%;background:var(--accent);box-shadow:0 0 0 8px rgba(244,87,36,.12);flex:0 0 auto}.brand-text{font-weight:800;letter-spacing:.08em;font-size:12px;text-transform:uppercase;white-space:nowrap}
     .nav{display:flex;align-items:center;gap:20px;flex-wrap:wrap;justify-content:flex-end}.nav a{font-size:13px;font-weight:700;color:var(--muted)}
-    .hero{padding:118px 0 52px;position:relative}.hero-grid{display:grid;grid-template-columns:1.02fr .98fr;gap:44px;align-items:start}
+    .hero{padding:118px 0 52px;position:relative}.hero-grid{display:grid;grid-template-columns:1.02fr .98fr;gap:44px;align-items:stretch}.hero-grid>div:first-child{display:flex;flex-direction:column}.hero-grid>div:first-child .display{flex:1;display:flex;align-items:flex-start}
     .eyebrow{display:inline-flex;align-items:center;gap:10px;margin-bottom:18px;padding:10px 16px;border-radius:999px;background:rgba(255,255,255,.55);border:1px solid rgba(17,19,33,.08);font-size:12px;font-weight:800;text-transform:uppercase;letter-spacing:.12em;color:var(--accent)}
     .eyebrow::before{content:'';width:8px;height:8px;border-radius:50%;background:currentColor;display:inline-block}
     .display{font-family:'Anton',Impact,sans-serif;font-size:clamp(4.4rem,11vw,10rem);line-height:.9;letter-spacing:-.03em;text-transform:uppercase;margin:0;max-width:8ch}.display .accent{color:var(--accent)}
@@ -71,81 +71,10 @@
     .ch-name{font-family:'Anton',Impact,sans-serif;font-size:clamp(4rem,13vw,16rem);line-height:.82;letter-spacing:-.03em;text-transform:uppercase;color:#000;text-align:center;width:100%;padding:0 .5vw;word-break:break-word}
     .ch-footer{position:absolute;bottom:0;left:0;right:0;z-index:2;display:flex;justify-content:space-between;align-items:center;padding:clamp(16px,2.5vw,28px) clamp(20px,4vw,60px);border-top:1px solid rgba(255,255,255,.18);font-family:'Inter',system-ui,sans-serif;font-size:clamp(.65rem,1vw,.78rem);font-weight:800;text-transform:uppercase;letter-spacing:.14em;color:rgba(255,255,255,.85)}
 
-    /* ── Scroll-reveal intro block ── */
-    .intro-block{position:relative;height:280vh;background:var(--bg)}
-    .intro-sticky{position:sticky;top:0;height:100vh;overflow:hidden;display:flex;align-items:center;justify-content:center}
-    .intro-photo{
-      position:absolute;
-      width:clamp(260px,32vw,480px);
-      aspect-ratio:1/1.1;
-      border-radius:28px;
-      overflow:hidden;
-      z-index:2;
-      box-shadow:0 40px 100px rgba(0,0,0,.18);
-    }
-    .intro-photo img{width:100%;height:100%;object-fit:cover;object-position:top center}
-    .intro-line{
-      position:absolute;
-      left:0;right:0;
-      text-align:center;
-      font-family:'Anton',Impact,sans-serif;
-      font-size:clamp(3rem,8vw,9rem);
-      line-height:.9;
-      letter-spacing:-.03em;
-      text-transform:uppercase;
-      color:var(--ink);
-      z-index:1;
-      will-change:transform,filter,opacity;
-    }
-    .intro-line-top{top:50%;transform:translateY(-50%)}
-    .intro-line-bottom{top:50%;transform:translateY(-50%);z-index:3}
-    .intro-photo-blur{
-      position:absolute;
-      inset:0;
-      backdrop-filter:blur(0px);
-      -webkit-backdrop-filter:blur(0px);
-      z-index:2;
-      border-radius:28px;
-      pointer-events:none;
-      transition:backdrop-filter .05s linear,-webkit-backdrop-filter .05s linear;
-    }
-
-    
-    /* Photo — centred, fixed size */
-    .sib-photo{
-      position:absolute;
-      width:clamp(240px,28vw,420px);
-      aspect-ratio:1/1.12;
-      border-radius:24px;
-      overflow:hidden;
-      z-index:2;
-      box-shadow:0 40px 100px rgba(0,0,0,.16);
-    }
-    .sib-photo img{width:100%;height:100%;object-fit:cover;object-position:top center;display:block}
-
-    /* Text lines */
-    .sib-line{
-      position:absolute;
-      left:0;right:0;
-      text-align:center;
-      font-family:'Anton',Impact,sans-serif;
-      font-size:clamp(2.6rem,6.5vw,8rem);
-      line-height:.92;
-      letter-spacing:-.03em;
-      text-transform:uppercase;
-      color:var(--ink);
-      pointer-events:none;
-      will-change:transform,filter,opacity;
-    }
-    /* Line 1: below photo, scrolls up behind it (z below photo) */
-    .sib-line-1{z-index:1}
-    /* Line 2: above photo overlapping bottom edge, z above photo */
-    .sib-line-2{z-index:3}
-
-    /* ── Scroll intro block ── */
-    .sib{position:relative;height:320vh;background:var(--bg)}
-    .sib-sticky{position:sticky;top:0;height:100vh;display:flex;align-items:center;justify-content:center;overflow:hidden}
-    .sib-photo{
+    /* ── Scroll intro ── */
+    .si{position:relative;height:300vh;background:var(--bg)}
+    .si-sticky{position:sticky;top:0;height:100vh;overflow:hidden;display:flex;align-items:center;justify-content:center}
+    .si-photo{
       position:absolute;
       top:50%;left:50%;
       transform:translate(-50%,-50%);
@@ -156,8 +85,8 @@
       z-index:2;
       box-shadow:0 40px 100px rgba(0,0,0,.16);
     }
-    .sib-photo img{width:100%;height:100%;object-fit:cover;object-position:top center;display:block}
-    .sib-line{
+    .si-photo img{width:100%;height:100%;object-fit:cover;object-position:top center;display:block}
+    .si-l1,.si-l2{
       position:absolute;
       left:0;right:0;
       text-align:center;
@@ -168,20 +97,19 @@
       text-transform:uppercase;
       color:var(--ink);
       pointer-events:none;
-      will-change:transform,filter,opacity;
     }
-    .sib-l1{z-index:1}  /* behind photo */
-    .sib-l2{z-index:3}  /* in front of photo */
+    .si-l1{z-index:1}
+    .si-l2{z-index:3;opacity:0;filter:blur(20px)}
   </style>
 </head>
 <body>
-  <section class="sib" id="sib">
-    <div class="sib-sticky" id="sib-sticky">
-      <div class="sib-photo" id="sib-photo">
+  <section class="si" id="si">
+    <div class="si-sticky">
+      <div class="si-photo" id="si-photo">
         <img src="https://raw.githubusercontent.com/corisleachman/playground/main/agency-growth-v2/Coris%20Leachman%20profile%20photo.jpeg" alt="Coris Leachman" />
       </div>
-      <div class="sib-line sib-l1" id="sib-l1">Fix the gaps that are</div>
-      <div class="sib-line sib-l2" id="sib-l2">slowing your agency's growth.</div>
+      <div class="si-l1" id="si-l1">Fix the gaps that are</div>
+      <div class="si-l2" id="si-l2">slowing your agency's growth.</div>
     </div>
   </section>
   <section class="cinematic-hero">
@@ -218,225 +146,76 @@
     function updateAll(){updateStoryFocus(); updateTextHighlights();}
     updateAll(); window.addEventListener('scroll',updateAll,{passive:true}); window.addEventListener('resize',updateAll);
 
-    // ── Intro scroll sequence ──
+    /* ── Scroll intro JS ── */
     (function(){
-      const block   = document.getElementById('intro-block');
-      const lineTop = document.getElementById('intro-line-top');
-      const lineBot = document.getElementById('intro-line-bottom');
-      const photo   = document.getElementById('intro-photo');
-      const blurEl  = document.getElementById('intro-photo-blur');
+      var sec   = document.getElementById('si');
+      var photo = document.getElementById('si-photo');
+      var l1    = document.getElementById('si-l1');
+      var l2    = document.getElementById('si-l2');
 
-      function raf(fn){ window.addEventListener('scroll', fn, {passive:true}); fn(); }
-
-      raf(function(){
-        const scrollY   = window.scrollY;
-        const blockTop  = block.offsetTop;
-        const blockH    = block.offsetHeight;
-        const vh        = window.innerHeight;
-        // progress 0→1 across the scroll distance of the block
-        const raw       = (scrollY - blockTop) / (blockH - vh);
-        const p         = Math.max(0, Math.min(1, raw));
-
-        // --- Photo: starts centred, scrolls up to exit at top ---
-        // stays put until p>0.6, then rides up
-        const photoRide = p < 0.6 ? 0 : (p - 0.6) / 0.4;
-        photo.style.transform = `translateY(${-photoRide * 55}vh)`;
-
-        // --- Line top: scrolls up and blurs behind photo ---
-        // moves up from natural position; blur kicks in when it reaches photo zone
-        const topMove = p * 140; // px upward travel total
-        lineTop.style.transform = `translateY(calc(-50% - ${topMove}px))`;
-        // blur: starts at p=0.25, maxes at p=0.55
-        const blurP = Math.max(0, Math.min(1, (p - 0.25) / 0.3));
-        const blurPx = blurP * 18;
-        blurEl.style.backdropFilter = `blur(${blurPx}px)`;
-        blurEl.style.webkitBackdropFilter = `blur(${blurPx}px)`;
-        // fade top line slightly as it blurs
-        lineTop.style.opacity = 1 - blurP * 0.15;
-
-        // --- Line bottom: starts below, rides up to sit under photo, then sticks with it ---
-        // early: sits 120px below centre; at p=0.4 it has caught up to just below photo
-        // after p=0.4 it matches photo's upward ride
-        const botEarly = (1 - Math.min(p / 0.4, 1)) * 160; // closes gap
-        const botRide  = p < 0.4 ? 0 : ((p - 0.4) / 0.6) * photoRide * 55;
-        // offset to sit just below photo bottom: photo is aspect 1/1.1, so ~55% of its height below centre
-        const photoH   = photo.offsetHeight || 400;
-        const botOffset = photoH * 0.58;
-        lineBot.style.transform = `translateY(calc(-50% + ${botOffset + botEarly}px - ${botRide}vh))`;
-        lineBot.style.opacity   = Math.min(1, p / 0.2);
-      });
-    })();
-
-    // ── Scroll intro sequence ──
-    (function(){
-      const section = document.getElementById('sib');
-      const photo   = document.getElementById('sib-photo');
-      const l1      = document.getElementById('sib-l1');
-      const l2      = document.getElementById('sib-l2');
-
-      function clamp01(v){ return Math.max(0, Math.min(1, v)); }
-      function lerp(a, b, t){ return a + (b - a) * t; }
-
-      function ease(t){ return t < 0.5 ? 2*t*t : -1+(4-2*t)*t; }
+      function clamp(v,a,b){return Math.max(a,Math.min(b,v));}
+      function ease(t){return t<0.5?2*t*t:-1+(4-2*t)*t;}
+      function prog(p,a,b){return clamp((p-a)/(b-a),0,1);}
 
       function update(){
-        const scrollY = window.scrollY;
-        const top     = section.offsetTop;
-        const h       = section.offsetHeight;
-        const vh      = window.innerHeight;
-        // p goes 0 → 1 across the sticky scroll distance
-        const p = clamp01((scrollY - top) / (h - vh));
+        var sy   = window.scrollY;
+        var top  = sec.offsetTop;
+        var h    = sec.offsetHeight;
+        var vh   = window.innerHeight;
+        var p    = clamp((sy - top)/(h - vh), 0, 1);
 
-        const photoH = photo.offsetHeight || 380;
+        var ph   = photo.offsetHeight || 360;
+        // Distance from centre to bottom edge of photo
+        var bot  = ph * 0.54;
+        // Distance from centre to just below photo (l1 start)
+        var l1Start = ph * 0.56 + 14;
 
-        // ── Line 1: starts below photo, scrolls up, blurs behind photo ──
-        // Initial offset: sits photoH * 0.7 below centre
-        // Travels up as p increases; blur kicks in when it enters photo zone
-        const l1Start = photoH * 0.72;          // initial Y below centre
-        const l1End   = -(photoH * 0.1);        // where it ends up (behind/above centre)
-        const l1Y     = lerp(l1Start, l1End, ease(clamp01(p / 0.65)));
-        l1.style.transform = `translateY(calc(-50% + ${l1Y}px))`;
-
-        // Blur: starts building once line enters bottom ~30% of photo
-        // photoH * 0.72 → 0 is the journey distance into photo
-        const blurProgress = clamp01((l1Start - l1Y - photoH * 0.42) / (photoH * 0.5));
-        const blurPx = blurProgress * 22;
-        l1.style.filter = `blur(${blurPx.toFixed(1)}px)`;
-        l1.style.opacity = String(lerp(1, 0.6, blurProgress));
-
-        // ── Line 2: starts above/blurred, clears, drops to bottom of photo, sticks + rides up ──
-        // Phase A (p 0→0.4): line drops from above and comes into focus
-        // Phase B (p 0.4→0.65): line sits locked at photo bottom edge
-        // Phase C (p 0.65→1): photo + line ride up together off screen
-
-        // Anchor position = bottom edge of photo relative to centre
-        const anchor = photoH * 0.56; // px below centre = bottom edge overlap
-
-        let l2Y, l2Blur, l2Op;
-
-        if(p < 0.4){
-          // Drop in from above, come into focus
-          const t = ease(p / 0.4);
-          const startY = -(photoH * 0.9);  // starts above photo
-          l2Y    = lerp(startY, anchor, t);
-          l2Blur = lerp(24, 0, t);
-          l2Op   = lerp(0.3, 1, t);
-        } else if(p < 0.65){
-          // Locked at anchor
-          l2Y    = anchor;
-          l2Blur = 0;
-          l2Op   = 1;
-        } else {
-          // Ride up with photo
-          const t    = (p - 0.65) / 0.35;
-          const ride = ease(t) * vh * 0.9;
-          l2Y    = anchor - ride;
-          l2Blur = 0;
-          l2Op   = 1;
-          // Photo also rides up
-          photo.style.transform = `translateY(${-ease(t) * vh * 0.9}px)`;
-        }
-
-        if(p < 0.65) photo.style.transform = 'translateY(0)';
-
-        l2.style.transform = `translateY(calc(-50% + ${l2Y}px))`;
-        l2.style.filter    = `blur(${l2Blur.toFixed(1)}px)`;
-        l2.style.opacity   = String(l2Op);
-      }
-
-      update();
-      window.addEventListener('scroll', update, {passive:true});
-      window.addEventListener('resize', update);
-    })();
-
-    // ── Scroll intro sequence ──
-    (function(){
-      const section = document.getElementById('sib');
-      const photo   = document.getElementById('sib-photo');
-      const l1      = document.getElementById('sib-l1');
-      const l2      = document.getElementById('sib-l2');
-
-      function clamp01(v){ return Math.max(0,Math.min(1,v)); }
-      function ease(t){ return t<0.5?2*t*t:-1+(4-2*t)*t; }
-
-      function update(){
-        const scrollY = window.scrollY;
-        const top     = section.offsetTop;
-        const h       = section.offsetHeight;
-        const vh      = window.innerHeight;
-        const p       = clamp01((scrollY - top) / (h - vh));
-
-        const photoH  = photo.offsetHeight || 360;
-        const photoW  = photo.offsetWidth  || 320;
-
-        // ─ Photo: stays centred until late, then rides up ─
-        const rideStart = 0.7;
-        if(p < rideStart){
-          photo.style.transform = 'translate(-50%,-50%)';
-        } else {
-          const t   = ease((p - rideStart) / (1 - rideStart));
-          const ride = t * vh * 1.1;
-          photo.style.transform = `translate(-50%, calc(-50% - ${ride}px))`;
-          l2.style.transform    = `translate(-50%, calc(-50% + ${photoH*0.52}px - ${ride}px))`;
-        }
-
-        // ─ Line 1: anchored just below photo, scrolls up behind it, blurs ─
-        // Starting Y from centre = half photo height + small gap
-        const l1AnchorY = photoH * 0.56 + 12; // px below centre
-
-        // As p grows, line 1 travels upward toward centre (behind photo)
-        // Travel distance: from l1AnchorY down to -photoH*0.1 (well behind)
-        const l1Travel = p < 0.65
-          ? l1AnchorY - ease(clamp01(p / 0.65)) * (l1AnchorY + photoH * 0.2)
-          : -(photoH * 0.2); // parked behind
-
-        l1.style.left      = '0';
-        l1.style.right     = '0';
+        // ── Line 1: starts just below photo, scrolls up behind it, blurs ──
+        var t1   = ease(prog(p, 0, 0.6));
+        var l1Y  = l1Start - t1 * (l1Start + ph * 0.15);
         l1.style.top       = '50%';
-        l1.style.transform = `translateY(calc(-50% + ${l1Travel}px))`;
+        l1.style.transform = 'translateY(calc(-50% + ' + l1Y.toFixed(1) + 'px))';
+        // blur builds as line crosses into photo territory
+        var blurT = clamp((l1Start - l1Y - ph * 0.35) / (ph * 0.45), 0, 1);
+        l1.style.filter  = 'blur(' + (blurT * 22).toFixed(1) + 'px)';
+        l1.style.opacity = (1 - blurT * 0.25).toFixed(2);
 
-        // Blur builds as line enters photo zone (from bottom edge upward)
-        const blurP = clamp01((l1AnchorY - l1Travel - photoH*0.15) / (photoH * 0.55));
-        l1.style.filter  = `blur(${(blurP * 20).toFixed(1)}px)`;
-        l1.style.opacity = String((1 - blurP * 0.3).toFixed(2));
+        // ── Line 2: off screen below fold, rises up blurred → clear → sticks to photo bottom ──
+        // Phase A 0→0.3: invisible below fold
+        // Phase B 0.3→0.6: rises from below fold, blur clears
+        // Phase C 0.6→0.75: locked to photo bottom
+        // Phase D 0.75→1: photo + l2 ride up together
+        var l2Y, l2B, l2O;
 
-        // ─ Line 2: below the fold, rises up blurred → clears → sticks to photo bottom ─
-        if(p >= rideStart) return; // transform handled above in ride phase
-
-        // Phase A (p 0→0.35): off screen below, starts rising, blurred
-        // Phase B (p 0.35→0.6): rises into view, blur clears
-        // Phase C (p 0.6→rideStart): locked to photo bottom
-
-        const l2Anchor = photoH * 0.52; // px below centre = photo bottom edge
-
-        let l2Y, l2Blur, l2Op;
-
-        if(p < 0.35){
-          // Off screen below — parked 1.5 viewports below centre
-          const t  = ease(p / 0.35);
-          l2Y      = vh * 0.85 - t * (vh * 0.85 - l2Anchor - photoH * 0.3);
-          l2Blur   = 20;
-          l2Op     = p < 0.05 ? 0 : clamp01((p - 0.05) / 0.15);
+        if(p < 0.3){
+          l2Y = vh * 0.6;
+          l2B = 20;
+          l2O = 0;
         } else if(p < 0.6){
-          const t  = ease((p - 0.35) / 0.25);
-          l2Y      = lerp(l2Anchor + photoH * 0.3, l2Anchor, t);
-          l2Blur   = lerp(20, 0, t);
-          l2Op     = 1;
+          var t = ease(prog(p, 0.3, 0.6));
+          l2Y   = vh * 0.6 - t * (vh * 0.6 - bot);
+          l2B   = 20 * (1 - t);
+          l2O   = t;
+        } else if(p < 0.75){
+          l2Y = bot;
+          l2B = 0;
+          l2O = 1;
         } else {
-          l2Y      = l2Anchor;
-          l2Blur   = 0;
-          l2Op     = 1;
+          var t    = ease(prog(p, 0.75, 1));
+          var ride = t * vh * 1.1;
+          l2Y  = bot - ride;
+          l2B  = 0;
+          l2O  = 1;
+          photo.style.transform = 'translate(-50%, calc(-50% - ' + ride.toFixed(1) + 'px))';
         }
 
-        l2.style.left      = '0';
-        l2.style.right     = '0';
-        l2.style.top       = '50%';
-        l2.style.transform = `translateY(calc(-50% + ${l2Y}px))`;
-        l2.style.filter    = `blur(${l2Blur.toFixed(1)}px)`;
-        l2.style.opacity   = String(l2Op.toFixed(2));
-      }
+        if(p < 0.75) photo.style.transform = 'translate(-50%,-50%)';
 
-      function lerp(a,b,t){ return a+(b-a)*t; }
+        l2.style.top       = '50%';
+        l2.style.transform = 'translateY(calc(-50% + ' + l2Y.toFixed(1) + 'px))';
+        l2.style.filter    = 'blur(' + l2B.toFixed(1) + 'px)';
+        l2.style.opacity   = l2O.toFixed(2);
+      }
 
       update();
       window.addEventListener('scroll', update, {passive:true});
