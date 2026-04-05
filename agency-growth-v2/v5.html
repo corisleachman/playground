@@ -22,7 +22,7 @@
     .topbar-inner{width:min(calc(100vw - 56px),1100px);padding:14px 20px;display:flex;align-items:center;justify-content:space-between;gap:18px;margin:0 auto}
     .brand{display:flex;gap:12px;align-items:center;min-width:0}.brand-kicker{width:12px;height:12px;border-radius:50%;background:var(--accent);box-shadow:0 0 0 8px rgba(244,87,36,.12);flex:0 0 auto}.brand-text{font-weight:800;letter-spacing:.08em;font-size:12px;text-transform:uppercase;white-space:nowrap}
     .nav{display:flex;align-items:center;gap:20px;flex-wrap:wrap;justify-content:flex-end}.nav a{font-size:13px;font-weight:700;color:var(--muted)}
-    .hero{padding:118px 0 52px;position:relative}.hero-grid{display:grid;grid-template-columns:1.02fr .98fr;gap:44px;align-items:stretch}.hero-grid>div:first-child{display:flex;flex-direction:column}.hero-grid>div:first-child .display{flex:1;display:flex;align-items:flex-start}
+    .hero{padding:118px 0 52px;position:relative}.hero-grid{display:grid;grid-template-columns:1.02fr .98fr;gap:44px;align-items:start}
     .eyebrow{display:inline-flex;align-items:center;gap:10px;margin-bottom:18px;padding:10px 16px;border-radius:999px;background:rgba(255,255,255,.55);border:1px solid rgba(17,19,33,.08);font-size:12px;font-weight:800;text-transform:uppercase;letter-spacing:.12em;color:var(--accent)}
     .eyebrow::before{content:'';width:8px;height:8px;border-radius:50%;background:currentColor;display:inline-block}
     .display{font-family:'Anton',Impact,sans-serif;font-size:clamp(4.4rem,11vw,10rem);line-height:.9;letter-spacing:-.03em;text-transform:uppercase;margin:0;max-width:8ch}.display .accent{color:var(--accent)}
@@ -62,9 +62,30 @@
     .footer{padding:0 0 36px;color:var(--muted);font-size:14px}
     @media (max-width:1200px){.hero-grid,.contact-head,.pov-inner{grid-template-columns:1fr}.hero-note,.contact-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.story-card{grid-template-columns:100px 1fr}.story-side{grid-column:1 / -1}.hero-photo-wrap{min-height:620px}}
     @media (max-width:800px){.topbar{inset:14px 14px auto;border-radius:24px}.topbar-inner{width:100%;padding:14px 16px;align-items:flex-start;flex-direction:column}.nav{gap:14px}.hero-grid{gap:26px}.hero-photo-wrap{min-height:460px}.section-head,.story-card,.hero-note,.contact-grid{grid-template-columns:1fr}.story-num{font-size:3.6rem}}
+
+    .cinematic-hero{position:relative;width:100%;height:100vh;min-height:600px;overflow:hidden;display:flex;flex-direction:column;justify-content:center}
+    .ch-bg{position:absolute;inset:0;background-image:url('https://raw.githubusercontent.com/corisleachman/playground/main/agency-growth-v2/Coris%20Leachman%20profile%20photo.jpeg');background-size:cover;background-position:center top;z-index:0}
+    .ch-overlay{position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,.08) 0%,rgba(0,0,0,.18) 55%,rgba(0,0,0,.52) 100%);z-index:1}
+    .ch-content{position:relative;z-index:2;width:100%;padding:0;display:flex;flex-direction:column;align-items:center;justify-content:center;flex:1}
+    .ch-role{font-family:'Inter',system-ui,sans-serif;font-size:clamp(.85rem,1.4vw,1.1rem);font-weight:800;text-transform:uppercase;letter-spacing:.22em;color:rgba(255,255,255,.9);margin-bottom:clamp(8px,1.5vw,18px);text-align:center}
+    .ch-name{font-family:'Anton',Impact,sans-serif;font-size:clamp(5rem,18vw,22rem);line-height:.82;letter-spacing:-.03em;text-transform:uppercase;color:#000;text-align:center;width:100%;padding:0 .5vw;word-break:break-word}
+    .ch-footer{position:absolute;bottom:0;left:0;right:0;z-index:2;display:flex;justify-content:space-between;align-items:center;padding:clamp(16px,2.5vw,28px) clamp(20px,4vw,60px);border-top:1px solid rgba(255,255,255,.18);font-family:'Inter',system-ui,sans-serif;font-size:clamp(.65rem,1vw,.78rem);font-weight:800;text-transform:uppercase;letter-spacing:.14em;color:rgba(255,255,255,.85)}
   </style>
 </head>
 <body>
+  <section class="cinematic-hero">
+    <div class="ch-bg"></div>
+    <div class="ch-overlay"></div>
+    <div class="ch-content">
+      <div class="ch-role">Agency Growth Consultant</div>
+      <div class="ch-name">Coris<br>Leachman</div>
+    </div>
+    <div class="ch-footer">
+      <span>New Business &amp; Marketing Consultant</span>
+      <span>London-based</span>
+      <span>£500 / day + VAT</span>
+    </div>
+  </section>
   <header class="topbar hidden" id="topbar"><div class="topbar-inner"><div class="brand"><span class="brand-kicker" aria-hidden="true"></span><div class="brand-text">Coris Leachman | Agency Growth Consultant</div></div><nav class="nav" aria-label="Primary"><a href="#challenges">Challenges</a><a href="#contact">Contact</a></nav></div></header>
   <main>
     <section class="hero"><div class="shell hero-grid"><div><div class="eyebrow">New Business & Marketing Consultant</div><h1 class="display">Fix the gaps that are slowing your <span class="accent">agency's growth</span>.</h1><p class="lead">I help ambitious agencies sharpen their offer, tighten their positioning, build stronger growth structure and turn good work into better momentum.</p><div class="hero-proofline">Former growth lead at Impero. Helped scale from 3 people to 55+.</div><div class="hero-actions"><a class="btn btn-primary" href="#contact">Start the conversation</a><a class="btn btn-secondary" href="#pov">See the point of view</a></div><div class="hero-note"><div class="mini-stat"><strong>£3M+</strong><span>New logos won across a three-year period</span></div><div class="mini-stat"><strong>20</strong><span>Years of agency growth experience</span></div><div class="mini-stat"><strong>3 to 55</strong><span>Helped grow an agency from 3 people to more than 55</span></div><div class="mini-stat"><strong>20%+</strong><span>Increase in client revenue year on year in a four-year period</span></div></div></div><div class="hero-media"><div class="hero-photo-wrap"><img class="hero-photo" src="https://raw.githubusercontent.com/corisleachman/playground/main/agency-growth-v2/Coris Leachman profile photo.jpeg" alt="Portrait of Coris Leachman" /><div class="hero-badge"><div class="hero-badge-card"><strong>How I work</strong><span>I don't just advise. I help shape, structure and push the work through.</span></div><div class="hero-badge-card"><strong>Best for</strong><span>Agencies that need senior growth thinking without adding a full-time senior salary.</span></div></div></div></div></div></section>
