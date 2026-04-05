@@ -110,10 +110,7 @@
       transition:backdrop-filter .05s linear,-webkit-backdrop-filter .05s linear;
     }
 
-    /* ── Scroll intro block ── */
-    .sib{position:relative;height:300vh;background:var(--bg)}
-    .sib-sticky{position:sticky;top:0;height:100vh;display:flex;align-items:center;justify-content:center;overflow:hidden}
-
+    
     /* Photo — centred, fixed size */
     .sib-photo{
       position:absolute;
@@ -144,6 +141,37 @@
     .sib-line-1{z-index:1}
     /* Line 2: above photo overlapping bottom edge, z above photo */
     .sib-line-2{z-index:3}
+
+    /* ── Scroll intro block ── */
+    .sib{position:relative;height:320vh;background:var(--bg)}
+    .sib-sticky{position:sticky;top:0;height:100vh;display:flex;align-items:center;justify-content:center;overflow:hidden}
+    .sib-photo{
+      position:absolute;
+      top:50%;left:50%;
+      transform:translate(-50%,-50%);
+      width:clamp(220px,26vw,400px);
+      aspect-ratio:1/1.12;
+      border-radius:24px;
+      overflow:hidden;
+      z-index:2;
+      box-shadow:0 40px 100px rgba(0,0,0,.16);
+    }
+    .sib-photo img{width:100%;height:100%;object-fit:cover;object-position:top center;display:block}
+    .sib-line{
+      position:absolute;
+      left:0;right:0;
+      text-align:center;
+      font-family:'Anton',Impact,sans-serif;
+      font-size:clamp(2.4rem,6vw,7.5rem);
+      line-height:.92;
+      letter-spacing:-.03em;
+      text-transform:uppercase;
+      color:var(--ink);
+      pointer-events:none;
+      will-change:transform,filter,opacity;
+    }
+    .sib-l1{z-index:1}  /* behind photo */
+    .sib-l2{z-index:3}  /* in front of photo */
   </style>
 </head>
 <body>
@@ -152,8 +180,8 @@
       <div class="sib-photo" id="sib-photo">
         <img src="https://raw.githubusercontent.com/corisleachman/playground/main/agency-growth-v2/Coris%20Leachman%20profile%20photo.jpeg" alt="Coris Leachman" />
       </div>
-      <div class="sib-line sib-line-1" id="sib-l1">Fix the gaps that are</div>
-      <div class="sib-line sib-line-2" id="sib-l2">slowing your agency's growth.</div>
+      <div class="sib-line sib-l1" id="sib-l1">Fix the gaps that are</div>
+      <div class="sib-line sib-l2" id="sib-l2">slowing your agency's growth.</div>
     </div>
   </section>
   <section class="cinematic-hero">
@@ -315,6 +343,100 @@
         l2.style.filter    = `blur(${l2Blur.toFixed(1)}px)`;
         l2.style.opacity   = String(l2Op);
       }
+
+      update();
+      window.addEventListener('scroll', update, {passive:true});
+      window.addEventListener('resize', update);
+    })();
+
+    // ── Scroll intro sequence ──
+    (function(){
+      const section = document.getElementById('sib');
+      const photo   = document.getElementById('sib-photo');
+      const l1      = document.getElementById('sib-l1');
+      const l2      = document.getElementById('sib-l2');
+
+      function clamp01(v){ return Math.max(0,Math.min(1,v)); }
+      function ease(t){ return t<0.5?2*t*t:-1+(4-2*t)*t; }
+
+      function update(){
+        const scrollY = window.scrollY;
+        const top     = section.offsetTop;
+        const h       = section.offsetHeight;
+        const vh      = window.innerHeight;
+        const p       = clamp01((scrollY - top) / (h - vh));
+
+        const photoH  = photo.offsetHeight || 360;
+        const photoW  = photo.offsetWidth  || 320;
+
+        // ─ Photo: stays centred until late, then rides up ─
+        const rideStart = 0.7;
+        if(p < rideStart){
+          photo.style.transform = 'translate(-50%,-50%)';
+        } else {
+          const t   = ease((p - rideStart) / (1 - rideStart));
+          const ride = t * vh * 1.1;
+          photo.style.transform = `translate(-50%, calc(-50% - ${ride}px))`;
+          l2.style.transform    = `translate(-50%, calc(-50% + ${photoH*0.52}px - ${ride}px))`;
+        }
+
+        // ─ Line 1: anchored just below photo, scrolls up behind it, blurs ─
+        // Starting Y from centre = half photo height + small gap
+        const l1AnchorY = photoH * 0.56 + 12; // px below centre
+
+        // As p grows, line 1 travels upward toward centre (behind photo)
+        // Travel distance: from l1AnchorY down to -photoH*0.1 (well behind)
+        const l1Travel = p < 0.65
+          ? l1AnchorY - ease(clamp01(p / 0.65)) * (l1AnchorY + photoH * 0.2)
+          : -(photoH * 0.2); // parked behind
+
+        l1.style.left      = '0';
+        l1.style.right     = '0';
+        l1.style.top       = '50%';
+        l1.style.transform = `translateY(calc(-50% + ${l1Travel}px))`;
+
+        // Blur builds as line enters photo zone (from bottom edge upward)
+        const blurP = clamp01((l1AnchorY - l1Travel - photoH*0.15) / (photoH * 0.55));
+        l1.style.filter  = `blur(${(blurP * 20).toFixed(1)}px)`;
+        l1.style.opacity = String((1 - blurP * 0.3).toFixed(2));
+
+        // ─ Line 2: below the fold, rises up blurred → clears → sticks to photo bottom ─
+        if(p >= rideStart) return; // transform handled above in ride phase
+
+        // Phase A (p 0→0.35): off screen below, starts rising, blurred
+        // Phase B (p 0.35→0.6): rises into view, blur clears
+        // Phase C (p 0.6→rideStart): locked to photo bottom
+
+        const l2Anchor = photoH * 0.52; // px below centre = photo bottom edge
+
+        let l2Y, l2Blur, l2Op;
+
+        if(p < 0.35){
+          // Off screen below — parked 1.5 viewports below centre
+          const t  = ease(p / 0.35);
+          l2Y      = vh * 0.85 - t * (vh * 0.85 - l2Anchor - photoH * 0.3);
+          l2Blur   = 20;
+          l2Op     = p < 0.05 ? 0 : clamp01((p - 0.05) / 0.15);
+        } else if(p < 0.6){
+          const t  = ease((p - 0.35) / 0.25);
+          l2Y      = lerp(l2Anchor + photoH * 0.3, l2Anchor, t);
+          l2Blur   = lerp(20, 0, t);
+          l2Op     = 1;
+        } else {
+          l2Y      = l2Anchor;
+          l2Blur   = 0;
+          l2Op     = 1;
+        }
+
+        l2.style.left      = '0';
+        l2.style.right     = '0';
+        l2.style.top       = '50%';
+        l2.style.transform = `translateY(calc(-50% + ${l2Y}px))`;
+        l2.style.filter    = `blur(${l2Blur.toFixed(1)}px)`;
+        l2.style.opacity   = String(l2Op.toFixed(2));
+      }
+
+      function lerp(a,b,t){ return a+(b-a)*t; }
 
       update();
       window.addEventListener('scroll', update, {passive:true});
