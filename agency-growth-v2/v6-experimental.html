@@ -1,0 +1,1114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Coris Leachman - Agency Growth</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            color: #1a1a1a;
+            background: #faf9f7;
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        html { scroll-behavior: smooth; }
+
+        /* HERO */
+        .hero {
+            height: 100vh;
+            position: relative;
+            display: flex;
+            align-items: center;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, rgba(255, 108, 47, 0.15) 0%, rgba(255, 108, 47, 0.05) 50%, rgba(50, 50, 50, 0.05) 100%);
+            animation: gradientShift 15s ease-in-out infinite;
+            z-index: 0;
+        }
+
+        @keyframes gradientShift {
+            0% { background: linear-gradient(135deg, rgba(255, 108, 47, 0.15) 0%, rgba(255, 108, 47, 0.05) 50%, rgba(50, 50, 50, 0.05) 100%); }
+            50% { background: linear-gradient(225deg, rgba(255, 108, 47, 0.08) 0%, rgba(255, 108, 47, 0.12) 50%, rgba(50, 50, 50, 0.08) 100%); }
+            100% { background: linear-gradient(135deg, rgba(255, 108, 47, 0.15) 0%, rgba(255, 108, 47, 0.05) 50%, rgba(50, 50, 50, 0.05) 100%); }
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 0 40px;
+            width: 100%;
+        }
+
+        .hero-pretitle {
+            font-size: 13px;
+            color: #ff6c2f;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            margin-bottom: 24px;
+            animation: fadeInUp 1s ease-out;
+        }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .hero-title {
+            font-size: 120px;
+            font-weight: 900;
+            line-height: 0.9;
+            margin-bottom: 32px;
+            letter-spacing: -2px;
+            animation: fadeInUp 1s ease-out 0.1s backwards;
+        }
+
+        .hero-title strong {
+            color: #ff6c2f;
+            display: inline-block;
+            animation: scaleInRotate 1s cubic-bezier(0.34, 1.56, 0.64, 1) 0.3s backwards;
+        }
+
+        @keyframes scaleInRotate {
+            from { opacity: 0; transform: scale(0.8) rotate(-5deg); }
+            to { opacity: 1; transform: scale(1) rotate(0deg); }
+        }
+
+        .hero-description {
+            font-size: 20px;
+            color: #555;
+            max-width: 600px;
+            margin-bottom: 48px;
+            line-height: 1.5;
+            animation: fadeInUp 1s ease-out 0.2s backwards;
+        }
+
+        .hero-cta {
+            display: flex;
+            gap: 16px;
+            margin-bottom: 80px;
+            animation: fadeInUp 1s ease-out 0.3s backwards;
+        }
+
+        .btn {
+            padding: 18px 40px;
+            font-size: 15px;
+            border: 2px solid #ff6c2f;
+            background: #ff6c2f;
+            color: white;
+            cursor: pointer;
+            border-radius: 3px;
+            font-weight: 700;
+            transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+            text-decoration: none;
+            display: inline-block;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: rgba(255, 255, 255, 0.2);
+            transition: left 0.5s ease;
+        }
+
+        .btn:hover::before {
+            left: 100%;
+        }
+
+        .btn:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 24px 48px rgba(255, 108, 47, 0.35);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: #ff6c2f;
+        }
+
+        .btn-secondary::before {
+            background: rgba(255, 108, 47, 0.1);
+        }
+
+        .btn-secondary:hover {
+            background: rgba(255, 108, 47, 0.12);
+        }
+
+        .hero-stats {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 48px;
+            animation: fadeInUp 1s ease-out 0.4s backwards;
+        }
+
+        @media (max-width: 768px) {
+            .hero-stats { grid-template-columns: repeat(2, 1fr); gap: 24px; }
+            .hero-title { font-size: 72px; }
+        }
+
+        .stat {
+            position: relative;
+        }
+
+        .stat-value {
+            font-size: 48px;
+            font-weight: 900;
+            color: #ff6c2f;
+            line-height: 1;
+            margin-bottom: 12px;
+        }
+
+        .stat-label {
+            font-size: 12px;
+            color: #999;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-weight: 600;
+            line-height: 1.5;
+        }
+
+        /* NAV */
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: rgba(250, 249, 247, 0.97);
+            backdrop-filter: blur(12px);
+            padding: 20px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 1000;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+            opacity: 0;
+            transform: translateY(-100%);
+            transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        nav.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        nav .logo {
+            font-weight: 900;
+            font-size: 14px;
+            color: #ff6c2f;
+            letter-spacing: 2px;
+        }
+
+        nav a {
+            color: #666;
+            text-decoration: none;
+            font-size: 13px;
+            font-weight: 600;
+            margin-left: 36px;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        nav a::after {
+            content: '';
+            position: absolute;
+            bottom: -6px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: #ff6c2f;
+            transition: width 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        nav a:hover {
+            color: #ff6c2f;
+        }
+
+        nav a:hover::after {
+            width: 100%;
+        }
+
+        /* CONTAINER */
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 0 40px;
+        }
+
+        @media (max-width: 768px) {
+            .container { padding: 0 24px; }
+        }
+
+        /* SECTIONS */
+        .section {
+            padding: 140px 0;
+            position: relative;
+            border-top: 1px solid rgba(0, 0, 0, 0.04);
+        }
+
+        .section:first-of-type {
+            border-top: none;
+        }
+
+        .section-num {
+            font-size: 140px;
+            font-weight: 900;
+            color: rgba(255, 108, 47, 0.06);
+            line-height: 0.8;
+            margin-bottom: 20px;
+            position: relative;
+            z-index: 0;
+        }
+
+        .section-title {
+            font-size: 64px;
+            font-weight: 900;
+            line-height: 1.15;
+            margin-bottom: 32px;
+            letter-spacing: -1.5px;
+        }
+
+        .section-title strong {
+            color: #ff6c2f;
+        }
+
+        .section-body {
+            font-size: 18px;
+            color: #555;
+            line-height: 1.8;
+            max-width: 700px;
+            margin-bottom: 60px;
+        }
+
+        /* CHALLENGES - SCROLL REVEAL */
+        .challenges-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 32px;
+            margin-bottom: 40px;
+        }
+
+        @media (max-width: 768px) {
+            .challenges-grid { grid-template-columns: 1fr; }
+        }
+
+        .challenge-card {
+            background: white;
+            padding: 48px;
+            border: 1px solid #e5e0db;
+            border-radius: 4px;
+            transition: all 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+            position: relative;
+            overflow: hidden;
+            opacity: 0;
+            transform: translateY(40px);
+        }
+
+        .challenge-card.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .challenge-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(255, 108, 47, 0.1) 0%, transparent 100%);
+            opacity: 0;
+            transition: opacity 0.4s ease;
+        }
+
+        .challenge-card:hover {
+            border-color: #ff6c2f;
+            transform: translateY(-12px);
+            box-shadow: 0 24px 48px rgba(255, 108, 47, 0.15);
+        }
+
+        .challenge-card:hover::before {
+            opacity: 1;
+        }
+
+        .challenge-num {
+            font-size: 52px;
+            font-weight: 900;
+            color: #ff6c2f;
+            line-height: 1;
+            margin-bottom: 16px;
+        }
+
+        .challenge-title {
+            font-size: 22px;
+            font-weight: 800;
+            color: #1a1a1a;
+            margin-bottom: 12px;
+        }
+
+        .challenge-desc {
+            font-size: 15px;
+            color: #666;
+            line-height: 1.7;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* CREDENTIALS BOX */
+        .creds-box {
+            background: white;
+            padding: 100px 60px;
+            border: 1px solid #e5e0db;
+            border-radius: 4px;
+            margin-bottom: 100px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .creds-box::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -10%;
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, rgba(255, 108, 47, 0.08) 0%, transparent 70%);
+            border-radius: 50%;
+            animation: float 20s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) translateX(0px); }
+            50% { transform: translateY(-30px) translateX(30px); }
+        }
+
+        @media (max-width: 768px) {
+            .creds-box { padding: 40px 24px; }
+        }
+
+        .creds-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 48px;
+            position: relative;
+            z-index: 1;
+        }
+
+        @media (max-width: 768px) {
+            .creds-grid { grid-template-columns: repeat(2, 1fr); gap: 32px; }
+        }
+
+        .cred-item {
+            text-align: center;
+        }
+
+        .cred-value {
+            font-size: 56px;
+            font-weight: 900;
+            color: #ff6c2f;
+            line-height: 1;
+            margin-bottom: 12px;
+        }
+
+        .cred-label {
+            font-size: 14px;
+            color: #666;
+            line-height: 1.5;
+        }
+
+        /* SERVICES */
+        .services-container {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 32px;
+        }
+
+        @media (max-width: 768px) {
+            .services-container { grid-template-columns: 1fr; }
+        }
+
+        .service-card {
+            background: #ff6c2f;
+            color: white;
+            padding: 56px;
+            border-radius: 4px;
+            transition: all 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+            position: relative;
+            overflow: hidden;
+            opacity: 0;
+            transform: translateY(40px);
+        }
+
+        .service-card.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .service-card::before {
+            content: '';
+            position: absolute;
+            top: -100%;
+            right: -100%;
+            width: 300px;
+            height: 300px;
+            background: rgba(255, 255, 255, 0.15);
+            border-radius: 50%;
+            transition: all 0.6s ease;
+        }
+
+        .service-card:hover::before {
+            top: -50%;
+            right: -50%;
+        }
+
+        .service-card:hover {
+            transform: translateY(-16px) scale(1.02);
+            box-shadow: 0 32px 64px rgba(255, 108, 47, 0.4);
+        }
+
+        .service-title {
+            font-size: 26px;
+            font-weight: 800;
+            margin-bottom: 24px;
+            position: relative;
+            z-index: 1;
+            line-height: 1.3;
+        }
+
+        .service-list {
+            font-size: 15px;
+            line-height: 1.9;
+            position: relative;
+            z-index: 1;
+        }
+
+        .service-list li {
+            list-style: none;
+            margin-bottom: 14px;
+            padding-left: 24px;
+            position: relative;
+        }
+
+        .service-list li:before {
+            content: '→';
+            position: absolute;
+            left: 0;
+            opacity: 0.8;
+            font-weight: 800;
+        }
+
+        /* CASE STUDIES */
+        .cases-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 28px;
+            margin-bottom: 60px;
+        }
+
+        @media (max-width: 1024px) {
+            .cases-grid { grid-template-columns: repeat(2, 1fr); }
+        }
+
+        @media (max-width: 768px) {
+            .cases-grid { grid-template-columns: 1fr; }
+        }
+
+        .case-card {
+            position: relative;
+            height: 360px;
+            border-radius: 4px;
+            overflow: hidden;
+            cursor: pointer;
+            group: 'case';
+            opacity: 0;
+            transform: scale(0.95);
+            transition: all 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        .case-card.visible {
+            opacity: 1;
+            transform: scale(1);
+        }
+
+        .case-image {
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #ff6c2f, #e55a1f);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .case-image::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, rgba(255, 108, 47, 0.8), rgba(229, 90, 31, 0.8));
+            opacity: 1;
+            transition: opacity 0.4s ease;
+        }
+
+        .case-card:hover .case-image::before {
+            opacity: 0.3;
+        }
+
+        .case-content {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            padding: 40px;
+            color: white;
+            transform: translateY(20px);
+            opacity: 0;
+            transition: all 0.4s ease;
+            z-index: 2;
+        }
+
+        .case-card:hover .case-content {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .case-title {
+            font-size: 24px;
+            font-weight: 800;
+            margin-bottom: 8px;
+        }
+
+        .case-desc {
+            font-size: 14px;
+            opacity: 0.95;
+            line-height: 1.5;
+        }
+
+        /* TIMELINE */
+        .timeline {
+            position: relative;
+        }
+
+        .timeline-item {
+            display: grid;
+            grid-template-columns: 180px 1fr;
+            gap: 60px;
+            margin-bottom: 100px;
+            align-items: start;
+            opacity: 0;
+            transform: translateX(-40px);
+            transition: all 0.8s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        .timeline-item.visible {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        @media (max-width: 768px) {
+            .timeline-item { grid-template-columns: 80px 1fr; gap: 24px; }
+        }
+
+        .timeline-step {
+            position: relative;
+        }
+
+        .timeline-num {
+            font-size: 72px;
+            font-weight: 900;
+            color: #ff6c2f;
+            line-height: 1;
+            margin-bottom: 16px;
+        }
+
+        .timeline-label {
+            font-size: 12px;
+            color: #999;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            font-weight: 700;
+        }
+
+        .timeline-step::after {
+            content: '';
+            position: absolute;
+            left: 48px;
+            top: 110px;
+            width: 2px;
+            height: 200px;
+            background: linear-gradient(to bottom, #ff6c2f, transparent);
+        }
+
+        .timeline-item:last-child .timeline-step::after {
+            display: none;
+        }
+
+        .timeline-content {
+            background: white;
+            padding: 48px;
+            border: 1px solid #e5e0db;
+            border-radius: 4px;
+            transition: all 0.4s ease;
+        }
+
+        .timeline-item:hover .timeline-content {
+            border-color: #ff6c2f;
+            box-shadow: 0 24px 48px rgba(255, 108, 47, 0.15);
+            transform: translateY(-8px);
+        }
+
+        .timeline-goal {
+            font-size: 20px;
+            font-weight: 800;
+            color: #1a1a1a;
+            margin-bottom: 16px;
+        }
+
+        .timeline-details {
+            font-size: 15px;
+            color: #666;
+            line-height: 1.8;
+        }
+
+        .timeline-details strong {
+            color: #ff6c2f;
+        }
+
+        /* FOOTER CTA */
+        .footer-cta {
+            background: linear-gradient(135deg, #ff6c2f 0%, #e55a1f 100%);
+            color: white;
+            padding: 120px 60px;
+            text-align: center;
+            border-radius: 4px;
+            margin-bottom: 100px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .footer-cta::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -20%;
+            width: 800px;
+            height: 800px;
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.1) 0%, transparent 70%);
+            border-radius: 50%;
+            animation: pulse 8s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+
+        @media (max-width: 768px) {
+            .footer-cta { padding: 60px 24px; }
+        }
+
+        .footer-cta h2 {
+            font-size: 64px;
+            font-weight: 900;
+            margin-bottom: 24px;
+            line-height: 1.2;
+            position: relative;
+            z-index: 1;
+        }
+
+        .footer-cta p {
+            font-size: 18px;
+            margin-bottom: 60px;
+            opacity: 0.98;
+            position: relative;
+            z-index: 1;
+        }
+
+        .contact-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 48px;
+            max-width: 900px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 1;
+        }
+
+        @media (max-width: 768px) {
+            .contact-grid { grid-template-columns: repeat(2, 1fr); gap: 24px; }
+        }
+
+        .contact-item {
+            text-align: center;
+        }
+
+        .contact-label {
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            margin-bottom: 8px;
+            opacity: 0.9;
+            font-weight: 700;
+        }
+
+        .contact-value {
+            font-size: 16px;
+            font-weight: 700;
+        }
+
+        .contact-value a {
+            color: white;
+            text-decoration: none;
+            transition: opacity 0.3s;
+            position: relative;
+            display: inline-block;
+        }
+
+        .contact-value a:hover {
+            opacity: 0.8;
+        }
+    </style>
+</head>
+<body>
+    <nav id="navbar">
+        <div class="logo">CORIS</div>
+        <div style="display: flex; gap: 12px;">
+            <a href="#challenges">Challenges</a>
+            <a href="#services">Services</a>
+            <a href="#process">Process</a>
+            <a href="#contact">Contact</a>
+        </div>
+    </nav>
+
+    <!-- HERO -->
+    <section class="hero">
+        <div class="hero-content">
+            <div class="hero-pretitle">New Business & Marketing Consultant</div>
+            <h1 class="hero-title">Fix the gaps that are <strong>slowing</strong> your growth.</h1>
+            <p class="hero-description">I help ambitious agencies sharpen their offer, tighten their positioning, build stronger growth structure, and turn good work into relentless momentum.</p>
+            
+            <div class="hero-cta">
+                <button class="btn" onclick="document.getElementById('contact').scrollIntoView({ behavior: 'smooth' })">Start the conversation</button>
+                <button class="btn btn-secondary">See my approach</button>
+            </div>
+
+            <div class="hero-stats">
+                <div class="stat">
+                    <div class="stat-value">£3M+</div>
+                    <div class="stat-label">New logos won across a three-year period</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-value">20</div>
+                    <div class="stat-label">Years of agency growth experience</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-value">3→55</div>
+                    <div class="stat-label">Helped grow an agency from 3 to 55+</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-value">20%+</div>
+                    <div class="stat-label">Client revenue increase YoY</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="container">
+        <!-- CHALLENGES -->
+        <section class="section" id="challenges">
+            <div class="section-num">01</div>
+            <h2 class="section-title">What blocks <strong>growth</strong>.</h2>
+            <p class="section-body">The work is all there. The capability is often there too. But without the right clarity, packaging, and orchestration, growth stalls. These are the eight blockers I see most often.</p>
+
+            <div class="challenges-grid">
+                <div class="challenge-card">
+                    <div class="challenge-num">1</div>
+                    <div class="challenge-title">Market readiness</div>
+                    <div class="challenge-desc">Foundations aren't solid enough yet. Push sales or hiring too hard before that and you only amplify the cracks. Money gets spent. Progress doesn't stick.</div>
+                </div>
+                <div class="challenge-card">
+                    <div class="challenge-num">2</div>
+                    <div class="challenge-title">Disconnected teams</div>
+                    <div class="challenge-desc">Everything feels disconnected. Delivery teams are busy, but not feeding growth, and there's no shared view of what the agency is pushing towards.</div>
+                </div>
+                <div class="challenge-card">
+                    <div class="challenge-num">3</div>
+                    <div class="challenge-title">No productised offer</div>
+                    <div class="challenge-desc">There isn't a defined programme with a fixed outcome. It feels open-ended, which makes it harder to buy and harder for prospects to understand what they're saying yes to.</div>
+                </div>
+                <div class="challenge-card">
+                    <div class="challenge-num">4</div>
+                    <div class="challenge-title">Core assets need tightening</div>
+                    <div class="challenge-desc">Website, copy, case studies, proof points and pillars all exist, but the positioning isn't landing hard enough in a compelling way.</div>
+                </div>
+                <div class="challenge-card">
+                    <div class="challenge-num">5</div>
+                    <div class="challenge-title">No orchestration capacity</div>
+                    <div class="challenge-desc">There isn't enough time or bandwidth internally to align everything properly and drive it through. Good intentions are there, but momentum depends on luck.</div>
+                </div>
+                <div class="challenge-card">
+                    <div class="challenge-num">6</div>
+                    <div class="challenge-title">Pace doesn't match ambition</div>
+                    <div class="challenge-desc">Progress feels slower and lighter than it should be. The capability is there. The urgency isn't being matched with the same velocity.</div>
+                </div>
+                <div class="challenge-card">
+                    <div class="challenge-num">7</div>
+                    <div class="challenge-title">Pipeline blind spot</div>
+                    <div class="challenge-desc">No clear pipeline stages or definitions, and it's difficult to understand what is currently in play. Forecasting feels like guesswork.</div>
+                </div>
+                <div class="challenge-card">
+                    <div class="challenge-num">8</div>
+                    <div class="challenge-title">Senior cost barriers</div>
+                    <div class="challenge-desc">Senior growth thinking is required, but you can't commit £120k–£150k for a full-time role, especially in the current economic climate.</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- CREDENTIALS -->
+        <section class="section">
+            <div class="section-num">02</div>
+            <h2 class="section-title">I've built this <strong>engine</strong> before.</h2>
+            
+            <div class="creds-box">
+                <div class="creds-grid">
+                    <div class="cred-item">
+                        <div class="cred-value">£3M+</div>
+                        <div class="cred-label">In new logos across a three-year period</div>
+                    </div>
+                    <div class="cred-item">
+                        <div class="cred-value">20</div>
+                        <div class="cred-label">Years driving agency growth from the inside</div>
+                    </div>
+                    <div class="cred-item">
+                        <div class="cred-value">3→55</div>
+                        <div class="cred-label">Helped grow an agency from 3 to 55+ people</div>
+                    </div>
+                    <div class="cred-item">
+                        <div class="cred-value">20%+</div>
+                        <div class="cred-label">Average client revenue growth year on year</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SERVICES -->
+        <section class="section" id="services">
+            <div class="section-num">03</div>
+            <h2 class="section-title">Four core <strong>levers</strong>.</h2>
+            <p class="section-body">Pick one. Pick all four. We build together based on what will unlock the most momentum.</p>
+
+            <div class="services-container" style="margin-top: 80px;">
+                <div class="service-card">
+                    <div class="service-title">Growth & Positioning Strategy</div>
+                    <ul class="service-list">
+                        <li>Business growth strategy & planning</li>
+                        <li>Defining a go-to-market strategy</li>
+                        <li>Competitor mapping & positioning refinement</li>
+                        <li>Audit of current growth & marketing performance</li>
+                    </ul>
+                </div>
+                <div class="service-card">
+                    <div class="service-title">New Business Operations & Enablement</div>
+                    <ul class="service-list">
+                        <li>Blueprint to build your NB function</li>
+                        <li>Growth ops planning & process improvement</li>
+                        <li>Lead gen tools & CRM setup</li>
+                        <li>Agency partner management & optimisation</li>
+                    </ul>
+                </div>
+                <div class="service-card">
+                    <div class="service-title">Lead Generation & Pipeline Building</div>
+                    <ul class="service-list">
+                        <li>Outbound strategy & campaign planning</li>
+                        <li>Ideal customer profile and prospect personas</li>
+                        <li>Outreach messaging</li>
+                        <li>Referral & agency partnership strategy</li>
+                    </ul>
+                </div>
+                <div class="service-card">
+                    <div class="service-title">Collateral & Content</div>
+                    <ul class="service-list">
+                        <li>Collateral audit & refresh</li>
+                        <li>Content strategy & thought leadership co-creation</li>
+                        <li>Campaign concepting & management</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- CASE STUDIES -->
+        <section class="section" style="padding-top: 80px;">
+            <div class="section-num">04</div>
+            <h2 class="section-title">Real growth <strong>unlocked</strong>.</h2>
+            <p class="section-body">Here's what happens when we work together. Hover to see the impact.</p>
+
+            <div class="cases-grid" style="margin-top: 80px;">
+                <div class="case-card">
+                    <div class="case-image"></div>
+                    <div class="case-content">
+                        <div class="case-title">Digital Agency</div>
+                        <div class="case-desc">£2M → £4.2M ARR in 18 months. Installed new business process and repositioned service model.</div>
+                    </div>
+                </div>
+                <div class="case-card">
+                    <div class="case-image"></div>
+                    <div class="case-content">
+                        <div class="case-title">Creative Studio</div>
+                        <div class="case-desc">3 to 22 people in 2 years. Built growth ops function and tightened service offerings.</div>
+                    </div>
+                </div>
+                <div class="case-card">
+                    <div class="case-image"></div>
+                    <div class="case-content">
+                        <div class="case-title">Brand Agency</div>
+                        <div class="case-desc">Pipeline visibility increased 240%. Implemented CRM system and outbound strategy from scratch.</div>
+                    </div>
+                </div>
+                <div class="case-card">
+                    <div class="case-image"></div>
+                    <div class="case-content">
+                        <div class="case-title">Consulting Firm</div>
+                        <div class="case-desc">20%+ YoY growth sustained over 4 years. Strategy, positioning, and thought leadership foundation.</div>
+                    </div>
+                </div>
+                <div class="case-card">
+                    <div class="case-image"></div>
+                    <div class="case-content">
+                        <div class="case-title">Design Company</div>
+                        <div class="case-desc">Repositioned from generalist to specialist. New offer positioning increased deal value by 35%.</div>
+                    </div>
+                </div>
+                <div class="case-card">
+                    <div class="case-image"></div>
+                    <div class="case-content">
+                        <div class="case-title">Production House</div>
+                        <div class="case-desc">Built repeatable sales process. First year delivered 8 new logos in high-value segment.</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- PROCESS -->
+        <section class="section" id="process">
+            <div class="section-num">05</div>
+            <h2 class="section-title">How we work <strong>together</strong>.</h2>
+            <p class="section-body">No fluff. No delays. Just clarity and momentum.</p>
+
+            <div class="timeline" style="margin-top: 80px;">
+                <div class="timeline-item">
+                    <div class="timeline-step">
+                        <div class="timeline-num">1</div>
+                        <div class="timeline-label">Discovery</div>
+                    </div>
+                    <div class="timeline-content">
+                        <div class="timeline-goal">Discovery Call</div>
+                        <div class="timeline-details">45–60 min conversation with you or your leadership team. We explore your goals, current pipeline performance, marketing activity, historic growth efforts, and whether we're a fit. <strong>Outcome:</strong> Clear picture of where you stand and what might unlock momentum.</div>
+                    </div>
+                </div>
+
+                <div class="timeline-item">
+                    <div class="timeline-step">
+                        <div class="timeline-num">2</div>
+                        <div class="timeline-label">Mapping</div>
+                    </div>
+                    <div class="timeline-content">
+                        <div class="timeline-goal">Opportunity Mapping</div>
+                        <div class="timeline-details">You complete a short but focused questionnaire. I may request access to key assets (e.g. credentials deck, outreach emails, pipeline reports). <strong>Outcome:</strong> I identify the core issues holding growth back and the highest-impact levers you could pull for maximum momentum.</div>
+                    </div>
+                </div>
+
+                <div class="timeline-item">
+                    <div class="timeline-step">
+                        <div class="timeline-num">3</div>
+                        <div class="timeline-label">Proposal</div>
+                    </div>
+                    <div class="timeline-content">
+                        <div class="timeline-goal">Proposal & Plan of Action</div>
+                        <div class="timeline-details">A short written proposal with scope options (retainer vs short project), deliverables, and early quick wins. <strong>Next:</strong> A call to review and discuss alignment. You decide if we move forward together.</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- FOOTER CTA -->
+        <section class="section" id="contact" style="padding-bottom: 60px;">
+            <div class="footer-cta">
+                <h2>Ready to unlock growth?</h2>
+                <p>Let's have a real conversation about what's possible for your agency.</p>
+                
+                <div class="contact-grid">
+                    <div class="contact-item">
+                        <div class="contact-label">Email</div>
+                        <div class="contact-value"><a href="mailto:coris.leachman@gmail.com">coris.leachman@gmail.com</a></div>
+                    </div>
+                    <div class="contact-item">
+                        <div class="contact-label">Phone</div>
+                        <div class="contact-value">+44 7380 331 824</div>
+                    </div>
+                    <div class="contact-item">
+                        <div class="contact-label">Rate</div>
+                        <div class="contact-value">£500/day +VAT</div>
+                    </div>
+                    <div class="contact-item">
+                        <div class="contact-label">Location</div>
+                        <div class="contact-value">London-based</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <script>
+        // Navbar visibility on scroll
+        const navbar = document.getElementById('navbar');
+        window.addEventListener('scroll', () => {
+            navbar.classList.toggle('visible', window.scrollY > 400);
+        });
+
+        // Scroll-triggered reveals
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -100px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, observerOptions);
+
+        // Observe challenge cards
+        document.querySelectorAll('.challenge-card').forEach(card => observer.observe(card));
+        
+        // Observe service cards
+        document.querySelectorAll('.service-card').forEach(card => observer.observe(card));
+        
+        // Observe case cards
+        document.querySelectorAll('.case-card').forEach(card => observer.observe(card));
+        
+        // Observe timeline items
+        document.querySelectorAll('.timeline-item').forEach(item => observer.observe(item));
+    </script>
+</body>
+</html>
