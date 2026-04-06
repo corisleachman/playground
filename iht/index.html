@@ -187,7 +187,87 @@
       margin-top: 4px;
     }
 
-    /* SCENARIOS */
+    /* TABS */
+    .tabs-layout {
+      display: grid;
+      grid-template-columns: 220px 1fr;
+      gap: 0;
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      overflow: hidden;
+      background: #fff;
+      box-shadow: var(--shadow);
+      margin: 24px 0;
+    }
+    .tab-list {
+      background: var(--cream);
+      border-right: 1px solid var(--border);
+      display: flex;
+      flex-direction: column;
+      padding: 8px 0;
+    }
+    .tab-btn {
+      background: none;
+      border: none;
+      text-align: left;
+      padding: 14px 18px;
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+      border-left: 3px solid transparent;
+      transition: background 0.15s, border-color 0.15s;
+      position: relative;
+    }
+    .tab-btn:hover { background: var(--accent-light); }
+    .tab-btn.active {
+      background: #fff;
+      border-left-color: var(--accent);
+    }
+    .tab-label {
+      font-size: 10px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--light);
+      font-weight: 500;
+    }
+    .tab-btn.active .tab-label { color: var(--accent); }
+    .tab-title {
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--mid);
+      line-height: 1.3;
+    }
+    .tab-btn.active .tab-title { color: var(--ink); }
+    .tab-pill {
+      font-size: 10px;
+      font-weight: 500;
+      padding: 2px 8px;
+      border-radius: 10px;
+      display: inline-block;
+      margin-top: 2px;
+      width: fit-content;
+    }
+    .pill-neutral { background: var(--accent-light); color: var(--accent); }
+    .pill-caution { background: #fff3e0; color: #b85c00; }
+    .pill-risk { background: var(--red-light); color: var(--red); }
+    .pill-positive { background: var(--green-light); color: var(--green); }
+    .tab-panels { padding: 28px 30px; }
+    .tab-panel { display: none; }
+    .tab-panel.active { display: block; }
+    .tab-panel h3 { margin-top: 0; }
+
+    @media (max-width: 680px) {
+      .tabs-layout { grid-template-columns: 1fr; }
+      .tab-list { flex-direction: row; overflow-x: auto; border-right: none; border-bottom: 1px solid var(--border); padding: 0; }
+      .tab-btn { flex-direction: row; align-items: center; gap: 8px; white-space: nowrap; border-left: none; border-bottom: 3px solid transparent; padding: 12px 14px; }
+      .tab-btn.active { border-left-color: transparent; border-bottom-color: var(--accent); background: var(--accent-light); }
+      .tab-label { display: none; }
+      .tab-pill { display: none; }
+      .tab-panels { padding: 20px; }
+    }
+
+    /* SCENARIOS (legacy, kept for callout reuse) */
     .scenario {
       background: #fff;
       border: 1px solid var(--border);
@@ -599,118 +679,205 @@
   <section id="scenarios">
     <div class="section-label">Planning Options</div>
     <h2>The scenarios</h2>
-    <p>Below are the realistic paths forward. Each one shows what the IHT bill would be, and what's required to make it work. None of these are guarantees — they depend on timing and decisions that still need to be made.</p>
+    <p>Below are the realistic paths forward. Click each option on the left to see the detail. None of these are guarantees — they depend on timing and decisions that still need to be made.</p>
 
-    <div class="scenario">
-      <div class="scenario-badge badge-neutral">Option A — Do nothing new</div>
-      <h3>Keep things as they are</h3>
-      <p>No new gifts, no new investments, no changes to the will structure. The estate is settled as-is when the time comes.</p>
-      <p>This is the simplest and lowest-effort path. There's no risk of things going wrong with planning — but equally, nothing is done to reduce the tax bill. The estate pays what it owes.</p>
-      <div class="callout blue">
-        <p><strong>One option not yet on this list — marriage.</strong> If Dennis and Gitana were to marry, everything passing to Gitana would become IHT-exempt. The Reading flat (£350k) would exit the taxable estate entirely: taxable estate drops from ~£1.4m to ~£1.05m, IHT falls from ~£360k to <strong>~£220k — a saving of ~£140k</strong>. Gitana would also receive the full ~£387k rather than ~£291k net. This isn't a planning decision to be made lightly, but it is the single largest financial lever available — and it costs nothing.</p>
+    <div class="tabs-layout">
+      <!-- TAB LIST -->
+      <div class="tab-list" role="tablist">
+        <button class="tab-btn active" data-tab="a" role="tab">
+          <span class="tab-label">Option A</span>
+          <span class="tab-title">Do nothing new</span>
+          <span class="tab-pill pill-neutral">Baseline</span>
+        </button>
+        <button class="tab-btn" data-tab="b" role="tab">
+          <span class="tab-label">Option B</span>
+          <span class="tab-title">Gift £120k to Coris</span>
+          <span class="tab-pill pill-caution">Risky</span>
+        </button>
+        <button class="tab-btn" data-tab="c" role="tab">
+          <span class="tab-label">Option C</span>
+          <span class="tab-title">EIS / SEIS investment</span>
+          <span class="tab-pill pill-risk">Not advised</span>
+        </button>
+        <button class="tab-btn" data-tab="d" role="tab">
+          <span class="tab-label">Option D</span>
+          <span class="tab-title">Protect the pension</span>
+          <span class="tab-pill pill-positive">Do this</span>
+        </button>
+        <button class="tab-btn" data-tab="e" role="tab">
+          <span class="tab-label">Option E</span>
+          <span class="tab-title">Life insurance in trust</span>
+          <span class="tab-pill pill-positive">Do this</span>
+        </button>
+        <button class="tab-btn" data-tab="f" role="tab">
+          <span class="tab-label">Option F</span>
+          <span class="tab-title">Charitable giving</span>
+          <span class="tab-pill pill-neutral">Optional</span>
+        </button>
+        <button class="tab-btn" data-tab="g" role="tab">
+          <span class="tab-label">Option G</span>
+          <span class="tab-title">Marriage to Gitana</span>
+          <span class="tab-pill pill-positive">Biggest lever</span>
+        </button>
       </div>
-      <div class="iht-figure">
-        <div>
-          <div class="fig-label">Baseline IHT (no changes)</div>
-          <div class="fig-amount neutral">~£360k</div>
-        </div>
-        <div class="fig-note">Incl. £120k loan as taxable estate asset. Only ~£30k cash available.</div>
-      </div>
-      <div class="iht-figure" style="margin-top:12px; padding-top:12px; border-top:1px solid var(--border);">
-        <div>
-          <div class="fig-label">If Dennis and Gitana marry</div>
-          <div class="fig-amount positive">~£220k</div>
-        </div>
-        <div class="fig-note">Saving of ~£140k. Reading flat drops out of taxable estate entirely.</div>
-      </div>
-    </div>
 
-    <div class="scenario">
-      <div class="scenario-badge badge-caution">Option B — Gift £120k to Coris now</div>
-      <h3>A further gift, matching the one made to Alexia</h3>
-      <p>If Dennis gifts £120k to Coris now, the 7-year clock on that gift starts today. Combined with Alexia's advance (which is a loan, not a gift — so no 7-year clock is running on that), Coris receiving £120k now is the relevant new gift to consider.</p>
-      <p><strong>If he lives 7+ more years from today:</strong> the £120k gift to Coris falls outside the estate. Taxable estate drops by £120k → saving ~£48k in IHT.</p>
-      <p><strong>If he passes before 7 years:</strong> the gift is added back, reducing the available NRB allowance and increasing the effective bill.</p>
-      <div class="iht-figure">
-        <div>
-          <div class="fig-label">IHT if gift clears (7 yrs)</div>
-          <div class="fig-amount positive">~£312k</div>
-        </div>
-        <div class="fig-note">Saving of ~£48k vs £360k baseline. Requires surviving 7 years from today.</div>
-      </div>
-      <div class="iht-figure" style="margin-top:12px; padding-top:12px; border-top:1px solid var(--border);">
-        <div>
-          <div class="fig-label">IHT if death &lt;7 years</div>
-          <div class="fig-amount risk">~£408k+</div>
-        </div>
-        <div class="fig-note">Gift reduces available NRB — bill rises short-term. Taper relief applies after year 3.</div>
-      </div>
-    </div>
+      <!-- TAB PANELS -->
+      <div class="tab-panels">
 
-    <div class="scenario">
-      <div class="scenario-badge badge-positive">Option C — Business Relief investment (2-year rule)</div>
-      <h3>Invest in qualifying EIS/SEIS businesses — uses a 2-year window, not 7</h3>
-      <p>Certain types of investment — including in qualifying private companies under the Enterprise Investment Scheme (EIS) or Seed EIS (SEIS) — qualify for Business Relief. If held for 2 years, they fall completely outside the estate for IHT.</p>
-      <p>This is relevant because the 2-year window is realistic in a way that 7 years is not at 82. With a £312k IHT bill, there's meaningful room for this to make a real difference — but it requires investable liquid cash that isn't tied up in property.</p>
-      <p><strong>Example:</strong> Dennis invests £200k into qualifying EIS/SEIS businesses. If he lives 2 years and still holds the shares, that £200k is IHT-free — saving <strong>£80,000</strong> in tax. Larger investments save proportionally more.</p>
-      <div class="callout blue">
-        <p><strong>Not yet explored for our situation:</strong> Whether Alexia or Coris's businesses qualify for EIS or SEIS hasn't been looked into yet. If either qualifies, it's one of the few practical IHT-reduction routes within a 2-year window — and it directly benefits family businesses. An accountant can check eligibility without any money moving first.</p>
-      </div>
-      <div class="iht-figure">
-        <div>
-          <div class="fig-label">IHT saving (£200k invested, 2 yrs)</div>
-          <div class="fig-amount positive">~£80k saved</div>
+        <div class="tab-panel active" id="tab-a">
+          <div class="scenario-badge badge-neutral">Option A — Do nothing new</div>
+          <h3>Keep things as they are</h3>
+          <p>No new gifts, no new investments, no changes to the will structure. The estate is settled as-is when the time comes.</p>
+          <p>This is the simplest and lowest-effort path. There's no risk of things going wrong with planning — but equally, nothing is done to reduce the tax bill. The estate pays what it owes, and the family needs to find ~£330k within 6 months of death from somewhere other than the Kingston house (which can't be sold until probate is granted).</p>
+          <div class="iht-figure">
+            <div>
+              <div class="fig-label">Baseline IHT (no changes)</div>
+              <div class="fig-amount neutral">~£360k</div>
+            </div>
+            <div class="fig-note">Incl. £120k loan as taxable asset. Only ~£30k cash in estate.</div>
+          </div>
         </div>
-        <div class="fig-note">Investment carries commercial risk. Capital can be lost if the business fails.</div>
-      </div>
-    </div>
 
-    <div class="scenario">
-      <div class="scenario-badge badge-positive">Option D — Leave pension untouched</div>
-      <h3>The pension is already doing the right job</h3>
-      <p>The £300k pension is currently outside the estate entirely. It passes directly to whoever Dad has named on his nomination form — bypassing the will and IHT altogether.</p>
-      <p><strong>This is the single most tax-efficient asset he holds.</strong> The key actions are: don't draw it down unnecessarily, and make sure the nomination form names the right people.</p>
-      <div class="callout red">
-        <p><strong>This changes in April 2027.</strong> From that date, the £300k pension will be included in the taxable estate — adding ~£120k to the IHT bill. Combined with the current ~£360k baseline, total IHT could reach <strong>~£480k</strong> if no further planning is done before then.</p>
-      </div>
-      <div class="iht-figure">
-        <div>
-          <div class="fig-label">Current IHT on pension</div>
-          <div class="fig-amount positive">£0</div>
+        <div class="tab-panel" id="tab-b">
+          <div class="scenario-badge badge-caution">Option B — Gift £120k to Coris now</div>
+          <h3>A further gift to Coris, starting the 7-year clock</h3>
+          <p>If Dennis gifts £120k to Coris now, the 7-year clock on that gift starts today. Alexia's £120k was a loan (not a gift), so no clock is running on that. This would be Coris's only relevant PET.</p>
+          <p><strong>If Dennis lives 7+ years from today:</strong> the gift falls outside the estate. Taxable estate drops by £120k — saving ~£48k in IHT.</p>
+          <p><strong>If he passes before 7 years:</strong> the gift is added back and eats into the Nil Rate Band, raising the effective bill. Taper relief softens this from year 3 onward.</p>
+          <p>At 82, this is a genuine judgement call. The saving (~£48k) is real if there's time, but the downside risk is a higher bill in the short term.</p>
+          <div class="iht-figure">
+            <div>
+              <div class="fig-label">IHT if gift clears (after 7 yrs)</div>
+              <div class="fig-amount positive">~£312k</div>
+            </div>
+            <div class="fig-note">Saving of ~£48k vs £360k baseline.</div>
+          </div>
+          <div class="iht-figure" style="margin-top:12px; padding-top:12px; border-top:1px solid var(--border);">
+            <div>
+              <div class="fig-label">IHT if death &lt;7 years</div>
+              <div class="fig-amount risk">~£408k+</div>
+            </div>
+            <div class="fig-note">Taper relief applies from year 3. See the timeline table below.</div>
+          </div>
         </div>
-        <div class="fig-note">Effective until 6 April 2027 under current draft legislation</div>
-      </div>
-    </div>
 
-    <div class="scenario">
-      <div class="scenario-badge badge-neutral">Option E — Life insurance written in trust</div>
-      <h3>Cover the tax bill rather than trying to eliminate it</h3>
-      <p>A whole-of-life policy — written into a trust — pays out a lump sum on death. Because it's held in trust, the payout goes directly to beneficiaries and doesn't form part of the estate.</p>
-      <p>The point isn't to avoid the IHT bill — it's to make sure the family doesn't have to sell the Kingston house or other assets under pressure to pay HMRC within 6 months. With a £312k bill (or potentially more after 2027), this is not a small sum to find quickly.</p>
-      <p>At 82, premiums will be expensive. But even a partial policy — say £150–200k — significantly reduces the pressure on Alexia and Coris, who each bear ~£112k of the bill under the current will.</p>
-      <div class="iht-figure">
-        <div>
-          <div class="fig-label">Effect on IHT bill</div>
-          <div class="fig-amount neutral">None</div>
-        </div>
-        <div class="fig-note">Doesn't reduce tax — provides the cash to pay it without selling assets</div>
-      </div>
-    </div>
+        <div class="tab-panel" id="tab-c">
+          <div class="scenario-badge badge-risk">Option C — EIS / SEIS investment</div>
+          <h3>Not recommended for this situation</h3>
+          <p>EIS (Enterprise Investment Scheme) and SEIS (Seed Enterprise Investment Scheme) investments can qualify for Business Relief — meaning they exit the taxable estate after just 2 years rather than 7. In theory, this sounds attractive for someone at 82 where 7 years is a long horizon.</p>
+          <p><strong>In practice, for this family's situation, this route carries too much risk and is not recommended.</strong></p>
 
-    <div class="scenario">
-      <div class="scenario-badge badge-neutral">Option F — Charitable giving in the will</div>
-      <h3>Leave 10% to charity, reduce the tax rate to 36%</h3>
-      <p>If at least 10% of the net estate is left to a registered charity, HMRC reduces the IHT rate from 40% down to 36% on the remainder. This is a meaningful saving and leaves a lasting legacy.</p>
-      <p><strong>Example with correct figures:</strong> Taxable estate is £780k. If Dennis left £78k (10% of £780k) to charity, the remaining £702k is taxed at 36% rather than 40%. IHT on that portion = ~£253k. Plus £78k to charity. Total leaving the estate = £331k rather than the £312k — but £78k of that goes to a chosen cause, and beneficiaries receive more of the rest.</p>
-      <p>Whether this makes sense financially depends on whether Dennis has charitable intentions that align with it. If he does, the tax benefit is a bonus rather than the primary motivation.</p>
-      <div class="iht-figure">
-        <div>
-          <div class="fig-label">Potential saving</div>
-          <div class="fig-amount positive">~£48k</div>
+          <div class="callout red">
+            <p><strong>Why we advise against this:</strong></p>
+            <ul style="margin: 8px 0 0 16px; line-height:1.9;">
+              <li>Business Relief only applies if the shares are still held <em>and the company is still trading</em> at the time of death. If the business fails before then — the IHT relief disappears entirely, and the capital is also gone. You lose both.</li>
+              <li>EIS/SEIS requires genuine risk capital. There is no structure that guarantees return of funds and still qualifies — any such arrangement would be invalidated by HMRC. The money is genuinely at risk.</li>
+              <li>HMRC Advance Assurance is needed before any money moves, which takes time. The 2-year clock doesn't start until shares are issued and the company is trading — adding further delay.</li>
+              <li>At 82, Dennis has limited capacity to monitor or manage an investment in a private company. If circumstances change, there is little flexibility.</li>
+              <li>The most significant concern specific to this family is that investing in a family member's business — without the highest confidence in its financial stability and trajectory — introduces a risk that could result in both the capital and the IHT benefit being lost simultaneously. That outcome would be worse than simply paying the tax.</li>
+            </ul>
+          </div>
+
+          <p>If Coris's business were to qualify for EIS or SEIS and its financial position were demonstrably strong, the calculation might be different — but that assessment should only be made after: independent professional advice, HMRC Advance Assurance being secured, a full review of the company's accounts, and a shareholders' agreement that clearly defines what happens to the shares on death.</p>
+          <p><strong>For now, this option should remain off the table.</strong> The other options on this page offer more reliable outcomes without this level of capital risk.</p>
+          <div class="iht-figure">
+            <div>
+              <div class="fig-label">Potential saving (if it works)</div>
+              <div class="fig-amount caution">~£80k</div>
+            </div>
+            <div class="fig-note">Only if shares held 2+ years, company still trading, and HMRC conditions met in full.</div>
+          </div>
         </div>
-        <div class="fig-note">Requires leaving 10% of net estate to charity in the will</div>
-      </div>
-    </div>
+
+        <div class="tab-panel" id="tab-d">
+          <div class="scenario-badge badge-positive">Option D — Leave pension untouched</div>
+          <h3>The pension is already doing the right job — don't disturb it</h3>
+          <p>The £300k pension is currently entirely outside the estate for IHT purposes. It passes directly to whoever Dennis has named on the pension provider's nomination form — bypassing the will and HMRC altogether.</p>
+          <p><strong>This is the single most tax-efficient asset Dennis holds right now.</strong> The correct action is to leave it alone, not draw it down unnecessarily, and make sure the nomination form reflects his current wishes.</p>
+          <div class="callout red">
+            <p><strong>This changes in April 2027.</strong> From that date, the £300k pension will be drawn into the taxable estate — adding ~£120k to the IHT bill and potentially pushing total liability to <strong>~£480k</strong>. This is the most significant upcoming deadline. The nomination form should be confirmed now, and a financial adviser consulted on whether drawing some pension income before 2027 (and gifting it from surplus income) makes sense.</p>
+          </div>
+          <div class="iht-figure">
+            <div>
+              <div class="fig-label">Current IHT on pension</div>
+              <div class="fig-amount positive">£0</div>
+            </div>
+            <div class="fig-note">Effective until 6 April 2027 under current draft legislation.</div>
+          </div>
+          <div class="iht-figure" style="margin-top:12px; padding-top:12px; border-top:1px solid var(--border);">
+            <div>
+              <div class="fig-label">IHT on pension after April 2027</div>
+              <div class="fig-amount risk">~£120k additional</div>
+            </div>
+            <div class="fig-note">Total bill rises from ~£360k to ~£480k if no action taken.</div>
+          </div>
+        </div>
+
+        <div class="tab-panel" id="tab-e">
+          <div class="scenario-badge badge-positive">Option E — Life insurance written in trust</div>
+          <h3>Cover the tax bill rather than trying to eliminate it</h3>
+          <p>A whole-of-life policy — written into a trust — pays out a lump sum on death. Because it is held in trust, the payout goes directly to the named beneficiaries and does not form part of the estate or attract further IHT.</p>
+          <p>The purpose is not to avoid the tax — it is to ensure the family can <em>pay</em> it. The IHT bill (~£360k) is due to HMRC within 6 months of death. There is currently only ~£30k liquid cash in the estate. The Kingston house — the main asset — cannot be sold until probate is granted, and probate cannot be granted until the tax is paid. This is a genuine deadlock that insurance resolves.</p>
+          <p>Under clause 7 of the will, Alexia and Coris each bear ~£130k of the bill. A policy of £200–260k written in trust and split between them removes that pressure entirely at what will already be a difficult time.</p>
+          <p>At 82, premiums will be significant — but this is the most straightforward, lowest-risk action available. <strong>Getting quotes should happen this week.</strong></p>
+          <div class="iht-figure">
+            <div>
+              <div class="fig-label">Effect on total IHT bill</div>
+              <div class="fig-amount neutral">None</div>
+            </div>
+            <div class="fig-note">Doesn't reduce the tax — provides the cash to pay it without a forced sale.</div>
+          </div>
+        </div>
+
+        <div class="tab-panel" id="tab-f">
+          <div class="scenario-badge badge-neutral">Option F — Charitable giving in the will</div>
+          <h3>Leave 10% to charity; reduce the IHT rate to 36%</h3>
+          <p>If at least 10% of the net taxable estate is left to a registered charity, HMRC reduces the IHT rate on the remainder from 40% to 36%. The saving is real, though modest in the context of the overall bill.</p>
+          <p><strong>With correct figures:</strong> Taxable estate ~£900k. If Dennis left ~£90k (10%) to charity: remaining £810k taxed at 36% = £292k IHT. Combined with the £90k donation, total leaving the estate = £382k — compared to £360k under the standard rate. Beneficiaries receive somewhat less overall, but £90k goes to a cause of Dennis's choosing.</p>
+          <p>This option is best considered if Dennis has genuine charitable intentions that happen to align with the tax benefit — not the other way around.</p>
+          <div class="iht-figure">
+            <div>
+              <div class="fig-label">IHT saving vs standard rate</div>
+              <div class="fig-amount positive">~£32k saved</div>
+            </div>
+            <div class="fig-note">Requires 10% of net estate to charity. Net inheritance to family is lower.</div>
+          </div>
+        </div>
+
+        <div class="tab-panel" id="tab-g">
+          <div class="scenario-badge badge-positive">Option G — Marriage to Gitana</div>
+          <h3>The single largest IHT lever available — and it costs nothing financially</h3>
+          <p>If Dennis and Gitana marry, the spouse exemption applies to everything passing to Gitana. The Reading flat (£350k) exits the taxable estate entirely. The IHT bill falls from ~£360k to ~£220k — a saving of <strong>~£140k</strong>. Gitana also receives the full value of the flat (~£387k) rather than ~£291k net after bearing her share of the tax.</p>
+          <p>The will was specifically drafted "in contemplation of marriage to Gitana Megvine" — meaning it remains valid after marriage without needing to be rewritten.</p>
+
+          <div class="callout">
+            <p><strong>Important: marriage also creates legal rights for Gitana regarding the Kingston house.</strong> As a spouse, Gitana would acquire statutory home rights under the Family Law Act 1996 — meaning she cannot be removed from the matrimonial home without a court order, even though the house passes to Alexia and Coris under the will. If Gitana is living in the Kingston house at the time of Dennis's death, this could delay or complicate a sale.</p>
+          </div>
+
+          <p><strong>If marriage is being considered, two things must happen beforehand:</strong></p>
+          <ul style="margin: 8px 0 16px 18px; line-height:2;">
+            <li>A pre-nuptial agreement (or similar) should set out Gitana's right of occupation in the Kingston house — for example, that she agrees to vacate within a defined period. Pre-nups carry significant weight if properly drafted and both parties had independent legal advice.</li>
+            <li>The solicitor should review whether the will needs any updating to reflect the new legal status and ensure the RNRB (£175k allowance for home passing to children) is still correctly claimed.</li>
+          </ul>
+          <p>This is a personal decision, not a financial one. But the financial consequence of marriage — properly structured — is the largest single improvement available to the estate plan.</p>
+          <div class="iht-figure">
+            <div>
+              <div class="fig-label">IHT if Dennis and Gitana marry</div>
+              <div class="fig-amount positive">~£220k</div>
+            </div>
+            <div class="fig-note">Saving of ~£140k. Requires pre-nup to protect Kingston house sale rights.</div>
+          </div>
+          <div class="iht-figure" style="margin-top:12px; padding-top:12px; border-top:1px solid var(--border);">
+            <div>
+              <div class="fig-label">Gitana's net inheritance</div>
+              <div class="fig-amount positive">~£387k</div>
+            </div>
+            <div class="fig-note">vs ~£291k without marriage. She receives the full flat value.</div>
+          </div>
+        </div>
+
+      </div><!-- end tab-panels -->
+    </div><!-- end tabs-layout -->
   </section>
 
   <hr class="divider" />
@@ -850,8 +1017,8 @@
       <div class="action-item">
         <div class="action-num">4</div>
         <div>
-          <h4>Look into EIS/SEIS eligibility for Alexia and Coris's businesses</h4>
-          <p>Neither business has been assessed for EIS or SEIS eligibility yet. This is worth investigating — if one or both qualify, it opens up the 2-year Business Relief route (Option C), which is far more realistic than the 7-year gift route at Dennis's age. The first step is speaking to an accountant about whether the business structure and trading activity would qualify. HMRC also offers "Advance Assurance" — a way to confirm eligibility before any money moves. No decisions are needed now, but it's worth getting the answer.</p>
+          <h4>EIS / SEIS — not recommended at this time</h4>
+          <p>After careful consideration, investing in EIS or SEIS businesses is not recommended for this estate. The Business Relief only applies if the shares are still held and the company is still trading when Dennis passes — meaning if the business fails, both the capital and the IHT benefit are lost simultaneously. There is no structure that guarantees return of funds and still qualifies. See Option C in the scenarios section for the full reasoning. This option should only be reconsidered if Coris's business were demonstrably strong financially and independent professional advice confirmed eligibility — with HMRC Advance Assurance in hand before any money moves.</p>
         </div>
       </div>
       <div class="action-item">
@@ -965,6 +1132,17 @@
 </footer>
 
 <script>
+  // Tab switching
+  document.querySelectorAll('.tab-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const tab = btn.dataset.tab;
+      document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+      document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+      btn.classList.add('active');
+      document.getElementById('tab-' + tab).classList.add('active');
+    });
+  });
+
   document.querySelectorAll('.faq-q').forEach(q => {
     q.addEventListener('click', () => {
       const item = q.closest('.faq-item');
