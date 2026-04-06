@@ -1,0 +1,811 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Our Family Estate Plan</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,600;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --cream: #faf7f2;
+      --warm-white: #fff9f4;
+      --ink: #1a1410;
+      --mid: #5c4f42;
+      --light: #9c8c7c;
+      --border: #e8ddd2;
+      --accent: #c17a3a;
+      --accent-light: #f5ead9;
+      --green: #3a7a5c;
+      --green-light: #e8f4ee;
+      --red: #8b3a3a;
+      --red-light: #f5e8e8;
+      --blue: #2c4f7a;
+      --blue-light: #e8eef5;
+      --shadow: 0 2px 24px rgba(26,20,16,0.07);
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--cream);
+      color: var(--ink);
+      font-size: 16px;
+      line-height: 1.7;
+    }
+
+    /* HEADER */
+    header {
+      background: var(--ink);
+      color: var(--cream);
+      padding: 56px 24px 48px;
+      text-align: center;
+    }
+    header .label {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 11px;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 14px;
+      font-weight: 500;
+    }
+    header h1 {
+      font-family: 'Lora', serif;
+      font-size: clamp(28px, 5vw, 46px);
+      font-weight: 400;
+      line-height: 1.25;
+      color: #fff;
+      max-width: 680px;
+      margin: 0 auto 16px;
+    }
+    header p {
+      color: rgba(255,255,255,0.55);
+      font-size: 15px;
+      max-width: 520px;
+      margin: 0 auto;
+      font-weight: 300;
+    }
+
+    /* NAV */
+    nav {
+      background: #fff;
+      border-bottom: 1px solid var(--border);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      overflow-x: auto;
+    }
+    nav ul {
+      display: flex;
+      list-style: none;
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 0 16px;
+    }
+    nav ul li a {
+      display: block;
+      padding: 16px 18px;
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--mid);
+      text-decoration: none;
+      white-space: nowrap;
+      transition: color 0.2s;
+      border-bottom: 2px solid transparent;
+    }
+    nav ul li a:hover {
+      color: var(--accent);
+      border-bottom-color: var(--accent);
+    }
+
+    /* LAYOUT */
+    main {
+      max-width: 860px;
+      margin: 0 auto;
+      padding: 0 20px 80px;
+    }
+
+    section {
+      margin-top: 64px;
+    }
+    section:first-child { margin-top: 48px; }
+
+    .section-label {
+      font-size: 11px;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--accent);
+      font-weight: 500;
+      margin-bottom: 8px;
+    }
+    h2 {
+      font-family: 'Lora', serif;
+      font-size: clamp(22px, 3.5vw, 30px);
+      font-weight: 600;
+      color: var(--ink);
+      margin-bottom: 20px;
+      line-height: 1.3;
+    }
+    h3 {
+      font-family: 'Lora', serif;
+      font-size: 19px;
+      font-weight: 600;
+      color: var(--ink);
+      margin: 32px 0 12px;
+    }
+    p { margin-bottom: 14px; color: var(--mid); font-weight: 300; }
+    p strong { color: var(--ink); font-weight: 500; }
+
+    /* CALLOUT BOXES */
+    .callout {
+      border-left: 3px solid var(--accent);
+      background: var(--accent-light);
+      padding: 18px 22px;
+      border-radius: 0 8px 8px 0;
+      margin: 24px 0;
+      font-size: 15px;
+    }
+    .callout.green { border-color: var(--green); background: var(--green-light); }
+    .callout.red { border-color: var(--red); background: var(--red-light); }
+    .callout.blue { border-color: var(--blue); background: var(--blue-light); }
+    .callout p { margin: 0; color: var(--ink); }
+    .callout strong { color: inherit; }
+
+    /* SNAPSHOT CARDS */
+    .card-row {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 16px;
+      margin: 28px 0;
+    }
+    .card {
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 22px 20px;
+      box-shadow: var(--shadow);
+    }
+    .card .card-label {
+      font-size: 11px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--light);
+      font-weight: 500;
+      margin-bottom: 6px;
+    }
+    .card .card-value {
+      font-family: 'Lora', serif;
+      font-size: 26px;
+      font-weight: 600;
+      color: var(--ink);
+    }
+    .card .card-note {
+      font-size: 12px;
+      color: var(--light);
+      margin-top: 4px;
+    }
+
+    /* SCENARIOS */
+    .scenario {
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 28px 28px 24px;
+      margin: 20px 0;
+      box-shadow: var(--shadow);
+      position: relative;
+    }
+    .scenario-badge {
+      display: inline-block;
+      font-size: 11px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      font-weight: 500;
+      padding: 4px 12px;
+      border-radius: 20px;
+      margin-bottom: 14px;
+    }
+    .badge-neutral { background: var(--accent-light); color: var(--accent); }
+    .badge-caution { background: #fff3e0; color: #b85c00; }
+    .badge-positive { background: var(--green-light); color: var(--green); }
+    .badge-risk { background: var(--red-light); color: var(--red); }
+
+    .scenario h3 {
+      margin: 0 0 10px;
+      font-size: 17px;
+    }
+    .scenario p { font-size: 14.5px; }
+    .scenario .iht-figure {
+      margin-top: 16px;
+      padding-top: 16px;
+      border-top: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .iht-figure .fig-label { font-size: 12px; color: var(--light); }
+    .iht-figure .fig-amount {
+      font-family: 'Lora', serif;
+      font-size: 28px;
+      font-weight: 600;
+    }
+    .iht-figure .fig-note { font-size: 12px; color: var(--mid); margin-left: auto; font-weight: 300; max-width: 200px; text-align: right; }
+    .fig-amount.positive { color: var(--green); }
+    .fig-amount.caution { color: #b85c00; }
+    .fig-amount.risk { color: var(--red); }
+    .fig-amount.neutral { color: var(--ink); }
+
+    /* TABLE */
+    .table-wrap { overflow-x: auto; margin: 24px 0; }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 14px;
+      background: #fff;
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: var(--shadow);
+    }
+    th {
+      background: var(--ink);
+      color: #fff;
+      padding: 14px 18px;
+      text-align: left;
+      font-weight: 500;
+      font-size: 12px;
+      letter-spacing: 0.05em;
+    }
+    td {
+      padding: 13px 18px;
+      border-bottom: 1px solid var(--border);
+      color: var(--mid);
+    }
+    tr:last-child td { border-bottom: none; }
+    tr:nth-child(even) td { background: var(--cream); }
+    td strong { color: var(--ink); font-weight: 500; }
+    td.green { color: var(--green); font-weight: 500; }
+    td.red { color: var(--red); font-weight: 500; }
+    td.amber { color: #b85c00; font-weight: 500; }
+
+    /* ACTION LIST */
+    .action-list {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      margin: 24px 0;
+    }
+    .action-item {
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 18px 20px;
+      display: flex;
+      gap: 16px;
+      align-items: flex-start;
+      box-shadow: var(--shadow);
+    }
+    .action-num {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background: var(--accent);
+      color: #fff;
+      font-size: 13px;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    .action-item h4 { font-size: 15px; font-weight: 500; color: var(--ink); margin-bottom: 4px; }
+    .action-item p { font-size: 13.5px; margin: 0; }
+
+    /* FAQ */
+    .faq-item {
+      border-bottom: 1px solid var(--border);
+      padding: 22px 0;
+    }
+    .faq-item:first-child { border-top: 1px solid var(--border); }
+    .faq-q {
+      font-family: 'Lora', serif;
+      font-size: 17px;
+      font-weight: 600;
+      color: var(--ink);
+      cursor: pointer;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 16px;
+    }
+    .faq-q::after {
+      content: '+';
+      font-size: 22px;
+      font-weight: 300;
+      color: var(--light);
+      flex-shrink: 0;
+      transition: transform 0.2s;
+    }
+    .faq-item.open .faq-q::after { transform: rotate(45deg); }
+    .faq-a {
+      display: none;
+      padding-top: 14px;
+      font-size: 14.5px;
+      color: var(--mid);
+    }
+    .faq-item.open .faq-a { display: block; }
+
+    /* DIVIDER */
+    .divider {
+      border: none;
+      border-top: 1px solid var(--border);
+      margin: 48px 0;
+    }
+
+    /* FOOTER */
+    footer {
+      background: var(--ink);
+      color: rgba(255,255,255,0.4);
+      text-align: center;
+      padding: 28px 20px;
+      font-size: 12px;
+    }
+    footer strong { color: rgba(255,255,255,0.7); }
+
+    /* UPDATE BANNER */
+    .update-banner {
+      background: var(--blue-light);
+      border: 1px solid #c0d0e8;
+      border-radius: 10px;
+      padding: 14px 18px;
+      font-size: 13.5px;
+      color: var(--blue);
+      margin-bottom: 32px;
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+    }
+    .update-banner span { flex-shrink: 0; font-size: 16px; }
+
+    @media (max-width: 600px) {
+      .card-row { grid-template-columns: 1fr 1fr; }
+      .iht-figure { flex-wrap: wrap; }
+      .iht-figure .fig-note { text-align: left; margin-left: 0; max-width: none; }
+      nav ul li a { padding: 14px 12px; font-size: 12px; }
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="label">Family Estate Planning</div>
+  <h1>Understanding the Plan for Dad's Estate</h1>
+  <p>A clear, honest summary of where things stand, what the options are, and what needs to happen next.</p>
+</header>
+
+<nav>
+  <ul>
+    <li><a href="#situation">The Situation</a></li>
+    <li><a href="#scenarios">Scenarios</a></li>
+    <li><a href="#timeline">Timeline</a></li>
+    <li><a href="#actions">Actions</a></li>
+    <li><a href="#faq">Common Questions</a></li>
+    <li><a href="#law-changes">Law Changes</a></li>
+  </ul>
+</nav>
+
+<main>
+
+  <!-- SITUATION -->
+  <section id="situation">
+    <div class="section-label">Where We Are Now</div>
+    <h2>The current picture</h2>
+
+    <div class="update-banner">
+      <span>ℹ️</span>
+      <div>This page was last reviewed <strong>April 2026</strong> and reflects current UK law. A significant pension rule change is coming in April 2027 — <a href="#law-changes" style="color:var(--blue)">see Law Changes</a> for details.</div>
+    </div>
+
+    <p>This is a straightforward summary of Dad's estate, what the inheritance tax (IHT) position looks like today, and what options exist to reduce the bill or make sure the money gets to the right people in the right way.</p>
+
+    <div class="card-row">
+      <div class="card">
+        <div class="card-label">Total Estate</div>
+        <div class="card-value">£1.2m</div>
+        <div class="card-note">All assets combined</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Pension (separate)</div>
+        <div class="card-value">£300k</div>
+        <div class="card-note">Outside IHT for now</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Taxable Estate</div>
+        <div class="card-value">£900k</div>
+        <div class="card-note">Property, savings, investments</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Tax-Free Allowances</div>
+        <div class="card-value">£500k</div>
+        <div class="card-note">£325k + £175k (home to children)</div>
+      </div>
+    </div>
+
+    <div class="callout">
+      <p><strong>Baseline IHT bill today:</strong> £900k − £500k allowances = £400k taxable. At 40%, that's <strong>£160,000</strong> owed to HMRC — before any planning is taken into account.</p>
+    </div>
+
+    <h3>A few key facts</h3>
+    <p><strong>Dad is 82 and widowed.</strong> Because Mum has passed, her allowances cannot be transferred — so Dad has just the single set: £325k Nil Rate Band and £175k Residence Nil Rate Band (for the family home passed to children).</p>
+    <p><strong>The pension is currently protected.</strong> The £300k pension sits entirely outside the estate for inheritance tax purposes — but this changes in April 2027 (see Law Changes section).</p>
+    <p><strong>The gift to [sister's name].</strong> Around 4 years ago, Dad gave £120,000. Under the 7-year rule, this gift is still within the window — meaning it affects calculations if he passes before 7 years are up from the date it was given.</p>
+
+    <div class="callout red">
+      <p><strong>Important — needs sorting now:</strong> The £120k given to your sister needs to be clearly documented as a gift (not a loan). If HMRC decides it was a loan, the calculation changes. A simple letter confirming the date and that it was a gift, kept with bank records, is enough. See <a href="#actions" style="color:var(--red)">Actions</a>.</p>
+    </div>
+  </section>
+
+  <hr class="divider" />
+
+  <!-- SCENARIOS -->
+  <section id="scenarios">
+    <div class="section-label">Planning Options</div>
+    <h2>The scenarios</h2>
+    <p>Below are the realistic paths forward. Each one shows what the IHT bill would be, and what's required to make it work. None of these are guarantees — they depend on timing and decisions that still need to be made.</p>
+
+    <div class="scenario">
+      <div class="scenario-badge badge-neutral">Option A — Do nothing new</div>
+      <h3>Keep things as they are</h3>
+      <p>No new gifts, no new investments, no changes to the will structure. The estate is settled as-is when the time comes.</p>
+      <p>This is the simplest and lowest-effort path. There's no risk of things going wrong with planning — but equally, nothing is done to reduce the tax bill. The estate pays what it owes.</p>
+      <div class="iht-figure">
+        <div>
+          <div class="fig-label">Estimated IHT</div>
+          <div class="fig-amount neutral">~£160k–£210k</div>
+        </div>
+        <div class="fig-note">Higher end applies if the sister's gift is pulled back in (death within 7 years of that gift)</div>
+      </div>
+    </div>
+
+    <div class="scenario">
+      <div class="scenario-badge badge-caution">Option B — Gift £120k to [your name] now</div>
+      <h3>A further gift, matching the one made to your sister</h3>
+      <p>If Dad gifts £120k now, total lifetime gifts would be £240k. The 7-year clock starts from today.</p>
+      <p><strong>If he lives 7+ more years from today:</strong> both gifts fall completely outside the estate. IHT drops significantly.</p>
+      <p><strong>If he passes before 7 years:</strong> both gifts get added back into the taxable calculation, and the bill actually rises — because they reduce the Nil Rate Band available.</p>
+      <div class="iht-figure">
+        <div>
+          <div class="fig-label">IHT if 7 years pass</div>
+          <div class="fig-amount positive">~£64k</div>
+        </div>
+        <div class="fig-note">Saving of ~£96k vs doing nothing. Requires surviving 7 years from today.</div>
+      </div>
+      <div class="iht-figure" style="margin-top:12px; padding-top:12px; border-top:1px solid var(--border);">
+        <div>
+          <div class="fig-label">IHT if death &lt;7 years</div>
+          <div class="fig-amount risk">~£250k+</div>
+        </div>
+        <div class="fig-note">Taper relief softens this after year 3 — see the timeline table below.</div>
+      </div>
+    </div>
+
+    <div class="scenario">
+      <div class="scenario-badge badge-positive">Option C — Business Relief investment (2-year rule)</div>
+      <h3>Invest in qualifying EIS/SEIS businesses — uses a 2-year window, not 7</h3>
+      <p>Certain types of investment — including in qualifying private companies under the Enterprise Investment Scheme (EIS) or Seed EIS (SEIS) — qualify for Business Relief. If held for 2 years, they fall completely outside the estate for IHT.</p>
+      <p>This is relevant because the 2-year window is realistic in a way that 7 years is not at 82.</p>
+      <p><strong>Example:</strong> Dad invests £200k into qualifying EIS/SEIS companies. If he lives 2 years and still holds the shares, that £200k is IHT-free — saving £80,000 in tax.</p>
+      <div class="callout blue">
+        <p><strong>Specific to our situation:</strong> If your or your sister's businesses qualify for EIS or SEIS, Dad investing in them could achieve this — while also benefiting family businesses directly. This needs professional advice and HMRC approval first.</p>
+      </div>
+      <div class="iht-figure">
+        <div>
+          <div class="fig-label">IHT saving (if £200k invested &amp; 2 yrs pass)</div>
+          <div class="fig-amount positive">~£80k saved</div>
+        </div>
+        <div class="fig-note">Investment carries commercial risk. If the business fails, capital can be lost.</div>
+      </div>
+    </div>
+
+    <div class="scenario">
+      <div class="scenario-badge badge-positive">Option D — Leave pension untouched</div>
+      <h3>The pension is already doing the right job</h3>
+      <p>The £300k pension is currently outside the estate entirely. It passes directly to whoever Dad has named on his nomination form — bypassing the will and IHT altogether.</p>
+      <p><strong>This is the single most tax-efficient asset he holds.</strong> The key actions are: don't draw it down unnecessarily, and make sure the nomination form names the right people.</p>
+      <div class="callout red">
+        <p><strong>This changes in April 2027.</strong> From that date, pensions will be included in the taxable estate. That adds £300k to the calculation — potentially increasing IHT by £120k. The page will be updated as more detail is confirmed.</p>
+      </div>
+      <div class="iht-figure">
+        <div>
+          <div class="fig-label">Current IHT on pension</div>
+          <div class="fig-amount positive">£0</div>
+        </div>
+        <div class="fig-note">Effective until 6 April 2027 under current draft legislation</div>
+      </div>
+    </div>
+
+    <div class="scenario">
+      <div class="scenario-badge badge-neutral">Option E — Life insurance written in trust</div>
+      <h3>Cover the tax bill rather than trying to eliminate it</h3>
+      <p>A whole-of-life policy — written into a trust — pays out a lump sum on death. Because it's held in trust, the payout goes directly to beneficiaries and doesn't form part of the estate.</p>
+      <p>The point isn't to avoid the IHT bill — it's to make sure the family doesn't have to sell the house or liquidate investments at short notice to pay HMRC (who require payment within 6 months).</p>
+      <p>At 82, premiums will be expensive. A smaller policy (£80–150k) covering part of the likely bill may be more realistic than full cover.</p>
+      <div class="iht-figure">
+        <div>
+          <div class="fig-label">Effect on IHT bill</div>
+          <div class="fig-amount neutral">None</div>
+        </div>
+        <div class="fig-note">Doesn't reduce tax — provides the cash to pay it without selling assets</div>
+      </div>
+    </div>
+
+    <div class="scenario">
+      <div class="scenario-badge badge-neutral">Option F — Charitable giving in the will</div>
+      <h3>Leave 10% to charity, reduce the tax rate to 36%</h3>
+      <p>If at least 10% of the net estate is left to a registered charity, HMRC reduces the IHT rate from 40% down to 36% on the remainder. This is a meaningful saving and leaves a lasting legacy.</p>
+      <p><strong>Example:</strong> If £90k goes to charity (10% of £900k estate), the remaining taxable amount is taxed at 36% instead of 40%. IHT drops from ~£160k to ~£112k — a saving of ~£48k.</p>
+      <div class="iht-figure">
+        <div>
+          <div class="fig-label">Potential saving</div>
+          <div class="fig-amount positive">~£48k</div>
+        </div>
+        <div class="fig-note">Requires leaving 10% of net estate to charity in the will</div>
+      </div>
+    </div>
+  </section>
+
+  <hr class="divider" />
+
+  <!-- TIMELINE TABLE -->
+  <section id="timeline">
+    <div class="section-label">Timing Matters</div>
+    <h2>The 7-year gift table</h2>
+    <p>The table below shows what the IHT bill looks like depending on when things happen — specifically how the sister's £120k gift (made ~4 years ago) interacts with different outcomes.</p>
+    <p>Taper relief reduces the IHT on gifts after 3 years — but only on the tax owed on those gifts, not the total bill.</p>
+
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Years since sister's gift</th>
+            <th>Sister's gift status</th>
+            <th>Approx. IHT (no further gifts)</th>
+            <th>Notes</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Under 4 years <em>(now)</em></td>
+            <td class="amber">Still fully in estate</td>
+            <td class="red"><strong>~£208k</strong></td>
+            <td>Gift eats into NRB allowance</td>
+          </tr>
+          <tr>
+            <td>Year 4–5</td>
+            <td class="amber">In estate, 60% rate on gift tax</td>
+            <td class="amber"><strong>~£190k</strong></td>
+            <td>Taper relief begins reducing impact</td>
+          </tr>
+          <tr>
+            <td>Year 5–6</td>
+            <td class="amber">In estate, 40% rate on gift tax</td>
+            <td class="amber"><strong>~£178k</strong></td>
+            <td>Getting closer to clean position</td>
+          </tr>
+          <tr>
+            <td>Year 6–7</td>
+            <td class="amber">In estate, 20% rate on gift tax</td>
+            <td class="amber"><strong>~£166k</strong></td>
+            <td>Almost fully tapered</td>
+          </tr>
+          <tr>
+            <td>After 7 years</td>
+            <td class="green">Fully outside estate ✓</td>
+            <td class="green"><strong>~£160k</strong></td>
+            <td>Gift drops out entirely, clean base</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="callout">
+      <p><strong>If a further £120k gift is made to you now</strong>, the 7-year clock on that gift starts today. The IHT picture improves significantly from year 3 onward through taper relief, and clears entirely at year 7.</p>
+    </div>
+
+    <h3>The 2027 pension rule — what changes</h3>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Scenario</th>
+            <th>Under current rules</th>
+            <th>After April 2027</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Pension (£300k)</td>
+            <td class="green">Outside estate — £0 IHT</td>
+            <td class="red">Inside estate — adds ~£120k IHT</td>
+          </tr>
+          <tr>
+            <td>Taxable estate</td>
+            <td><strong>£900k</strong></td>
+            <td><strong>£1.2m</strong></td>
+          </tr>
+          <tr>
+            <td>IHT (no gifts, no planning)</td>
+            <td class="amber"><strong>~£160k</strong></td>
+            <td class="red"><strong>~£280k</strong></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <p style="margin-top:12px;">This rule is in draft legislation and not yet finalised. It is expected to take effect 6 April 2027. This page will be updated when confirmed.</p>
+  </section>
+
+  <hr class="divider" />
+
+  <!-- ACTIONS -->
+  <section id="actions">
+    <div class="section-label">What Needs to Happen</div>
+    <h2>Clear actions</h2>
+    <p>Regardless of which scenario is chosen, these are things that should happen now — they're not about being aggressive with tax planning, they're just about making sure what Dad wants to happen, actually happens.</p>
+
+    <div class="action-list">
+      <div class="action-item">
+        <div class="action-num">1</div>
+        <div>
+          <h4>Document the gift to your sister — immediately</h4>
+          <p>The £120k given roughly 4 years ago needs to be clearly recorded as a gift. A short letter — signed and dated — stating the amount, the date it was transferred, and that it was an outright gift with no expectation of repayment. Keep this with the original bank transfer record. If HMRC decide it was a loan, the estate calculation is worse, not better.</p>
+        </div>
+      </div>
+      <div class="action-item">
+        <div class="action-num">2</div>
+        <div>
+          <h4>Check and update pension nomination form</h4>
+          <p>The pension passes directly to whoever Dad has named on the pension provider's nomination form — not through his will. This form needs to be checked and updated to make sure it names the right people. Contact the pension provider to confirm who is currently named.</p>
+        </div>
+      </div>
+      <div class="action-item">
+        <div class="action-num">3</div>
+        <div>
+          <h4>Review the will</h4>
+          <p>The will needs to be up to date and to clearly state that the family home passes to direct descendants (children) — this is required to claim the £175k Residence Nil Rate Band. It should also name executors and specify any charitable gifts if Option F is being considered.</p>
+        </div>
+      </div>
+      <div class="action-item">
+        <div class="action-num">4</div>
+        <div>
+          <h4>Decide on the further £120k gift (Option B)</h4>
+          <p>This is a decision for Dad. The maths are clear: if he lives another 7+ years, it saves ~£96k. If not, it costs more in the short term (though you keep the money). At 82, it's a genuine judgement call — not a slam dunk. If the decision is yes, transfer the money, keep the bank record, and write a confirmation letter on the day.</p>
+        </div>
+      </div>
+      <div class="action-item">
+        <div class="action-num">5</div>
+        <div>
+          <h4>Explore EIS/SEIS qualification (if relevant)</h4>
+          <p>If either of the children's businesses qualifies for EIS or SEIS, Dad investing in them could achieve IHT relief in just 2 years — while also supporting the businesses. This requires an accountant or tax adviser to check eligibility first and apply to HMRC for advance assurance before any money moves.</p>
+        </div>
+      </div>
+      <div class="action-item">
+        <div class="action-num">6</div>
+        <div>
+          <h4>Consider insurance to cover the IHT bill</h4>
+          <p>Whatever the IHT figure ends up being, it needs to be paid to HMRC within 6 months of death. A whole-of-life policy written in trust provides the cash to do this without selling the house or assets in a hurry. Get quotes — even partial cover (£80–100k) takes the pressure off.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <hr class="divider" />
+
+  <!-- FAQ -->
+  <section id="faq">
+    <div class="section-label">Common Questions</div>
+    <h2>Things that keep coming up</h2>
+
+    <div class="faq-item">
+      <div class="faq-q">Why not just put everything in a trust?</div>
+      <div class="faq-a">
+        <p>A trust doesn't avoid the 7-year rule — it just changes the type of transfer from a "potentially exempt transfer" (gift) to a "chargeable lifetime transfer." The clock still runs. If the estate is transferred into a trust and Dad passes within 7 years, IHT is still due.</p>
+        <p>There's also an immediate 20% tax charge if more than £325k is placed into a trust in a single go. And trusts have ongoing 10-year anniversary charges (up to 6% of the trust's value every decade) and exit charges when money comes out.</p>
+        <p>Trusts are useful for control — making sure money is used the right way, or protecting assets for grandchildren. They're not a shortcut around inheritance tax, especially at 82.</p>
+        <p>If Dad still lives in the family home, putting the house into a trust while he remains there is a "gift with reservation of benefit" — legally, it stays in his estate regardless of what the paperwork says. He'd have to pay full market rent to the trust to change that, which isn't practical.</p>
+      </div>
+    </div>
+
+    <div class="faq-item">
+      <div class="faq-q">What happens to the pension when Dad passes?</div>
+      <div class="faq-a">
+        <p>The pension bypasses the will entirely. It goes directly to whoever Dad has named on the nomination form held by the pension provider. This is not automatic — it's a discretionary decision made by the pension trustees, but they almost always follow the nomination.</p>
+        <p>Under current rules (before April 2027): if he passes before age 75, beneficiaries receive it tax-free. After 75, beneficiaries pay income tax at their own rate when they draw from it — but there's no IHT at all.</p>
+        <p>After April 2027, the pension will count in the estate for IHT. Beneficiaries could face both IHT (40%) and income tax on drawdown — a combined rate of up to 64–67% in the worst case. That makes checking and updating the nomination form urgent before then.</p>
+      </div>
+    </div>
+
+    <div class="faq-item">
+      <div class="faq-q">Can Dad give us more money to reduce the estate further?</div>
+      <div class="faq-a">
+        <p>Yes — but the 7-year rule applies to all gifts over £3,000 per year (the annual exemption). Any amount given above that starts the 7-year clock. There's no limit on how much can be given, but the larger the gift, the more it needs time to clear the estate.</p>
+        <p>There's also a "gifts out of surplus income" exemption — if Dad makes regular gifts from his income (not capital) and it doesn't affect his standard of living, those can be immediately exempt from IHT. This requires keeping good records.</p>
+      </div>
+    </div>
+
+    <div class="faq-item">
+      <div class="faq-q">Does the money already given to my sister reduce her inheritance?</div>
+      <div class="faq-a">
+        <p>That's a family conversation, not a tax question. From HMRC's perspective, the gift was made and the 7-year clock is running. Whether the £120k is treated as an advance on inheritance — or a separate gift — is something the family needs to agree on and ideally document in the will (e.g. "gifts already made to [name] are in addition to / to be offset against their share").</p>
+      </div>
+    </div>
+
+    <div class="faq-item">
+      <div class="faq-q">What does the family need to do when Dad passes?</div>
+      <div class="faq-a">
+        <p>The executor (named in the will) applies for probate. HMRC requires an IHT return showing all assets, gifts made in the past 7 years, and the allowances being claimed. IHT must be paid within 6 months of death (before probate is granted for most assets). That's why liquidity — whether from a life policy, savings, or an arrangement with the bank — matters. Assets can't usually be sold until probate is granted, but the tax is due before that.</p>
+      </div>
+    </div>
+
+    <div class="faq-item">
+      <div class="faq-q">Do these figures include any advice from a solicitor or financial adviser?</div>
+      <div class="faq-a">
+        <p>No — this is a family planning summary to help understand the landscape and have an informed conversation. Before any significant decisions are made (particularly around gifts, EIS/SEIS investment, or insurance), a qualified financial adviser or solicitor with estate planning experience should be consulted. The figures here are based on current rules and are illustrative, not a tax calculation.</p>
+      </div>
+    </div>
+  </section>
+
+  <hr class="divider" />
+
+  <!-- LAW CHANGES -->
+  <section id="law-changes">
+    <div class="section-label">What's Changing</div>
+    <h2>Recent and upcoming law changes</h2>
+    <p>The core allowances (£325k and £175k) haven't changed and are now frozen until 2031. But three things have changed or are changing that affect this plan.</p>
+
+    <div class="callout green">
+      <p><strong>The good news:</strong> The 7-year gift rule, Business Relief 2-year rule, and charitable giving 36% rate are all unchanged. The planning options above remain valid.</p>
+    </div>
+
+    <h3>1. Pensions entering the IHT estate — April 2027</h3>
+    <p>From 6 April 2027, unused defined contribution pension funds will count as part of the taxable estate. Currently the £300k pension sits entirely outside the calculation. After 2027, it's inside it.</p>
+    <p>This is in the draft Finance Bill 2025–26 and is expected to become law. It would add ~£120k to the IHT bill if no further planning is done. The most effective response is to make sure the nomination form is correct and, if appropriate, consider drawing pension income now and gifting from it (which can be immediately exempt if it's from regular surplus income).</p>
+
+    <h3>2. AIM share relief halved — April 2026</h3>
+    <p>Previously, investing in AIM-listed shares for 2 years gave 100% IHT relief. From April 2026, this drops to 50% relief — meaning an effective 20% IHT charge on those holdings. If any investments in AIM shares are being considered specifically for IHT purposes, the timing matters.</p>
+
+    <h3>3. Thresholds frozen until 2031</h3>
+    <p>The Nil Rate Band (£325k) has been frozen since 2009. It will now remain frozen until at least 2031. As property and asset values rise, more of the estate becomes taxable — even without any changes to the rules.</p>
+
+    <div class="callout">
+      <p><strong>Bottom line:</strong> Nothing has changed that breaks the planning laid out above. But the April 2027 pension change is significant and worth acting around before then — specifically making sure the nomination form is up to date and considering whether drawing pension income now (and gifting it) makes sense.</p>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <strong>Family use only.</strong> This summary is for planning purposes and does not constitute financial or legal advice. Figures are illustrative based on current UK IHT rules as of April 2026. Please consult a qualified adviser before making any decisions.
+</footer>
+
+<script>
+  document.querySelectorAll('.faq-q').forEach(q => {
+    q.addEventListener('click', () => {
+      const item = q.closest('.faq-item');
+      item.classList.toggle('open');
+    });
+  });
+
+  // Smooth scroll for nav
+  document.querySelectorAll('a[href^="#"]').forEach(a => {
+    a.addEventListener('click', e => {
+      const target = document.querySelector(a.getAttribute('href'));
+      if (target) {
+        e.preventDefault();
+        target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    });
+  });
+</script>
+</body>
+</html>
