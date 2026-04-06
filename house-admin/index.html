@@ -670,15 +670,23 @@
   <div class="card" style="margin-bottom:20px;">
     <div class="assumption-grid">
       <div class="assumption-field">
-        <label>Current monthly income (net)</label>
-        <input type="number" id="cf-income" value="4500" oninput="renderCashFlow()">
+        <label>Your salary (net after tax)</label>
+        <input type="number" id="cf-salary" value="5500" oninput="renderCashFlow()">
+      </div>
+      <div class="assumption-field">
+        <label>Transfer to joint account (monthly)</label>
+        <input type="number" id="cf-to-joint" value="4500" oninput="renderCashFlow()">
+      </div>
+      <div class="assumption-field">
+        <label>To personal savings (monthly)</label>
+        <input type="number" id="cf-to-savings" value="1000" oninput="renderCashFlow()" style="background:var(--success-light);">
       </div>
       <div class="assumption-field">
         <label>Catherine income from Aug (net)</label>
         <input type="number" id="cf-catherine" value="3000" oninput="renderCashFlow()">
       </div>
       <div class="assumption-field">
-        <label>Monthly household outgoings</label>
+        <label>Joint account outgoings (monthly)</label>
         <input type="number" id="cf-outgoings" value="3200" oninput="renderCashFlow()">
       </div>
       <div class="assumption-field">
@@ -738,8 +746,8 @@
       <div class="metric-sub" id="cf-lowest-month"></div>
     </div>
     <div class="metric">
-      <div class="metric-label">New income from Catherine (Aug–Dec)</div>
-      <div class="metric-value green" id="cf-catherine-total">—</div>
+      <div class="metric-label">Saved to personal savings (Apr–Dec)</div>
+      <div class="metric-value green" id="cf-savings-total">—</div>
     </div>
   </div>
 
@@ -1004,7 +1012,9 @@ function onDragEnd() {
 const MONTHS = ['Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
 
 function renderCashFlow() {
-  const income = parseFloat(document.getElementById('cf-income').value) || 0;
+  const salary = parseFloat(document.getElementById('cf-salary').value) || 0;
+  const toJoint = parseFloat(document.getElementById('cf-to-joint').value) || 0;
+  const toSavings = parseFloat(document.getElementById('cf-to-savings').value) || 0;
   const catherine = parseFloat(document.getElementById('cf-catherine').value) || 0;
   const outgoings = parseFloat(document.getElementById('cf-outgoings').value) || 0;
   const mortgageTopup = parseFloat(document.getElementById('cf-mortgage-topup').value) || 0;
@@ -1018,18 +1028,26 @@ function renderCashFlow() {
   const projectsMonth = parseInt(document.getElementById('cf-projects-month').value) || 2;
   const clearCC = document.getElementById('cf-clear-cc').checked;
 
+  // Joint account surplus each month (what's left after outgoings)
+  const jointSurplus = toJoint - outgoings;
+
   const holidayGap = Math.max(0, holidayTotal - holidaySaved);
 
-  // Starting balance (personal + joint + savings)
-  let balance = 7670 + 1880 + 463 - (clearCC ? ccDebt : 0);
+  // Starting balance: joint (1880) + personal savings (Natwest flexible 463 + Monzo pots 4810)
+  // minus CC if clearing it
+  let balance = 1880 + 463 + 4810 - (clearCC ? ccDebt : 0);
+  // Personal float (the £1k/month that doesn't go to joint) tracked separately
+  // but feeds into overall balance
 
   const rows = [];
 
   for (let m = 0; m < 9; m++) {
     const row = { month: MONTHS[m] };
 
-    // Income
-    row.income = income;
+    // Income streams
+    row.salary = salary;
+    row.toJoint = toJoint;
+    row.toSavings = toSavings;
     row.catherineIncome = (m >= 4) ? catherine : 0; // Aug = index 4
 
     // Mortgage top-up in Apr (m=0)
@@ -1039,7 +1057,7 @@ function renderCashFlow() {
     row.ccClear = (m === 0 && clearCC) ? -ccDebt : 0;
     row.ccMin = (!clearCC) ? -ccMin : 0;
 
-    // Outgoings
+    // Joint outgoings
     row.outgoings = -outgoings;
 
     // Uni from Sep (m=5)
@@ -1051,7 +1069,8 @@ function renderCashFlow() {
     // Projects spend
     row.projects = (m === (projectsMonth - 1)) ? -projectsTotal : 0;
 
-    row.net = row.income + row.catherineIncome + row.mortgageTopup + row.ccClear + row.ccMin + row.outgoings + row.uni + row.holiday + row.projects;
+    // Net = full salary + catherine + one-offs - joint outgoings - cc - uni - holiday - projects
+    row.net = salary + row.catherineIncome + row.mortgageTopup + row.ccClear + row.ccMin + row.outgoings + row.uni + row.holiday + row.projects;
 
     balance += row.net;
     row.balance = balance;
@@ -1063,6 +1082,7 @@ function renderCashFlow() {
   const endBalance = rows[rows.length - 1].balance;
   const lowest = rows.reduce((a, b) => a.balance < b.balance ? a : b);
   const catherineTotal = rows.reduce((s, r) => s + r.catherineIncome, 0);
+  const savingsTotal = rows.reduce((s, r) => s + (r.toSavings || 0), 0);
 
   const endEl = document.getElementById('cf-end-balance');
   endEl.textContent = fmt(endBalance);
@@ -1073,7 +1093,7 @@ function renderCashFlow() {
   lowEl.className = 'metric-value ' + (lowest.balance < 0 ? 'red' : lowest.balance < 3000 ? 'amber' : '');
   document.getElementById('cf-lowest-month').textContent = lowest.month + ' 2026';
 
-  document.getElementById('cf-catherine-total').textContent = fmt(catherineTotal);
+  document.getElementById('cf-savings-total').textContent = fmt(savingsTotal);
 
   // Bar chart
   const maxVal = Math.max(...rows.map(r => Math.abs(r.balance)), 1);
@@ -1121,8 +1141,10 @@ function renderCashFlow() {
   }
 
   addSectionHeader('Income');
-  addRow('Your income', 'income', null);
-  addRow("Catherine's income", 'catherineIncome', v => v > 0 ? 'green' : '');
+  addRow('Your salary', 'salary', null);
+  addRow('→ To joint account', 'toJoint', null);
+  addRow('→ To personal savings', 'toSavings', v => v > 0 ? 'green' : '');
+  addRow("Catherine's income (from Aug)", 'catherineIncome', v => v > 0 ? 'green' : '');
   addRow('Mortgage top-up', 'mortgageTopup', v => v > 0 ? 'green' : '');
 
   addSectionHeader('Outgoings');
