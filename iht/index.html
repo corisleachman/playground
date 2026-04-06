@@ -454,6 +454,61 @@
       .iht-figure .fig-note { text-align: left; margin-left: 0; max-width: none; }
       nav ul li a { padding: 14px 12px; font-size: 12px; }
     }
+    /* CHECKLIST */
+    .checklist-group { margin: 28px 0; }
+    .checklist-group-title {
+      font-size: 11px;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      font-weight: 500;
+      color: var(--light);
+      margin-bottom: 10px;
+      padding-bottom: 8px;
+      border-bottom: 1px solid var(--border);
+    }
+    .checklist-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 14px;
+      padding: 14px 0;
+      border-bottom: 1px solid var(--border);
+    }
+    .checklist-item:last-child { border-bottom: none; }
+    .check-status {
+      flex-shrink: 0;
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 11px;
+      font-weight: 700;
+      margin-top: 2px;
+    }
+    .status-confirmed { background: var(--green-light); color: var(--green); }
+    .status-unknown { background: var(--red-light); color: var(--red); }
+    .status-approximate { background: #fff3e0; color: #b85c00; }
+    .status-action { background: var(--blue-light); color: var(--blue); }
+    .check-body { flex: 1; }
+    .check-title { font-size: 14.5px; font-weight: 500; color: var(--ink); margin-bottom: 2px; }
+    .check-note { font-size: 13px; color: var(--light); font-weight: 300; }
+    .check-badge {
+      display: inline-block;
+      font-size: 10px;
+      font-weight: 500;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      padding: 2px 8px;
+      border-radius: 10px;
+      margin-left: 8px;
+      vertical-align: middle;
+    }
+    .badge-confirmed { background: var(--green-light); color: var(--green); }
+    .badge-unknown { background: var(--red-light); color: var(--red); }
+    .badge-approximate { background: #fff3e0; color: #b85c00; }
+    .badge-action { background: var(--blue-light); color: var(--blue); }
+
   </style>
 </head>
 <body>
@@ -467,6 +522,7 @@
 <nav>
   <ul>
     <li><a href="#recommendation">What to do now</a></li>
+    <li><a href="#checklist">Information needed</a></li>
     <li><a href="#situation">The Situation</a></li>
     <li><a href="#scenarios">Scenarios</a></li>
     <li><a href="#timeline">Timeline</a></li>
@@ -529,8 +585,243 @@
 
   <hr class="divider" />
 
+  <!-- CHECKLIST -->
+  <section id="checklist">
+    <div class="section-label">Before anything else</div>
+    <h2>Information still needed</h2>
+    <p>A lot of the figures and assumptions on this page are approximate. This checklist captures everything that needs to be confirmed — either by speaking to Dennis, checking with the solicitor, or contacting the pension provider. Until these are resolved, the numbers should be treated as estimates only.</p>
+
+    <div style="margin-top:8px; display:flex; gap:16px; flex-wrap:wrap; font-size:13px; color:var(--mid);">
+      <span><span class="check-badge badge-confirmed">✓ Confirmed</span> — known and verified</span>
+      <span><span class="check-badge badge-approximate">~ Approximate</span> — rough figure, needs confirming</span>
+      <span><span class="check-badge badge-unknown">? Unknown</span> — not yet established</span>
+      <span><span class="check-badge badge-action">Action needed</span> — requires a specific step</span>
+    </div>
+
+    <!-- GROUP: ASSET VALUES -->
+    <div class="checklist-group">
+      <div class="checklist-group-title">Asset values</div>
+
+      <div class="checklist-item">
+        <div class="check-status status-approximate">~</div>
+        <div class="check-body">
+          <div class="check-title">Kingston house value <span class="check-badge badge-approximate">Approximate</span></div>
+          <div class="check-note">Currently shown as ~£900k. A formal valuation (or recent estate agent estimate) is needed to confirm this figure, as it is the estate's largest asset and drives the IHT calculation significantly.</div>
+        </div>
+      </div>
+
+      <div class="checklist-item">
+        <div class="check-status status-approximate">~</div>
+        <div class="check-body">
+          <div class="check-title">Reading flat value (Dover Street) <span class="check-badge badge-approximate">Approximate</span></div>
+          <div class="check-note">Currently shown as ~£350k. Should be confirmed with a valuation or recent comparable sale data.</div>
+        </div>
+      </div>
+
+      <div class="checklist-item">
+        <div class="check-status status-unknown">?</div>
+        <div class="check-body">
+          <div class="check-title">Pension value — exact current balance <span class="check-badge badge-unknown">Unknown</span></div>
+          <div class="check-note">Shown as ~£300k based on earlier conversations. The actual current balance should be confirmed directly with the pension provider — especially given the April 2027 rule change that will bring this into the taxable estate.</div>
+        </div>
+      </div>
+
+      <div class="checklist-item">
+        <div class="check-status status-approximate">~</div>
+        <div class="check-body">
+          <div class="check-title">Cash and other liquid assets <span class="check-badge badge-approximate">Approximate</span></div>
+          <div class="check-note">Currently shown as ~£30k. This figure affects how much the family would need to find from elsewhere to pay the IHT bill. Exact bank balances and any other savings or investments should be confirmed.</div>
+        </div>
+      </div>
+
+      <div class="checklist-item">
+        <div class="check-status status-unknown">?</div>
+        <div class="check-body">
+          <div class="check-title">Accrued interest on the Alexia loan <span class="check-badge badge-unknown">Unknown</span></div>
+          <div class="check-note">The loan principal is £120,000 and interest is accruing at a set rate — but the exact rate and total interest accrued to date is unknown. This affects both the taxable estate total and Alexia's net inheritance figure. The loan agreement should be reviewed to confirm.</div>
+        </div>
+      </div>
+
+      <div class="checklist-item">
+        <div class="check-status status-unknown">?</div>
+        <div class="check-body">
+          <div class="check-title">Any other assets or liabilities not yet listed <span class="check-badge badge-unknown">Unknown</span></div>
+          <div class="check-note">Are there any other savings accounts, investments, ISAs, premium bonds, outstanding debts, or other assets? These all affect the estate total. A full asset and liability review with Dennis is needed before the figures can be considered complete.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- GROUP: THE LOAN -->
+    <div class="checklist-group">
+      <div class="checklist-group-title">The Alexia loan</div>
+
+      <div class="checklist-item">
+        <div class="check-status status-confirmed">✓</div>
+        <div class="check-body">
+          <div class="check-title">A formal loan agreement exists <span class="check-badge badge-confirmed">Confirmed</span></div>
+          <div class="check-note">A written loan agreement is in place covering the £120,000 advance to Alexia.</div>
+        </div>
+      </div>
+
+      <div class="checklist-item">
+        <div class="check-status status-confirmed">✓</div>
+        <div class="check-body">
+          <div class="check-title">Interest is accruing at a set rate <span class="check-badge badge-confirmed">Confirmed</span></div>
+          <div class="check-note">Interest is being charged, though the exact rate and total accrued amount are not yet confirmed.</div>
+        </div>
+      </div>
+
+      <div class="checklist-item">
+        <div class="check-status status-unknown">?</div>
+        <div class="check-body">
+          <div class="check-title">Loan agreement is held by the solicitor and executors <span class="check-badge badge-unknown">Unknown</span></div>
+          <div class="check-note">A copy of the loan agreement should be filed with the solicitor who drafted the will, and a copy held by both executors (Gitana and Alexia). If this hasn't been done, it should be — HMRC will need to see it as evidence of an estate asset.</div>
+        </div>
+      </div>
+
+      <div class="checklist-item">
+        <div class="check-status status-action">!</div>
+        <div class="check-body">
+          <div class="check-title">Solicitor to confirm Alexia's executor role creates no conflict of interest <span class="check-badge badge-action">Action needed</span></div>
+          <div class="check-note">Alexia is named as both an executor and a debtor to the estate. She would have a role in administering the estate that includes collecting her own debt. This needs to be reviewed by the solicitor to confirm it is properly managed and does not create a legal conflict.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- GROUP: PENSION -->
+    <div class="checklist-group">
+      <div class="checklist-group-title">The pension</div>
+
+      <div class="checklist-item">
+        <div class="check-status status-unknown">?</div>
+        <div class="check-body">
+          <div class="check-title">Who is currently named on the pension nomination form <span class="check-badge badge-unknown">Unknown</span></div>
+          <div class="check-note">The pension bypasses the will entirely and goes directly to whoever Dennis has nominated. This needs to be confirmed with the pension provider. If the nomination is out of date — or names someone Dennis no longer intends — it should be updated immediately.</div>
+        </div>
+      </div>
+
+      <div class="checklist-item">
+        <div class="check-status status-unknown">?</div>
+        <div class="check-body">
+          <div class="check-title">Pension provider name and contact details <span class="check-badge badge-unknown">Unknown</span></div>
+          <div class="check-note">To check and update the nomination form, the pension provider needs to be contacted directly. Dennis should know who his pension is with.</div>
+        </div>
+      </div>
+
+      <div class="checklist-item">
+        <div class="check-status status-unknown">?</div>
+        <div class="check-body">
+          <div class="check-title">Whether Dennis is drawing income from the pension <span class="check-badge badge-unknown">Unknown</span></div>
+          <div class="check-note">If the pension is untouched, it is currently IHT-free but will be pulled into the estate from April 2027. If Dennis draws income from it now and gifts it as surplus income, that income could be immediately IHT-exempt. A financial adviser should be consulted on whether this makes sense before 2027.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- GROUP: THE WILL -->
+    <div class="checklist-group">
+      <div class="checklist-group-title">The will</div>
+
+      <div class="checklist-item">
+        <div class="check-status status-confirmed">✓</div>
+        <div class="check-body">
+          <div class="check-title">Will has been recently updated <span class="check-badge badge-confirmed">Confirmed</span></div>
+          <div class="check-note">Dennis's will was recently revised and is understood to be current.</div>
+        </div>
+      </div>
+
+      <div class="checklist-item">
+        <div class="check-status status-action">!</div>
+        <div class="check-body">
+          <div class="check-title">Solicitor to review Gitana's position given no marriage has taken place <span class="check-badge badge-action">Action needed</span></div>
+          <div class="check-note">The will was drafted in contemplation of marriage. Marriage has not taken place. Gitana bears ~£97k of IHT under the current structure. The solicitor should confirm whether the will's asset split still reflects Dennis's intentions — and whether any restructuring (e.g. stating her bequest net of IHT) is appropriate.</div>
+        </div>
+      </div>
+
+      <div class="checklist-item">
+        <div class="check-status status-action">!</div>
+        <div class="check-body">
+          <div class="check-title">Confirm clause 5 wording satisfies HMRC for Residence Nil Rate Band <span class="check-badge badge-action">Action needed</span></div>
+          <div class="check-note">The £175k RNRB requires the main residence to pass clearly to direct descendants. Clause 5 appears to do this — but the solicitor should confirm the wording is unambiguous enough that HMRC would not dispute the claim.</div>
+        </div>
+      </div>
+
+      <div class="checklist-item">
+        <div class="check-status status-action">!</div>
+        <div class="check-body">
+          <div class="check-title">Confirm how clause 7 (proportional IHT) interacts with the Alexia loan repayment <span class="check-badge badge-action">Action needed</span></div>
+          <div class="check-note">The loan is repaid to the estate before distribution, which changes the proportional shares. The solicitor should confirm the mechanics are clear and that there is no ambiguity about how Alexia's loan repayment interacts with her IHT burden under clause 7.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- GROUP: MARRIAGE -->
+    <div class="checklist-group">
+      <div class="checklist-group-title">Marriage to Gitana</div>
+
+      <div class="checklist-item">
+        <div class="check-status status-unknown">?</div>
+        <div class="check-body">
+          <div class="check-title">Is marriage something Dennis and Gitana are considering <span class="check-badge badge-unknown">Unknown</span></div>
+          <div class="check-note">This is a personal question, not a financial one — but it has the largest single financial consequence of any option on this page. Marriage would save ~£140k in IHT and mean Gitana receives the full value of the Reading flat. It needs to be a conversation between Dennis and Gitana, and ideally with the family.</div>
+        </div>
+      </div>
+
+      <div class="checklist-item">
+        <div class="check-status status-unknown">?</div>
+        <div class="check-body">
+          <div class="check-title">If yes to marriage — has a solicitor been engaged for a pre-nuptial agreement <span class="check-badge badge-unknown">Unknown</span></div>
+          <div class="check-note">If marriage is being considered, a pre-nuptial agreement is strongly recommended to protect Alexia and Coris's ability to sell the Kingston house after Dennis passes. Without one, Gitana would have statutory home rights in the property as a spouse, potentially delaying any sale indefinitely.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- GROUP: INSURANCE -->
+    <div class="checklist-group">
+      <div class="checklist-group-title">Life insurance</div>
+
+      <div class="checklist-item">
+        <div class="check-status status-unknown">?</div>
+        <div class="check-body">
+          <div class="check-title">Has anyone obtained quotes for a whole-of-life policy <span class="check-badge badge-unknown">Unknown</span></div>
+          <div class="check-note">This is the most urgent practical action. A whole-of-life policy written in trust would provide the cash to pay the IHT bill without a forced sale of the Kingston house. Quotes should be obtained immediately — at 82, cover becomes harder and more expensive to obtain the longer this is left.</div>
+        </div>
+      </div>
+
+      <div class="checklist-item">
+        <div class="check-status status-unknown">?</div>
+        <div class="check-body">
+          <div class="check-title">Who would be named as trustees and beneficiaries of the policy trust <span class="check-badge badge-unknown">Unknown</span></div>
+          <div class="check-note">The policy must be written in trust to keep the payout outside the estate. The trust needs named trustees and beneficiaries — typically Alexia and Coris, given they bear the largest share of the bill. This should be decided as part of setting up the policy.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- GROUP: GIFT TO CORIS -->
+    <div class="checklist-group">
+      <div class="checklist-group-title">Potential gift to Coris</div>
+
+      <div class="checklist-item">
+        <div class="check-status status-unknown">?</div>
+        <div class="check-body">
+          <div class="check-title">Has Dennis decided whether to gift £120k to Coris <span class="check-badge badge-unknown">Unknown</span></div>
+          <div class="check-note">This remains an open decision. If made, the 7-year clock starts from the date of transfer, with a potential IHT saving of ~£48k if Dennis lives 7+ years. If not made, the baseline IHT stays as-is. Dennis needs to make this call — it should not be made under pressure.</div>
+        </div>
+      </div>
+
+      <div class="checklist-item">
+        <div class="check-status status-unknown">?</div>
+        <div class="check-body">
+          <div class="check-title">If yes — does Dennis have the liquid funds available without affecting his standard of living <span class="check-badge badge-unknown">Unknown</span></div>
+          <div class="check-note">With only ~£30k confirmed cash in the estate, it is unclear where a £120k gift would come from without drawing on the pension or other assets. This needs to be established before any decision is made.</div>
+        </div>
+      </div>
+    </div>
+
+  </section>
+
+  <hr class="divider" />
+
   <!-- SITUATION -->
-  <section id="situation">
     <div class="section-label">Where We Are Now</div>
     <h2>The current picture</h2>
 
