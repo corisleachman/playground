@@ -492,6 +492,295 @@
 
   /* ---- Scrollable wrapper ---- */
   .table-scroll { overflow-x: auto; }
+
+  /* ===== SCENARIOS ===== */
+  .sc-intro {
+    font-size: 13px;
+    color: var(--text-mid);
+    margin-bottom: 20px;
+    max-width: 720px;
+    line-height: 1.7;
+  }
+
+  .sc-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 14px;
+    align-items: start;
+  }
+
+  @media (max-width: 900px) {
+    .sc-grid { grid-template-columns: repeat(2, 1fr); }
+  }
+
+  .sc-col {
+    border: 1.5px solid var(--border);
+    border-radius: var(--radius);
+    overflow: hidden;
+    background: var(--surface);
+    box-shadow: var(--shadow);
+    transition: border-color 0.2s;
+  }
+
+  .sc-col.recommended { border-color: var(--accent); }
+
+  .sc-col-header {
+    padding: 14px 16px 10px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .sc-col-badge {
+    font-size: 10px;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.07em;
+    padding: 2px 8px;
+    border-radius: 99px;
+    margin-bottom: 6px;
+    display: inline-block;
+  }
+
+  .sc-col-title {
+    font-family: 'Lora', serif;
+    font-size: 14px;
+    font-weight: 500;
+    margin-bottom: 3px;
+    color: var(--text);
+  }
+
+  .sc-col-sub {
+    font-size: 11px;
+    color: var(--text-muted);
+    line-height: 1.5;
+  }
+
+  .sc-toggles {
+    padding: 12px 16px;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .sc-toggle-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 12px;
+    color: var(--text-mid);
+    gap: 8px;
+  }
+
+  .sc-toggle-label { flex: 1; line-height: 1.4; }
+
+  .sc-amount-input {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 12px;
+    font-weight: 500;
+    width: 72px;
+    text-align: right;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    padding: 3px 6px;
+    background: var(--surface);
+    color: var(--text);
+    outline: none;
+  }
+
+  .sc-amount-input:focus { border-color: var(--accent); }
+
+  .sc-toggle-check {
+    width: 34px;
+    height: 18px;
+    border-radius: 9px;
+    background: var(--border-strong);
+    border: none;
+    cursor: pointer;
+    position: relative;
+    flex-shrink: 0;
+    transition: background 0.2s;
+    padding: 0;
+  }
+
+  .sc-toggle-check::after {
+    content: '';
+    position: absolute;
+    width: 12px;
+    height: 12px;
+    background: #fff;
+    border-radius: 50%;
+    top: 3px;
+    left: 3px;
+    transition: left 0.2s;
+  }
+
+  .sc-toggle-check.on {
+    background: var(--accent);
+  }
+
+  .sc-toggle-check.on::after { left: 19px; }
+
+  .sc-metrics {
+    padding: 12px 16px;
+  }
+
+  .sc-metric-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 6px 0;
+    border-bottom: 1px solid var(--border);
+    font-size: 12px;
+  }
+
+  .sc-metric-row:last-child { border-bottom: none; }
+
+  .sc-metric-label { color: var(--text-muted); flex: 1; }
+  .sc-metric-val { font-weight: 500; font-size: 13px; }
+  .sc-metric-val.red { color: var(--danger); }
+  .sc-metric-val.green { color: var(--success); }
+  .sc-metric-val.amber { color: var(--warn); }
+
+  .sc-months-bar {
+    margin-top: 10px;
+    padding: 0 16px 14px;
+  }
+
+  .sc-month-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 5px;
+  }
+
+  .sc-month-label {
+    font-size: 10px;
+    color: var(--text-muted);
+    width: 28px;
+    flex-shrink: 0;
+  }
+
+  .sc-month-bar-outer {
+    flex: 1;
+    height: 6px;
+    background: var(--surface2);
+    border-radius: 3px;
+    overflow: hidden;
+  }
+
+  .sc-month-bar-inner {
+    height: 100%;
+    border-radius: 3px;
+    transition: width 0.4s ease;
+  }
+
+  .sc-month-val {
+    font-size: 10px;
+    font-weight: 500;
+    width: 46px;
+    text-align: right;
+    flex-shrink: 0;
+  }
+
+  /* Comparison chart */
+  .sc-chart-wrap {
+    margin-top: 10px;
+  }
+
+  .sc-chart {
+    display: flex;
+    align-items: flex-end;
+    gap: 3px;
+    height: 160px;
+  }
+
+  .sc-chart-group {
+    display: flex;
+    align-items: flex-end;
+    gap: 2px;
+    flex: 1;
+  }
+
+  .sc-chart-bar {
+    flex: 1;
+    border-radius: 2px 2px 0 0;
+    transition: height 0.4s ease;
+    min-height: 2px;
+  }
+
+  .sc-months {
+    display: flex;
+    gap: 3px;
+    margin-top: 4px;
+  }
+
+  .sc-months-label {
+    flex: 1;
+    font-size: 10px;
+    color: var(--text-muted);
+    text-align: center;
+  }
+
+  .sc-chart-legend {
+    display: flex;
+    gap: 16px;
+    flex-wrap: wrap;
+    margin-bottom: 14px;
+  }
+
+  .sc-legend-item {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 12px;
+    color: var(--text-mid);
+  }
+
+  .sc-legend-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 2px;
+    flex-shrink: 0;
+  }
+
+  /* Decision table */
+  .sc-decision-grid {
+    display: grid;
+    grid-template-columns: 180px repeat(4, 1fr);
+    font-size: 12px;
+    gap: 0;
+  }
+
+  .sc-dg-cell {
+    padding: 8px 10px;
+    border-bottom: 1px solid var(--border);
+    border-right: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+  }
+
+  .sc-dg-cell:last-child { border-right: none; }
+
+  .sc-dg-header {
+    font-weight: 500;
+    background: var(--surface2);
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--text-muted);
+  }
+
+  .sc-dg-row-label {
+    color: var(--text-muted);
+    font-size: 11px;
+  }
+
+  .sc-dg-last-row .sc-dg-cell { border-bottom: none; }
+
+  .sc-tick { color: var(--success); font-size: 14px; }
+  .sc-cross { color: var(--danger); font-size: 14px; }
+  .sc-warn-icon { color: var(--warn); font-size: 12px; }
+
 </style>
 </head>
 <body>
@@ -503,6 +792,7 @@
     <button class="active" onclick="showPage('overview')">Overview</button>
     <button onclick="showPage('todos')">To-do lists</button>
     <button onclick="showPage('cashflow')">Cash flow</button>
+    <button onclick="showPage('scenarios')">Scenarios</button>
   </nav>
 </header>
 
@@ -608,6 +898,30 @@
     </div>
 
   </div>
+</div>
+
+
+<!-- ===== SCENARIOS ===== -->
+<div class="page" id="page-scenarios">
+
+  <div class="sc-intro">
+    <p>Four side-by-side options for how to allocate money now. Each shows where your personal account reserve ends up, whether the holiday is fully funded, and how the balance looks each month through to September. Edit the toggles in any column to adjust.</p>
+  </div>
+
+  <div class="sc-grid" id="sc-grid"></div>
+
+  <div class="section-label" style="margin-top:28px;">Month-by-month balance comparison</div>
+  <div class="card">
+    <div class="sc-chart-legend" id="sc-legend"></div>
+    <div class="sc-chart-wrap">
+      <div class="sc-chart" id="sc-chart"></div>
+      <div class="sc-months" id="sc-months"></div>
+    </div>
+  </div>
+
+  <div class="section-label" style="margin-top:20px;">Decision summary</div>
+  <div class="card" id="sc-decision"></div>
+
 </div>
 
 <!-- ===== TO-DO LISTS ===== -->
@@ -843,6 +1157,7 @@ function showPage(name) {
   event.target.classList.add('active');
   if (name === 'cashflow') renderCashFlow();
   if (name === 'overview') updateOverviewTotal();
+  if (name === 'scenarios') renderScenarios();
 }
 
 // ===== TODO RENDERING =====
@@ -1187,11 +1502,324 @@ function renderCashFlow() {
   tbody.appendChild(balTr);
 }
 
+
+// ===== SCENARIOS =====
+const SCENARIO_MONTHS = ['Apr','May','Jun','Jul','Aug','Sep'];
+const SC_COLORS = ['#2d5a3d','#1a3a6b','#7a5200','#6b1a3a'];
+const SC_COLORS_LIGHT = ['#e8f0ea','#edf2fc','#fef8ec','#fdf0f5'];
+
+const SCENARIOS_DEFAULT = [
+  {
+    id: 'a',
+    title: 'Status quo',
+    sub: 'No lump-sum moves. Keep all cash where it is and let the month-by-month surplus accumulate.',
+    badge: 'Baseline',
+    badgeColor: 'tag-info',
+    topupHoliday: 0,
+    paydownCC: 0,
+    paydownCCToggle: false,
+    clearCC: false,
+    takeTopup: true,
+  },
+  {
+    id: 'b',
+    title: 'Clear the card',
+    sub: 'Use savings to wipe the Mastercard. Frees up ~£160–180/month in interest. Leaves a tighter reserve.',
+    badge: 'Debt first',
+    badgeColor: 'tag-danger',
+    topupHoliday: 0,
+    paydownCC: 8321,
+    paydownCCToggle: true,
+    clearCC: true,
+    takeTopup: true,
+  },
+  {
+    id: 'c',
+    title: 'Fund the holiday',
+    sub: 'Top up holiday pot by £2,000 to fully cover the £5k budget. Keep £3,500+ in reserve.',
+    badge: 'Holiday focus',
+    badgeColor: 'tag-warn',
+    topupHoliday: 2000,
+    paydownCC: 0,
+    paydownCCToggle: false,
+    clearCC: false,
+    takeTopup: true,
+  },
+  {
+    id: 'd',
+    title: 'Partial card + holiday',
+    sub: 'Pay £2k off the card, top up holiday by £2k. Keeps one month salary as reserve.',
+    badge: 'Balanced',
+    badgeColor: 'tag-success',
+    topupHoliday: 2000,
+    paydownCC: 2000,
+    paydownCCToggle: true,
+    clearCC: false,
+    takeTopup: true,
+  },
+];
+
+let scenarios = JSON.parse(JSON.stringify(SCENARIOS_DEFAULT));
+
+// Core numbers
+const BASE = {
+  personalAccount: 7670,
+  jointAccount: 1880,
+  natwestSavings: 463,
+  monzoPots: 4810, // all pots inc holiday 3k
+  holidaySaved: 3000,
+  holidayTarget: 5000,
+  ccDebt: 8321,
+  reserveTarget: 5500, // one month salary
+  salary: 5500,
+  toJoint: 4500,
+  toSavings: 1000,
+  catherinePartTime: 1200,
+  catherineFullTime: 3000,
+  jointOutgoings: 3200,
+  uniCost: 800,
+};
+
+function runScenario(sc) {
+  // Starting personal account balance after lump-sum moves
+  let personal = BASE.personalAccount
+    - (sc.clearCC ? BASE.ccDebt : sc.paydownCCToggle ? sc.paydownCC : 0)
+    - sc.topupHoliday;
+
+  let holidayFunded = BASE.holidaySaved + sc.topupHoliday;
+  let ccRemaining = BASE.ccDebt - (sc.clearCC ? BASE.ccDebt : sc.paydownCCToggle ? sc.paydownCC : 0);
+
+  // Month-by-month Apr–Sep (6 months)
+  const months = [];
+  for (let m = 0; m < 6; m++) {
+    const isCatherineFullTime = m >= 4; // Aug
+    const isUni = m >= 5; // Sep
+
+    const catherineIncome = isCatherineFullTime ? BASE.catherineFullTime : BASE.catherinePartTime;
+    const jointInflow = BASE.toJoint + catherineIncome;
+    const jointSurplus = jointInflow - BASE.jointOutgoings - (isUni ? BASE.uniCost : 0);
+
+    // Personal account gets salary split
+    personal += BASE.toSavings;
+    // Joint surplus sits in joint - we'll track total liquid
+    // For simplicity, track personal + joint surplus together as "liquid reserve"
+    // Personal account = personal account + ongoing savings
+    // We show personal account as the key number since that's the reserve question
+
+    months.push({
+      month: SCENARIO_MONTHS[m],
+      personal: Math.round(personal),
+      jointSurplus: Math.round(jointSurplus),
+      ccRemaining: Math.round(ccRemaining),
+      holidayFunded: Math.round(Math.min(holidayFunded, BASE.holidayTarget)),
+    });
+  }
+
+  const finalPersonal = months[months.length - 1].personal;
+  const minPersonal = Math.min(...months.map(r => r.personal));
+  const reserveOk = minPersonal >= BASE.reserveTarget;
+  const holidayOk = holidayFunded >= BASE.holidayTarget;
+  const ccGone = ccRemaining <= 0;
+
+  return { months, finalPersonal, minPersonal, reserveOk, holidayOk, ccGone, ccRemaining, holidayFunded };
+}
+
+function renderScenarios() {
+  const grid = document.getElementById('sc-grid');
+  grid.innerHTML = '';
+
+  const results = scenarios.map(sc => ({ sc, result: runScenario(sc) }));
+
+  results.forEach(({ sc, result }, si) => {
+    const col = document.createElement('div');
+    col.className = 'sc-col' + (sc.id === 'd' ? ' recommended' : '');
+
+    const badgeStyle = sc.id === 'd' ? 'background:var(--success-light);color:var(--success);' :
+      sc.id === 'a' ? 'background:var(--info-light);color:var(--info);' :
+      sc.id === 'b' ? 'background:var(--danger-light);color:var(--danger);' :
+      'background:var(--warn-light);color:var(--warn);';
+
+    col.innerHTML = `
+      <div class="sc-col-header">
+        <span class="sc-col-badge" style="${badgeStyle}">${sc.badge}</span>
+        <div class="sc-col-title">${sc.title}</div>
+        <div class="sc-col-sub">${sc.sub}</div>
+      </div>
+
+      <div class="sc-toggles">
+        <div class="sc-toggle-row">
+          <span class="sc-toggle-label">Top up holiday pot</span>
+          <input class="sc-amount-input" type="number" min="0" max="5000" value="${sc.topupHoliday}"
+            oninput="updateScenario(${si},'topupHoliday',+this.value)" style="width:72px;">
+        </div>
+        <div class="sc-toggle-row">
+          <span class="sc-toggle-label">Pay down credit card</span>
+          <button class="sc-toggle-check ${sc.paydownCCToggle ? 'on' : ''}"
+            onclick="toggleSc(${si},'paydownCCToggle')"></button>
+        </div>
+        ${sc.paydownCCToggle ? `
+        <div class="sc-toggle-row" style="padding-left:8px;">
+          <span class="sc-toggle-label" style="color:var(--text-muted);">Amount (max £8,321)</span>
+          <input class="sc-amount-input" type="number" min="0" max="8321" value="${sc.paydownCC}"
+            oninput="updateScenario(${si},'paydownCC',+this.value)">
+        </div>
+        <div class="sc-toggle-row" style="padding-left:8px;">
+          <span class="sc-toggle-label" style="color:var(--text-muted);">Clear it fully?</span>
+          <button class="sc-toggle-check ${sc.clearCC ? 'on' : ''}"
+            onclick="toggleSc(${si},'clearCC')"></button>
+        </div>` : ''}
+      </div>
+
+      <div class="sc-metrics">
+        <div class="sc-metric-row">
+          <span class="sc-metric-label">Personal account now</span>
+          <span class="sc-metric-val ${result.months[0].personal < BASE.reserveTarget ? 'amber' : 'green'}">
+            £${result.months[0].personal.toLocaleString('en-GB')}
+          </span>
+        </div>
+        <div class="sc-metric-row">
+          <span class="sc-metric-label">1-month reserve (£5,500)?</span>
+          <span class="sc-metric-val ${result.reserveOk ? 'green' : 'red'}">
+            ${result.reserveOk ? '✓ Maintained' : '✗ Falls short'}
+          </span>
+        </div>
+        <div class="sc-metric-row">
+          <span class="sc-metric-label">Holiday fully funded?</span>
+          <span class="sc-metric-val ${result.holidayOk ? 'green' : 'amber'}">
+            ${result.holidayOk ? '✓ Yes (£5,000)' : '£' + result.holidayFunded.toLocaleString('en-GB') + ' of £5,000'}
+          </span>
+        </div>
+        <div class="sc-metric-row">
+          <span class="sc-metric-label">CC balance remaining</span>
+          <span class="sc-metric-val ${result.ccGone ? 'green' : 'amber'}">
+            ${result.ccGone ? '✓ Cleared' : '£' + result.ccRemaining.toLocaleString('en-GB')}
+          </span>
+        </div>
+        <div class="sc-metric-row">
+          <span class="sc-metric-label">Personal a/c by Sep</span>
+          <span class="sc-metric-val ${result.finalPersonal < BASE.reserveTarget ? 'red' : result.finalPersonal < 8000 ? 'amber' : 'green'}">
+            £${result.finalPersonal.toLocaleString('en-GB')}
+          </span>
+        </div>
+      </div>
+
+      <div class="sc-months-bar">
+        ${result.months.map(mr => {
+          const maxVal = 12000;
+          const pct = Math.max(2, Math.min(100, (mr.personal / maxVal) * 100));
+          const col2 = mr.personal < BASE.reserveTarget ? '#c0392b' : mr.personal < 7000 ? '#b88000' : SC_COLORS[si];
+          const valStr = '£' + (mr.personal >= 1000 ? Math.round(mr.personal/1000*10)/10 + 'k' : mr.personal);
+          return `<div class="sc-month-row">
+            <span class="sc-month-label">${mr.month}</span>
+            <div class="sc-month-bar-outer">
+              <div class="sc-month-bar-inner" style="width:${pct}%;background:${col2};"></div>
+            </div>
+            <span class="sc-month-val" style="color:${col2}">${valStr}</span>
+          </div>`;
+        }).join('')}
+        <div style="margin-top:8px;font-size:10px;color:var(--text-muted);border-top:1px solid var(--border);padding-top:6px;">
+          Red line = £5,500 reserve target
+        </div>
+      </div>
+    `;
+
+    grid.appendChild(col);
+  });
+
+  renderComparisonChart(results);
+  renderDecisionSummary(results);
+}
+
+function toggleSc(si, key) {
+  scenarios[si][key] = !scenarios[si][key];
+  if (key === 'clearCC' && scenarios[si].clearCC) {
+    scenarios[si].paydownCC = BASE.ccDebt;
+  }
+  renderScenarios();
+}
+
+function updateScenario(si, key, val) {
+  scenarios[si][key] = val;
+  renderScenarios();
+}
+
+function renderComparisonChart(results) {
+  const chart = document.getElementById('sc-chart');
+  const monthsEl = document.getElementById('sc-months');
+  const legendEl = document.getElementById('sc-legend');
+  chart.innerHTML = '';
+  monthsEl.innerHTML = '';
+  legendEl.innerHTML = '';
+
+  const allVals = results.flatMap(r => r.result.months.map(m => m.personal));
+  const maxVal = Math.max(...allVals, BASE.reserveTarget * 1.2);
+
+  SCENARIO_MONTHS.forEach((month, mi) => {
+    const group = document.createElement('div');
+    group.className = 'sc-chart-group';
+    results.forEach(({ sc, result }, si) => {
+      const val = result.months[mi].personal;
+      const pct = Math.max(1, (val / maxVal) * 100);
+      const bar = document.createElement('div');
+      bar.className = 'sc-chart-bar';
+      bar.style.height = pct + '%';
+      bar.style.background = val < BASE.reserveTarget ? '#f5c0c0' : SC_COLORS_LIGHT[si];
+      bar.style.border = '1px solid ' + (val < BASE.reserveTarget ? '#c0392b' : SC_COLORS[si]);
+      bar.title = sc.title + ' — ' + month + ': £' + val.toLocaleString('en-GB');
+      group.appendChild(bar);
+    });
+    chart.appendChild(group);
+
+    const lbl = document.createElement('div');
+    lbl.className = 'sc-months-label';
+    lbl.textContent = month;
+    monthsEl.appendChild(lbl);
+  });
+
+  // Reserve line indicator (text)
+  const reservePct = (BASE.reserveTarget / maxVal) * 100;
+  legendEl.innerHTML = results.map((r, si) => `
+    <div class="sc-legend-item">
+      <div class="sc-legend-dot" style="background:${SC_COLORS[si]};"></div>
+      ${r.sc.title}
+    </div>
+  `).join('') + `<div class="sc-legend-item" style="margin-left:auto;font-size:11px;color:var(--text-muted);">
+    Bars turn pale red when personal a/c drops below the £5,500 reserve target
+  </div>`;
+}
+
+function renderDecisionSummary(results) {
+  const el = document.getElementById('sc-decision');
+
+  const rows = [
+    { label: 'Personal a/c immediately', key: r => '£' + r.months[0].personal.toLocaleString('en-GB'), colorKey: r => r.months[0].personal < BASE.reserveTarget ? 'red' : 'green' },
+    { label: 'Reserve maintained all months', key: r => r.reserveOk ? '✓' : '✗', colorKey: r => r.reserveOk ? 'green' : 'red' },
+    { label: 'Holiday fully funded', key: r => r.holidayOk ? '✓' : '~', colorKey: r => r.holidayOk ? 'green' : 'amber' },
+    { label: 'Credit card cleared', key: r => r.ccGone ? '✓' : r.ccRemaining < BASE.ccDebt ? '~' : '✗', colorKey: r => r.ccGone ? 'green' : r.ccRemaining < BASE.ccDebt ? 'amber' : 'red' },
+    { label: 'Personal a/c by Sep', key: r => '£' + r.finalPersonal.toLocaleString('en-GB'), colorKey: r => r.finalPersonal < BASE.reserveTarget ? 'red' : r.finalPersonal < 8000 ? 'amber' : 'green' },
+    { label: 'Monthly interest saving', key: r => r.ccGone ? '~£170/mo saved' : r.ccRemaining < BASE.ccDebt ? '~£' + Math.round((BASE.ccDebt - r.ccRemaining) * 0.22 / 12) + '/mo' : '—', colorKey: r => r.ccGone ? 'green' : r.ccRemaining < BASE.ccDebt ? 'amber' : '' },
+  ];
+
+  el.innerHTML = `<div class="sc-decision-grid">
+    <div class="sc-dg-cell sc-dg-header">Measure</div>
+    ${results.map(r => `<div class="sc-dg-cell sc-dg-header" style="color:${SC_COLORS[results.indexOf(r)]};">${r.sc.title}</div>`).join('')}
+    ${rows.map((row, ri) => `
+      <div class="sc-dg-cell sc-dg-row-label ${ri === rows.length-1 ? 'sc-dg-last-row' : ''}">${row.label}</div>
+      ${results.map(({ result }) => `
+        <div class="sc-dg-cell ${ri === rows.length-1 ? 'sc-dg-last-row' : ''}">
+          <span style="font-weight:500;color:${row.colorKey(result) === 'green' ? 'var(--success)' : row.colorKey(result) === 'red' ? 'var(--danger)' : row.colorKey(result) === 'amber' ? 'var(--warn)' : 'var(--text-mid)'};">${row.key(result)}</span>
+        </div>
+      `).join('')}
+    `).join('')}
+  </div>`;
+}
+
 // ===== INIT =====
 loadState();
 renderList('small-list', smallItems);
 renderList('big-list', bigItems);
 renderCashFlow();
+renderScenarios();
 </script>
 
 </body>
