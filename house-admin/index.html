@@ -682,7 +682,11 @@
         <input type="number" id="cf-to-savings" value="1000" oninput="renderCashFlow()" style="background:var(--success-light);">
       </div>
       <div class="assumption-field">
-        <label>Catherine income from Aug (net)</label>
+        <label>Catherine income Apr–Jul (part-time, net)</label>
+        <input type="number" id="cf-catherine-parttime" value="1200" oninput="renderCashFlow()">
+      </div>
+      <div class="assumption-field">
+        <label>Catherine income from Aug (full-time, net)</label>
         <input type="number" id="cf-catherine" value="3000" oninput="renderCashFlow()">
       </div>
       <div class="assumption-field">
@@ -1048,7 +1052,8 @@ function renderCashFlow() {
     row.salary = salary;
     row.toJoint = toJoint;
     row.toSavings = toSavings;
-    row.catherineIncome = (m >= 4) ? catherine : 0; // Aug = index 4
+    const catherinePartTime = parseFloat(document.getElementById('cf-catherine-parttime').value) || 0;
+    row.catherineIncome = (m >= 4) ? catherine : catherinePartTime; // Aug onwards = full-time
 
     // Mortgage top-up in Apr (m=0)
     row.mortgageTopup = (m === 0) ? mortgageTopup : 0;
@@ -1144,7 +1149,7 @@ function renderCashFlow() {
   addRow('Your salary', 'salary', null);
   addRow('→ To joint account', 'toJoint', null);
   addRow('→ To personal savings', 'toSavings', v => v > 0 ? 'green' : '');
-  addRow("Catherine's income (from Aug)", 'catherineIncome', v => v > 0 ? 'green' : '');
+  addRow("Catherine's income", 'catherineIncome', v => v > 0 ? 'green' : '');
   addRow('Mortgage top-up', 'mortgageTopup', v => v > 0 ? 'green' : '');
 
   addSectionHeader('Outgoings');
