@@ -1,0 +1,1171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>House Admin — Leachman Family</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,500;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #f7f5f0;
+    --surface: #ffffff;
+    --surface2: #f2efe8;
+    --border: #e2ddd4;
+    --border-strong: #c8c2b6;
+    --text: #1a1814;
+    --text-mid: #5a5650;
+    --text-muted: #9a958e;
+    --accent: #2d5a3d;
+    --accent-light: #e8f0ea;
+    --danger: #8b2020;
+    --danger-light: #fdf0f0;
+    --warn: #7a5200;
+    --warn-light: #fef8ec;
+    --info: #1a3a6b;
+    --info-light: #edf2fc;
+    --success: #2d5a3d;
+    --success-light: #e8f0ea;
+    --radius: 10px;
+    --radius-sm: 6px;
+    --shadow: 0 1px 3px rgba(0,0,0,0.06), 0 1px 2px rgba(0,0,0,0.04);
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    font-size: 14px;
+    line-height: 1.6;
+    min-height: 100vh;
+  }
+
+  header {
+    background: var(--surface);
+    border-bottom: 1px solid var(--border);
+    padding: 28px 40px 24px;
+  }
+
+  header h1 {
+    font-family: 'Lora', serif;
+    font-size: 26px;
+    font-weight: 500;
+    letter-spacing: -0.3px;
+    color: var(--text);
+  }
+
+  header p {
+    color: var(--text-muted);
+    font-size: 13px;
+    margin-top: 3px;
+  }
+
+  nav {
+    display: flex;
+    gap: 4px;
+    margin-top: 18px;
+  }
+
+  nav button {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 13px;
+    font-weight: 400;
+    padding: 6px 14px;
+    border: 1px solid transparent;
+    border-radius: 99px;
+    background: transparent;
+    color: var(--text-mid);
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+
+  nav button:hover { background: var(--surface2); }
+  nav button.active {
+    background: var(--text);
+    color: #fff;
+    border-color: var(--text);
+  }
+
+  .page { display: none; padding: 36px 40px; max-width: 1100px; }
+  .page.active { display: block; }
+
+  /* ---- Grid helpers ---- */
+  .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+  .grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; }
+  .grid-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; }
+
+  @media (max-width: 800px) {
+    header { padding: 20px; }
+    .page { padding: 20px; }
+    .grid-2, .grid-3, .grid-4 { grid-template-columns: 1fr; }
+  }
+
+  /* ---- Cards ---- */
+  .card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 20px 22px;
+    box-shadow: var(--shadow);
+  }
+
+  .card-title {
+    font-family: 'Lora', serif;
+    font-size: 15px;
+    font-weight: 500;
+    margin-bottom: 14px;
+    color: var(--text);
+  }
+
+  /* ---- Metric cards ---- */
+  .metric {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 16px 18px;
+    box-shadow: var(--shadow);
+  }
+
+  .metric-label {
+    font-size: 11px;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.07em;
+    color: var(--text-muted);
+    margin-bottom: 6px;
+  }
+
+  .metric-value {
+    font-family: 'Lora', serif;
+    font-size: 26px;
+    font-weight: 500;
+    line-height: 1.1;
+  }
+
+  .metric-sub {
+    font-size: 11px;
+    color: var(--text-muted);
+    margin-top: 4px;
+  }
+
+  .metric-value.red { color: var(--danger); }
+  .metric-value.green { color: var(--success); }
+  .metric-value.amber { color: var(--warn); }
+
+  /* ---- Section labels ---- */
+  .section-label {
+    font-size: 11px;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--text-muted);
+    margin: 28px 0 12px;
+  }
+  .section-label:first-child { margin-top: 0; }
+
+  /* ---- Tags ---- */
+  .tag {
+    display: inline-block;
+    font-size: 10px;
+    font-weight: 500;
+    padding: 2px 8px;
+    border-radius: 99px;
+    letter-spacing: 0.03em;
+  }
+  .tag-danger { background: var(--danger-light); color: var(--danger); }
+  .tag-warn { background: var(--warn-light); color: var(--warn); }
+  .tag-info { background: var(--info-light); color: var(--info); }
+  .tag-success { background: var(--success-light); color: var(--success); }
+
+  /* ---- Table rows ---- */
+  .data-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 8px 0;
+    border-bottom: 1px solid var(--border);
+    font-size: 13px;
+  }
+  .data-row:last-child { border-bottom: none; }
+  .data-row-label { color: var(--text-mid); }
+  .data-row-val { font-weight: 500; }
+  .data-row-val.red { color: var(--danger); }
+  .data-row-val.green { color: var(--success); }
+
+  /* ---- Timeline ---- */
+  .timeline { display: flex; flex-direction: column; gap: 0; }
+
+  .tl-item {
+    display: flex;
+    gap: 14px;
+    padding: 12px 0;
+    border-bottom: 1px solid var(--border);
+  }
+  .tl-item:last-child { border-bottom: none; }
+
+  .tl-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    flex-shrink: 0;
+    margin-top: 4px;
+  }
+
+  .tl-content { flex: 1; }
+  .tl-date { font-size: 11px; color: var(--text-muted); margin-bottom: 2px; font-weight: 500; text-transform: uppercase; letter-spacing: 0.06em; }
+  .tl-title { font-size: 13px; color: var(--text); }
+
+  /* ---- TODO lists ---- */
+  .todo-list { list-style: none; }
+
+  .todo-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 7px 6px;
+    border-radius: var(--radius-sm);
+    cursor: grab;
+    transition: background 0.12s;
+    border-bottom: 1px solid var(--border);
+    user-select: none;
+  }
+  .todo-item:last-child { border-bottom: none; }
+  .todo-item:hover { background: var(--surface2); }
+  .todo-item.dragging { opacity: 0.4; background: var(--surface2); }
+  .todo-item.drag-over { border-top: 2px solid var(--accent); }
+
+  .drag-handle {
+    color: var(--text-muted);
+    font-size: 14px;
+    cursor: grab;
+    flex-shrink: 0;
+    opacity: 0.5;
+  }
+
+  .todo-check {
+    width: 16px;
+    height: 16px;
+    border: 1.5px solid var(--border-strong);
+    border-radius: 4px;
+    flex-shrink: 0;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.12s;
+    font-size: 10px;
+    color: transparent;
+  }
+  .todo-check.checked {
+    background: var(--accent);
+    border-color: var(--accent);
+    color: #fff;
+  }
+
+  .todo-name {
+    flex: 1;
+    font-size: 13px;
+    color: var(--text);
+    background: transparent;
+    border: none;
+    outline: none;
+    font-family: 'DM Sans', sans-serif;
+    cursor: text;
+    min-width: 0;
+  }
+  .todo-name.done { text-decoration: line-through; color: var(--text-muted); }
+
+  .todo-name[contenteditable="true"] {
+    border-bottom: 1.5px solid var(--accent);
+    padding-bottom: 1px;
+  }
+
+  .todo-cost-wrap {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    flex-shrink: 0;
+  }
+
+  .todo-cost-prefix {
+    font-size: 12px;
+    color: var(--text-muted);
+  }
+
+  .todo-cost {
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--text-mid);
+    background: transparent;
+    border: none;
+    outline: none;
+    font-family: 'DM Sans', sans-serif;
+    width: 70px;
+    text-align: right;
+  }
+
+  .todo-cost:focus {
+    border-bottom: 1.5px solid var(--accent);
+    color: var(--text);
+  }
+
+  .todo-delete {
+    background: none;
+    border: none;
+    color: var(--text-muted);
+    cursor: pointer;
+    font-size: 16px;
+    padding: 0 2px;
+    line-height: 1;
+    opacity: 0;
+    transition: opacity 0.12s;
+  }
+  .todo-item:hover .todo-delete { opacity: 1; }
+  .todo-delete:hover { color: var(--danger); }
+
+  .todo-total {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 6px 0;
+    margin-top: 6px;
+    border-top: 1.5px solid var(--border-strong);
+    font-size: 13px;
+    font-weight: 500;
+  }
+
+  .add-item-row {
+    display: flex;
+    gap: 8px;
+    margin-top: 12px;
+  }
+
+  .add-input {
+    flex: 1;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 13px;
+    padding: 7px 10px;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    background: var(--surface);
+    outline: none;
+    color: var(--text);
+    transition: border-color 0.15s;
+  }
+  .add-input:focus { border-color: var(--accent); }
+  .add-input.cost { width: 90px; flex: none; }
+
+  .add-btn {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 13px;
+    font-weight: 500;
+    padding: 7px 14px;
+    background: var(--accent);
+    color: #fff;
+    border: none;
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+    transition: opacity 0.15s;
+  }
+  .add-btn:hover { opacity: 0.85; }
+
+  /* ---- Cash flow table ---- */
+  .cf-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+    margin-top: 4px;
+  }
+
+  .cf-table th {
+    font-size: 11px;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--text-muted);
+    text-align: left;
+    padding: 8px 10px;
+    border-bottom: 1.5px solid var(--border-strong);
+    background: var(--surface);
+    position: sticky;
+    top: 0;
+  }
+
+  .cf-table th:not(:first-child) { text-align: right; }
+
+  .cf-table td {
+    padding: 9px 10px;
+    border-bottom: 1px solid var(--border);
+    vertical-align: middle;
+  }
+
+  .cf-table td:not(:first-child) { text-align: right; font-variant-numeric: tabular-nums; }
+  .cf-table tr:last-child td { border-bottom: none; }
+
+  .cf-table tr.total-row td {
+    border-top: 1.5px solid var(--border-strong);
+    font-weight: 500;
+    background: var(--surface2);
+  }
+
+  .cf-table tr.sub-row td { font-size: 12px; color: var(--text-mid); padding: 5px 10px 5px 22px; }
+
+  .cf-section-header td {
+    font-size: 11px;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.07em;
+    color: var(--text-muted);
+    padding: 14px 10px 4px;
+    background: var(--bg);
+    border-bottom: 1px solid var(--border);
+  }
+
+  .cf-val.red { color: var(--danger); }
+  .cf-val.green { color: var(--success); }
+  .cf-val.amber { color: var(--warn); }
+
+  td.month-header {
+    font-family: 'Lora', serif;
+    font-size: 14px;
+    font-weight: 500;
+  }
+
+  .cf-row-highlight td { background: #f6fff8; }
+
+  /* ---- Assumption inputs ---- */
+  .assumption-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+  }
+
+  .assumption-field {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+  }
+
+  .assumption-field label {
+    font-size: 11px;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--text-muted);
+  }
+
+  .assumption-field input {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 14px;
+    padding: 8px 10px;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    background: var(--surface);
+    outline: none;
+    color: var(--text);
+    transition: border-color 0.15s;
+  }
+  .assumption-field input:focus { border-color: var(--accent); }
+
+  /* ---- Bar chart ---- */
+  .bar-chart { display: flex; align-items: flex-end; gap: 6px; height: 120px; margin-top: 12px; }
+  .bar-col { flex: 1; display: flex; flex-direction: column; align-items: center; gap: 4px; }
+  .bar-wrap { width: 100%; display: flex; flex-direction: column; justify-content: flex-end; height: 100px; }
+  .bar { width: 100%; border-radius: 3px 3px 0 0; transition: height 0.4s ease; }
+  .bar-label { font-size: 10px; color: var(--text-muted); text-align: center; }
+  .bar-val { font-size: 10px; font-weight: 500; text-align: center; }
+
+  /* ---- Alerts ---- */
+  .alert {
+    padding: 10px 14px;
+    border-radius: var(--radius-sm);
+    font-size: 13px;
+    margin-top: 12px;
+    border-left: 3px solid;
+  }
+  .alert-danger { background: var(--danger-light); border-color: var(--danger); color: var(--danger); }
+  .alert-warn { background: var(--warn-light); border-color: var(--warn); color: var(--warn); }
+  .alert-success { background: var(--success-light); border-color: var(--success); color: var(--success); }
+
+  /* ---- Scrollable wrapper ---- */
+  .table-scroll { overflow-x: auto; }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>House Admin</h1>
+  <p id="last-saved">Leachman Family · Financial planning</p>
+  <nav>
+    <button class="active" onclick="showPage('overview')">Overview</button>
+    <button onclick="showPage('todos')">To-do lists</button>
+    <button onclick="showPage('cashflow')">Cash flow</button>
+  </nav>
+</header>
+
+<!-- ===== OVERVIEW ===== -->
+<div class="page active" id="page-overview">
+
+  <div class="section-label">Snapshot — April 2026</div>
+  <div class="grid-4">
+    <div class="metric">
+      <div class="metric-label">Total assets</div>
+      <div class="metric-value green">£18,823</div>
+      <div class="metric-sub">Cash + savings + pots</div>
+    </div>
+    <div class="metric">
+      <div class="metric-label">Credit card debt</div>
+      <div class="metric-value red">£8,321</div>
+      <div class="metric-sub">Natwest Mastercard</div>
+    </div>
+    <div class="metric">
+      <div class="metric-label">Net position</div>
+      <div class="metric-value">£10,502</div>
+      <div class="metric-sub">Assets minus debt</div>
+    </div>
+    <div class="metric">
+      <div class="metric-label">House projects</div>
+      <div class="metric-value amber" id="ov-total-projects">£0</div>
+      <div class="metric-sub">All to-do items combined</div>
+    </div>
+  </div>
+
+  <div class="grid-2" style="margin-top: 20px;">
+
+    <div class="card">
+      <div class="card-title">Accounts</div>
+      <div style="margin-bottom: 14px;">
+        <div style="font-size: 11px; font-weight:500; text-transform:uppercase; letter-spacing:0.07em; color:var(--text-muted); margin-bottom:8px;">Natwest</div>
+        <div class="data-row"><span class="data-row-label">Personal account</span><span class="data-row-val green">£7,670</span></div>
+        <div class="data-row"><span class="data-row-label">Joint account</span><span class="data-row-val green">£1,880</span></div>
+        <div class="data-row"><span class="data-row-label">Flexible Saver</span><span class="data-row-val green">£463</span></div>
+        <div class="data-row"><span class="data-row-label">Cash ISA</span><span class="data-row-val green">£0.27</span></div>
+        <div class="data-row"><span class="data-row-label">Travel account</span><span class="data-row-val">€1.38</span></div>
+        <div class="data-row"><span class="data-row-label">Mastercard</span><span class="data-row-val red">−£8,321</span></div>
+        <div class="data-row"><span class="data-row-label">Rewards & benefits</span><span class="data-row-val green">£20</span></div>
+      </div>
+      <div style="font-size: 11px; font-weight:500; text-transform:uppercase; letter-spacing:0.07em; color:var(--text-muted); margin-bottom:8px;">Monzo (Coris)</div>
+      <div class="data-row"><span class="data-row-label">AIE pot</span><span class="data-row-val green">£350</span></div>
+      <div class="data-row"><span class="data-row-label">Car maintenance</span><span class="data-row-val green">£460</span></div>
+      <div class="data-row"><span class="data-row-label">Misc pot</span><span class="data-row-val green">£1,000</span></div>
+      <div class="data-row"><span class="data-row-label">Weekend away</span><span class="data-row-val">£0</span></div>
+      <div class="data-row"><span class="data-row-label">Holiday 2026</span><span class="data-row-val green">£3,000</span></div>
+    </div>
+
+    <div>
+      <div class="card" style="margin-bottom:16px;">
+        <div class="card-title">Key dates</div>
+        <div class="timeline">
+          <div class="tl-item">
+            <div class="tl-dot" style="background:#8b2020;"></div>
+            <div class="tl-content">
+              <div class="tl-date">End of April 2026</div>
+              <div class="tl-title">Mortgage renewal + £10k top-up for house works <span class="tag tag-danger">urgent</span></div>
+            </div>
+          </div>
+          <div class="tl-item">
+            <div class="tl-dot" style="background:#7a5200;"></div>
+            <div class="tl-content">
+              <div class="tl-date">June 2026</div>
+              <div class="tl-title">Catherine returns full-time — +£3,000/month <span class="tag tag-success">income boost</span></div>
+            </div>
+          </div>
+          <div class="tl-item">
+            <div class="tl-dot" style="background:#7a5200;"></div>
+            <div class="tl-content">
+              <div class="tl-date">End of July 2026</div>
+              <div class="tl-title">First full paycheck from Catherine hits</div>
+            </div>
+          </div>
+          <div class="tl-item">
+            <div class="tl-dot" style="background:#1a3a6b;"></div>
+            <div class="tl-content">
+              <div class="tl-date">September 2026</div>
+              <div class="tl-title">Daughter starts university — £800/month accommodation <span class="tag tag-info">new cost</span></div>
+            </div>
+          </div>
+          <div class="tl-item">
+            <div class="tl-dot" style="background:#2d5a3d;"></div>
+            <div class="tl-content">
+              <div class="tl-date">Summer 2026</div>
+              <div class="tl-title">Holiday — ~£5,000 total (£3k saved, £2k gap) <span class="tag tag-warn">£2k gap</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">Key actions</div>
+        <div class="data-row"><span class="data-row-label">Paydown Mastercard or 0% transfer?</span><span><span class="tag tag-danger">urgent</span></span></div>
+        <div class="data-row"><span class="data-row-label">Prioritise £10k mortgage top-up projects</span><span><span class="tag tag-warn">decide</span></span></div>
+        <div class="data-row"><span class="data-row-label">Fund remaining £2k holiday gap</span><span><span class="tag tag-warn">gap</span></span></div>
+        <div class="data-row"><span class="data-row-label">Uni accommodation from Sept — £800/mo</span><span><span class="tag tag-info">plan</span></span></div>
+        <div class="data-row"><span class="data-row-label">Allocate Catherine's income Aug onwards</span><span><span class="tag tag-success">opportunity</span></span></div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ===== TO-DO LISTS ===== -->
+<div class="page" id="page-todos">
+
+  <div class="grid-2">
+
+    <!-- Small tasks -->
+    <div>
+      <div class="section-label">Small tasks</div>
+      <div class="card">
+        <ul class="todo-list" id="small-list"></ul>
+        <div class="todo-total">
+          <span>Total confirmed spend</span>
+          <span id="small-total">£0</span>
+        </div>
+        <div class="add-item-row">
+          <input class="add-input" id="small-name" placeholder="Add task…" onkeydown="if(event.key==='Enter')addItem('small')">
+          <input class="add-input cost" id="small-cost" placeholder="£ cost" type="number" min="0" onkeydown="if(event.key==='Enter')addItem('small')">
+          <button class="add-btn" onclick="addItem('small')">Add</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Big projects -->
+    <div>
+      <div class="section-label">Big projects</div>
+      <div class="card">
+        <div class="alert alert-warn" style="margin-bottom:14px; margin-top:0;">
+          £10k available from mortgage top-up. Total wish list exceeds this — prioritise by dragging.
+        </div>
+        <ul class="todo-list" id="big-list"></ul>
+        <div class="todo-total">
+          <span>Total wish list</span>
+          <span id="big-total">£0</span>
+        </div>
+        <div class="add-item-row">
+          <input class="add-input" id="big-name" placeholder="Add project…" onkeydown="if(event.key==='Enter')addItem('big')">
+          <input class="add-input cost" id="big-cost" placeholder="£ cost" type="number" min="0" onkeydown="if(event.key==='Enter')addItem('big')">
+          <button class="add-btn" onclick="addItem('big')">Add</button>
+        </div>
+      </div>
+
+      <div class="card" style="margin-top:16px;">
+        <div class="card-title">Budget tracker</div>
+        <div class="data-row"><span class="data-row-label">Mortgage top-up available</span><span class="data-row-val green">£10,000</span></div>
+        <div class="data-row"><span class="data-row-label">Total big projects</span><span class="data-row-val red" id="big-total-tracker">£0</span></div>
+        <div class="data-row"><span class="data-row-label">Remaining / shortfall</span><span class="data-row-val" id="big-remaining">£10,000</span></div>
+        <div id="big-alert" style="display:none;" class="alert alert-danger" style="margin-top:8px;">Projects exceed budget</div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ===== CASH FLOW ===== -->
+<div class="page" id="page-cashflow">
+
+  <div class="section-label">Assumptions</div>
+  <div class="card" style="margin-bottom:20px;">
+    <div class="assumption-grid">
+      <div class="assumption-field">
+        <label>Current monthly income (net)</label>
+        <input type="number" id="cf-income" value="4500" oninput="renderCashFlow()">
+      </div>
+      <div class="assumption-field">
+        <label>Catherine income from Aug (net)</label>
+        <input type="number" id="cf-catherine" value="3000" oninput="renderCashFlow()">
+      </div>
+      <div class="assumption-field">
+        <label>Monthly household outgoings</label>
+        <input type="number" id="cf-outgoings" value="3200" oninput="renderCashFlow()">
+      </div>
+      <div class="assumption-field">
+        <label>Mortgage top-up received (Apr)</label>
+        <input type="number" id="cf-mortgage-topup" value="10000" oninput="renderCashFlow()">
+      </div>
+      <div class="assumption-field">
+        <label>Credit card balance to clear</label>
+        <input type="number" id="cf-cc-debt" value="8321" oninput="renderCashFlow()">
+      </div>
+      <div class="assumption-field">
+        <label>CC monthly minimum (if not cleared)</label>
+        <input type="number" id="cf-cc-min" value="200" oninput="renderCashFlow()">
+      </div>
+      <div class="assumption-field">
+        <label>Holiday total cost</label>
+        <input type="number" id="cf-holiday" value="5000" oninput="renderCashFlow()">
+      </div>
+      <div class="assumption-field">
+        <label>Holiday already saved</label>
+        <input type="number" id="cf-holiday-saved" value="3000" oninput="renderCashFlow()">
+      </div>
+      <div class="assumption-field">
+        <label>Holiday payment month (1=Apr)</label>
+        <input type="number" id="cf-holiday-month" value="4" min="1" max="9" oninput="renderCashFlow()">
+      </div>
+      <div class="assumption-field">
+        <label>University accommodation (from Sep)</label>
+        <input type="number" id="cf-uni" value="800" oninput="renderCashFlow()">
+      </div>
+      <div class="assumption-field">
+        <label>Big projects spend (from mortgage top-up)</label>
+        <input type="number" id="cf-projects" value="10000" oninput="renderCashFlow()">
+      </div>
+      <div class="assumption-field">
+        <label>Projects payment month (1=Apr)</label>
+        <input type="number" id="cf-projects-month" value="2" min="1" max="9" oninput="renderCashFlow()">
+      </div>
+    </div>
+    <div style="margin-top: 14px; display: flex; gap: 10px; flex-wrap: wrap;">
+      <label style="display:flex; align-items:center; gap:6px; font-size:13px; cursor:pointer;">
+        <input type="checkbox" id="cf-clear-cc" onchange="renderCashFlow()" checked> Clear credit card in April with existing savings
+      </label>
+    </div>
+  </div>
+
+  <div class="section-label">Month-by-month projection — Apr to Dec 2026</div>
+
+  <div class="grid-3" style="margin-bottom:20px;">
+    <div class="metric">
+      <div class="metric-label">Projected end balance (Dec)</div>
+      <div class="metric-value" id="cf-end-balance">—</div>
+    </div>
+    <div class="metric">
+      <div class="metric-label">Lowest point</div>
+      <div class="metric-value" id="cf-lowest">—</div>
+      <div class="metric-sub" id="cf-lowest-month"></div>
+    </div>
+    <div class="metric">
+      <div class="metric-label">New income from Catherine (Aug–Dec)</div>
+      <div class="metric-value green" id="cf-catherine-total">—</div>
+    </div>
+  </div>
+
+  <!-- Bar chart -->
+  <div class="card" style="margin-bottom:20px;">
+    <div class="card-title">Running balance</div>
+    <div class="bar-chart" id="cf-bars"></div>
+  </div>
+
+  <div class="card">
+    <div class="table-scroll">
+      <table class="cf-table" id="cf-table">
+        <thead>
+          <tr>
+            <th>Item</th>
+            <th>Apr</th>
+            <th>May</th>
+            <th>Jun</th>
+            <th>Jul</th>
+            <th>Aug</th>
+            <th>Sep</th>
+            <th>Oct</th>
+            <th>Nov</th>
+            <th>Dec</th>
+          </tr>
+        </thead>
+        <tbody id="cf-tbody"></tbody>
+      </table>
+    </div>
+  </div>
+
+</div>
+
+<script>
+// ===== STATE =====
+const DEFAULT_SMALL = [
+  { id: 1, name: "Book electrician (kitchen)", cost: 160, done: false },
+  { id: 2, name: "Change thermostat", cost: 0, done: false },
+  { id: 3, name: "Paint ceiling in en-suite", cost: 0, done: false },
+  { id: 4, name: "Paint wall in Seb's room", cost: 0, done: false },
+  { id: 5, name: "Buy new tumble dryer", cost: 250, done: false },
+  { id: 6, name: "Order crittal door (1981×838mm)", cost: 250, done: false },
+  { id: 7, name: "Book Mia — climbing", cost: 185, done: false },
+  { id: 8, name: "Book Mia — drama", cost: 200, done: false },
+  { id: 9, name: "Seb's suit for promo", cost: 350, done: false },
+];
+
+const DEFAULT_BIG = [
+  { id: 101, name: "Carpet kids rooms + stairs", cost: 4000, done: false },
+  { id: 102, name: "Shutters (Amelie's room)", cost: 2000, done: false },
+  { id: 103, name: "Garden cabin", cost: 10000, done: false },
+  { id: 104, name: "Paint whole house", cost: 3000, done: false },
+  { id: 105, name: "Driveway touch-up", cost: 600, done: false },
+  { id: 106, name: "New garden furniture (summer 2026)", cost: 500, done: false },
+];
+
+let smallItems = [], bigItems = [], nextId = 200;
+
+function saveState() {
+  try {
+    localStorage.setItem('la_small', JSON.stringify(smallItems));
+    localStorage.setItem('la_big', JSON.stringify(bigItems));
+    localStorage.setItem('la_nextid', nextId);
+    const t = new Date().toLocaleTimeString('en-GB', {hour:'2-digit', minute:'2-digit'});
+    document.getElementById('last-saved').textContent = `Leachman Family · Saved at ${t}`;
+  } catch(e) {}
+}
+
+function loadState() {
+  try {
+    const s = localStorage.getItem('la_small');
+    const b = localStorage.getItem('la_big');
+    if (s) smallItems = JSON.parse(s);
+    else smallItems = JSON.parse(JSON.stringify(DEFAULT_SMALL));
+    if (b) bigItems = JSON.parse(b);
+    else bigItems = JSON.parse(JSON.stringify(DEFAULT_BIG));
+    nextId = parseInt(localStorage.getItem('la_nextid') || '200');
+  } catch(e) {
+    smallItems = JSON.parse(JSON.stringify(DEFAULT_SMALL));
+    bigItems = JSON.parse(JSON.stringify(DEFAULT_BIG));
+  }
+}
+
+// ===== NAVIGATION =====
+function showPage(name) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('nav button').forEach(b => b.classList.remove('active'));
+  document.getElementById('page-' + name).classList.add('active');
+  event.target.classList.add('active');
+  if (name === 'cashflow') renderCashFlow();
+  if (name === 'overview') updateOverviewTotal();
+}
+
+// ===== TODO RENDERING =====
+function fmt(n) {
+  if (!n && n !== 0) return '—';
+  return '£' + Number(n).toLocaleString('en-GB');
+}
+
+function renderList(listId, items) {
+  const ul = document.getElementById(listId);
+  ul.innerHTML = '';
+  items.forEach((item, idx) => {
+    const li = document.createElement('li');
+    li.className = 'todo-item';
+    li.draggable = true;
+    li.dataset.idx = idx;
+
+    li.innerHTML = `
+      <span class="drag-handle">⠿</span>
+      <div class="todo-check ${item.done ? 'checked' : ''}" onclick="toggleDone('${listId}',${idx})">
+        ${item.done ? '✓' : ''}
+      </div>
+      <div class="todo-name ${item.done ? 'done' : ''}"
+        contenteditable="false"
+        ondblclick="startEdit(this)"
+        onblur="finishEdit(this,'${listId}',${idx})"
+        onkeydown="if(event.key==='Enter'){event.preventDefault();this.blur()}"
+      >${escHtml(item.name)}</div>
+      <div class="todo-cost-wrap">
+        <span class="todo-cost-prefix">£</span>
+        <input class="todo-cost" type="number" min="0" value="${item.cost || ''}"
+          placeholder="0"
+          oninput="updateCost('${listId}',${idx},this.value)"
+        >
+      </div>
+      <button class="todo-delete" onclick="deleteItem('${listId}',${idx})" title="Remove">×</button>
+    `;
+
+    // Drag events
+    li.addEventListener('dragstart', onDragStart);
+    li.addEventListener('dragover', onDragOver);
+    li.addEventListener('dragleave', onDragLeave);
+    li.addEventListener('drop', onDrop);
+    li.addEventListener('dragend', onDragEnd);
+
+    ul.appendChild(li);
+  });
+  updateTotals();
+  updateOverviewTotal();
+}
+
+function escHtml(s) {
+  return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+}
+
+function startEdit(el) {
+  el.contentEditable = 'true';
+  el.focus();
+  const range = document.createRange();
+  range.selectNodeContents(el);
+  window.getSelection().removeAllRanges();
+  window.getSelection().addRange(range);
+}
+
+function finishEdit(el, listId, idx) {
+  el.contentEditable = 'false';
+  const items = listId === 'small-list' ? smallItems : bigItems;
+  items[idx].name = el.textContent.trim() || items[idx].name;
+  saveState();
+}
+
+function toggleDone(listId, idx) {
+  const items = listId === 'small-list' ? smallItems : bigItems;
+  items[idx].done = !items[idx].done;
+  renderList(listId, items);
+  saveState();
+}
+
+function updateCost(listId, idx, val) {
+  const items = listId === 'small-list' ? smallItems : bigItems;
+  items[idx].cost = parseFloat(val) || 0;
+  updateTotals();
+  updateOverviewTotal();
+  saveState();
+}
+
+function deleteItem(listId, idx) {
+  const items = listId === 'small-list' ? smallItems : bigItems;
+  items.splice(idx, 1);
+  renderList(listId, items);
+  saveState();
+}
+
+function addItem(which) {
+  const nameEl = document.getElementById(which + '-name');
+  const costEl = document.getElementById(which + '-cost');
+  const name = nameEl.value.trim();
+  if (!name) { nameEl.focus(); return; }
+  const cost = parseFloat(costEl.value) || 0;
+  const item = { id: nextId++, name, cost, done: false };
+  if (which === 'small') smallItems.push(item);
+  else bigItems.push(item);
+  nameEl.value = '';
+  costEl.value = '';
+  renderList(which === 'small' ? 'small-list' : 'big-list', which === 'small' ? smallItems : bigItems);
+  saveState();
+  nameEl.focus();
+}
+
+function updateTotals() {
+  const smallTotal = smallItems.reduce((s, i) => s + (i.cost || 0), 0);
+  const bigTotal = bigItems.reduce((s, i) => s + (i.cost || 0), 0);
+  document.getElementById('small-total').textContent = fmt(smallTotal);
+  document.getElementById('big-total').textContent = fmt(bigTotal);
+  document.getElementById('big-total-tracker').textContent = fmt(bigTotal);
+  const remaining = 10000 - bigTotal;
+  const remEl = document.getElementById('big-remaining');
+  remEl.textContent = fmt(Math.abs(remaining));
+  remEl.className = 'data-row-val ' + (remaining < 0 ? 'red' : 'green');
+  remEl.textContent = (remaining < 0 ? '−' : '') + fmt(Math.abs(remaining));
+  const alertEl = document.getElementById('big-alert');
+  alertEl.style.display = bigTotal > 10000 ? 'block' : 'none';
+  alertEl.textContent = `Projects exceed mortgage top-up by ${fmt(bigTotal - 10000)}`;
+}
+
+function updateOverviewTotal() {
+  const total = smallItems.reduce((s,i)=>s+(i.cost||0),0) + bigItems.reduce((s,i)=>s+(i.cost||0),0);
+  const el = document.getElementById('ov-total-projects');
+  if (el) el.textContent = fmt(total);
+}
+
+// ===== DRAG AND DROP =====
+let dragSrcIdx = null, dragListId = null;
+
+function onDragStart(e) {
+  dragSrcIdx = parseInt(this.dataset.idx);
+  dragListId = this.closest('ul').id;
+  this.classList.add('dragging');
+  e.dataTransfer.effectAllowed = 'move';
+}
+
+function onDragOver(e) {
+  e.preventDefault();
+  e.dataTransfer.dropEffect = 'move';
+  this.classList.add('drag-over');
+}
+
+function onDragLeave() {
+  this.classList.remove('drag-over');
+}
+
+function onDrop(e) {
+  e.preventDefault();
+  this.classList.remove('drag-over');
+  const targetIdx = parseInt(this.dataset.idx);
+  const targetListId = this.closest('ul').id;
+  if (targetListId !== dragListId || dragSrcIdx === targetIdx) return;
+  const items = dragListId === 'small-list' ? smallItems : bigItems;
+  const moved = items.splice(dragSrcIdx, 1)[0];
+  items.splice(targetIdx, 0, moved);
+  renderList(dragListId, items);
+  saveState();
+}
+
+function onDragEnd() {
+  this.classList.remove('dragging');
+  document.querySelectorAll('.todo-item').forEach(el => el.classList.remove('drag-over'));
+}
+
+// ===== CASH FLOW =====
+const MONTHS = ['Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+
+function renderCashFlow() {
+  const income = parseFloat(document.getElementById('cf-income').value) || 0;
+  const catherine = parseFloat(document.getElementById('cf-catherine').value) || 0;
+  const outgoings = parseFloat(document.getElementById('cf-outgoings').value) || 0;
+  const mortgageTopup = parseFloat(document.getElementById('cf-mortgage-topup').value) || 0;
+  const ccDebt = parseFloat(document.getElementById('cf-cc-debt').value) || 0;
+  const ccMin = parseFloat(document.getElementById('cf-cc-min').value) || 0;
+  const holidayTotal = parseFloat(document.getElementById('cf-holiday').value) || 0;
+  const holidaySaved = parseFloat(document.getElementById('cf-holiday-saved').value) || 0;
+  const holidayMonth = parseInt(document.getElementById('cf-holiday-month').value) || 4;
+  const uniCost = parseFloat(document.getElementById('cf-uni').value) || 0;
+  const projectsTotal = parseFloat(document.getElementById('cf-projects').value) || 0;
+  const projectsMonth = parseInt(document.getElementById('cf-projects-month').value) || 2;
+  const clearCC = document.getElementById('cf-clear-cc').checked;
+
+  const holidayGap = Math.max(0, holidayTotal - holidaySaved);
+
+  // Starting balance (personal + joint + savings)
+  let balance = 7670 + 1880 + 463 - (clearCC ? ccDebt : 0);
+
+  const rows = [];
+
+  for (let m = 0; m < 9; m++) {
+    const row = { month: MONTHS[m] };
+
+    // Income
+    row.income = income;
+    row.catherineIncome = (m >= 4) ? catherine : 0; // Aug = index 4
+
+    // Mortgage top-up in Apr (m=0)
+    row.mortgageTopup = (m === 0) ? mortgageTopup : 0;
+
+    // Credit card
+    row.ccClear = (m === 0 && clearCC) ? -ccDebt : 0;
+    row.ccMin = (!clearCC) ? -ccMin : 0;
+
+    // Outgoings
+    row.outgoings = -outgoings;
+
+    // Uni from Sep (m=5)
+    row.uni = (m >= 5) ? -uniCost : 0;
+
+    // Holiday gap payment
+    row.holiday = (m === (holidayMonth - 1)) ? -holidayGap : 0;
+
+    // Projects spend
+    row.projects = (m === (projectsMonth - 1)) ? -projectsTotal : 0;
+
+    row.net = row.income + row.catherineIncome + row.mortgageTopup + row.ccClear + row.ccMin + row.outgoings + row.uni + row.holiday + row.projects;
+
+    balance += row.net;
+    row.balance = balance;
+
+    rows.push(row);
+  }
+
+  // Summary metrics
+  const endBalance = rows[rows.length - 1].balance;
+  const lowest = rows.reduce((a, b) => a.balance < b.balance ? a : b);
+  const catherineTotal = rows.reduce((s, r) => s + r.catherineIncome, 0);
+
+  const endEl = document.getElementById('cf-end-balance');
+  endEl.textContent = fmt(endBalance);
+  endEl.className = 'metric-value ' + (endBalance < 0 ? 'red' : endBalance < 5000 ? 'amber' : 'green');
+
+  const lowEl = document.getElementById('cf-lowest');
+  lowEl.textContent = fmt(lowest.balance);
+  lowEl.className = 'metric-value ' + (lowest.balance < 0 ? 'red' : lowest.balance < 3000 ? 'amber' : '');
+  document.getElementById('cf-lowest-month').textContent = lowest.month + ' 2026';
+
+  document.getElementById('cf-catherine-total').textContent = fmt(catherineTotal);
+
+  // Bar chart
+  const maxVal = Math.max(...rows.map(r => Math.abs(r.balance)), 1);
+  const barsEl = document.getElementById('cf-bars');
+  barsEl.innerHTML = '';
+  rows.forEach(r => {
+    const pct = Math.min(100, (Math.abs(r.balance) / maxVal) * 100);
+    const isNeg = r.balance < 0;
+    const col = document.createElement('div');
+    col.className = 'bar-col';
+    col.innerHTML = `
+      <div class="bar-val" style="color:${isNeg ? 'var(--danger)' : 'var(--text-mid)'};font-size:9px;">${isNeg?'−':''}£${Math.round(Math.abs(r.balance)/1000)}k</div>
+      <div class="bar-wrap">
+        <div class="bar" style="height:${pct}%;background:${isNeg ? 'var(--danger-light)' : r.balance < 5000 ? '#f5e4c0' : 'var(--success-light)'};border: 1px solid ${isNeg ? '#c0a0a0' : r.balance < 5000 ? '#c8a860' : '#a0c4a8'};"></div>
+      </div>
+      <div class="bar-label">${r.month}</div>
+    `;
+    barsEl.appendChild(col);
+  });
+
+  // Table
+  const tbody = document.getElementById('cf-tbody');
+  tbody.innerHTML = '';
+
+  function addSectionHeader(label) {
+    const tr = document.createElement('tr');
+    tr.className = 'cf-section-header';
+    tr.innerHTML = `<td colspan="10">${label}</td>`;
+    tbody.appendChild(tr);
+  }
+
+  function addRow(label, key, colorFn, isTotal) {
+    const tr = document.createElement('tr');
+    if (isTotal) tr.className = 'total-row';
+    let cells = `<td class="${isTotal ? '' : 'sub-row-label'}">${label}</td>`;
+    rows.forEach(r => {
+      const v = r[key];
+      const cls = colorFn ? colorFn(v) : '';
+      const display = v === 0 ? '—' : (v < 0 ? '−£' + Math.round(Math.abs(v)).toLocaleString('en-GB') : '£' + Math.round(v).toLocaleString('en-GB'));
+      cells += `<td class="cf-val ${cls}">${display}</td>`;
+    });
+    tr.innerHTML = cells;
+    if (!isTotal) tr.className = 'sub-row';
+    tbody.appendChild(tr);
+  }
+
+  addSectionHeader('Income');
+  addRow('Your income', 'income', null);
+  addRow("Catherine's income", 'catherineIncome', v => v > 0 ? 'green' : '');
+  addRow('Mortgage top-up', 'mortgageTopup', v => v > 0 ? 'green' : '');
+
+  addSectionHeader('Outgoings');
+  addRow('Household outgoings', 'outgoings', () => 'red');
+  if (clearCC) addRow('Credit card cleared', 'ccClear', v => v !== 0 ? 'red' : '');
+  else addRow('CC minimum payment', 'ccMin', () => 'red');
+  addRow('University accommodation', 'uni', v => v !== 0 ? 'red' : '');
+  addRow('Holiday (remaining cost)', 'holiday', v => v !== 0 ? 'amber' : '');
+  addRow('House projects', 'projects', v => v !== 0 ? 'amber' : '');
+
+  addSectionHeader('Summary');
+
+  const netTr = document.createElement('tr');
+  netTr.className = 'total-row';
+  let netCells = '<td>Monthly net</td>';
+  rows.forEach(r => {
+    const v = r.net;
+    const cls = v < 0 ? 'red' : 'green';
+    const display = v === 0 ? '—' : (v < 0 ? '−£' : '£') + Math.round(Math.abs(v)).toLocaleString('en-GB');
+    netCells += `<td class="cf-val ${cls}">${display}</td>`;
+  });
+  netTr.innerHTML = netCells;
+  tbody.appendChild(netTr);
+
+  const balTr = document.createElement('tr');
+  balTr.className = 'total-row';
+  let balCells = '<td>Running balance</td>';
+  rows.forEach(r => {
+    const v = r.balance;
+    const cls = v < 0 ? 'red' : v < 3000 ? 'amber' : 'green';
+    const display = (v < 0 ? '−£' : '£') + Math.round(Math.abs(v)).toLocaleString('en-GB');
+    balCells += `<td class="cf-val ${cls}">${display}</td>`;
+  });
+  balTr.innerHTML = balCells;
+  tbody.appendChild(balTr);
+}
+
+// ===== INIT =====
+loadState();
+renderList('small-list', smallItems);
+renderList('big-list', bigItems);
+renderCashFlow();
+</script>
+
+</body>
+</html>
