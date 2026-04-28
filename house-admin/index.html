@@ -69,7 +69,7 @@
     margin-top: 18px;
   }
 
-  nav button {
+  nav .nav-link {
     font-family: 'DM Sans', sans-serif;
     font-size: 13px;
     font-weight: 400;
@@ -80,10 +80,12 @@
     color: var(--text-mid);
     cursor: pointer;
     transition: all 0.15s;
+    text-decoration: none;
+    display: inline-block;
   }
 
-  nav button:hover { background: var(--surface2); }
-  nav button.active {
+  nav .nav-link:hover { background: var(--surface2); }
+  nav .nav-link.active {
     background: var(--text);
     color: #fff;
     border-color: var(--text);
@@ -789,10 +791,10 @@
   <h1>House Admin</h1>
   <p id="last-saved">Leachman Family · Financial planning</p>
   <nav>
-    <button class="active" onclick="showPage('overview')">Overview</button>
-    <button onclick="showPage('todos')">To-do lists</button>
-    <button onclick="showPage('cashflow')">Cash flow</button>
-    <button onclick="showPage('scenarios')">Scenarios</button>
+    <a class="nav-link active" href="#overview">Overview</a>
+    <a class="nav-link" href="#todos">To-do lists</a>
+    <a class="nav-link" href="#cashflow">Cash flow</a>
+    <a class="nav-link" href="#scenarios">Scenarios</a>
   </nav>
 </header>
 
@@ -1150,15 +1152,33 @@ function loadState() {
 }
 
 // ===== NAVIGATION =====
+const HASH_MAP = {
+  '#overview': 'overview',
+  '#todos': 'todos',
+  '#cashflow': 'cashflow',
+  '#scenarios': 'scenarios',
+};
+
 function showPage(name) {
   document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-  document.querySelectorAll('nav button').forEach(b => b.classList.remove('active'));
-  document.getElementById('page-' + name).classList.add('active');
-  event.target.classList.add('active');
+  document.querySelectorAll('.nav-link').forEach(a => a.classList.remove('active'));
+  const pageEl = document.getElementById('page-' + name);
+  if (!pageEl) return;
+  pageEl.classList.add('active');
+  const link = document.querySelector('.nav-link[href="#' + name + '"]');
+  if (link) link.classList.add('active');
   if (name === 'cashflow') renderCashFlow();
   if (name === 'overview') updateOverviewTotal();
   if (name === 'scenarios') renderScenarios();
 }
+
+function handleHash() {
+  const hash = window.location.hash || '#overview';
+  const name = HASH_MAP[hash] || 'overview';
+  showPage(name);
+}
+
+window.addEventListener('hashchange', handleHash);
 
 // ===== TODO RENDERING =====
 function fmt(n) {
@@ -1818,8 +1838,7 @@ function renderDecisionSummary(results) {
 loadState();
 renderList('small-list', smallItems);
 renderList('big-list', bigItems);
-renderCashFlow();
-renderScenarios();
+handleHash();
 </script>
 
 </body>
