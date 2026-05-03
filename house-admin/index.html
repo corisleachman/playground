@@ -789,7 +789,13 @@
 
 <header>
   <h1>House Admin</h1>
-  <p id="last-saved">Leachman Family · Financial planning</p>
+  <p id="last-saved" style="display:flex;align-items:center;gap:10px;">
+    Leachman Family · Financial planning
+    <span class="sb-status">
+      <span class="sb-dot syncing" id="sb-dot"></span>
+      <span id="sb-txt">Loading…</span>
+    </span>
+  </p>
   <nav>
     <a class="nav-link active" href="#overview">Overview</a>
     <a class="nav-link" href="#todos">To-do lists</a>
@@ -1102,53 +1108,150 @@
 </div>
 
 <script>
+// ===== SUPABASE CONFIG =====
+const SB_URL = 'https://jzvylhgnlvxbaibxkrwv.supabase.co';
+const SB_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imp6dnlsaGdubHZ4YmFpYnhrcnd2Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzc4MTc3NjYsImV4cCI6MjA5MzM5Mzc2Nn0.mqLkIl3xB7jvM4yhsgjp5XeLe7RMPVGEI4OLN2ARkF8';
+
+async function sbFetch(path, method = 'GET', body = null, extra = {}) {
+  const headers = {
+    'apikey': SB_KEY,
+    'Authorization': 'Bearer ' + SB_KEY,
+    'Content-Type': 'application/json',
+    'Prefer': 'return=representation',
+    ...extra
+  };
+  const opts = { method, headers };
+  if (body) opts.body = JSON.stringify(body);
+  const res = await fetch(SB_URL + '/rest/v1/' + path, opts);
+  if (!res.ok) {
+    const err = await res.text();
+    throw new Error(err);
+  }
+  const text = await res.text();
+  return text ? JSON.parse(text) : null;
+}
+
 // ===== STATE =====
 const DEFAULT_SMALL = [
-  { id: 1, name: "Book electrician (kitchen)", cost: 160, done: false },
-  { id: 2, name: "Change thermostat", cost: 0, done: false },
-  { id: 3, name: "Paint ceiling in en-suite", cost: 0, done: false },
-  { id: 4, name: "Paint wall in Seb's room", cost: 0, done: false },
-  { id: 5, name: "Buy new tumble dryer", cost: 250, done: false },
-  { id: 6, name: "Order crittal door (1981×838mm)", cost: 250, done: false },
-  { id: 7, name: "Book Mia — climbing", cost: 185, done: false },
-  { id: 8, name: "Book Mia — drama", cost: 200, done: false },
-  { id: 9, name: "Seb's suit for promo", cost: 350, done: false },
+  { name: "Book electrician (kitchen)", cost: 160, done: false, list: 'small', position: 0 },
+  { name: "Change thermostat", cost: 0, done: false, list: 'small', position: 1 },
+  { name: "Paint ceiling in en-suite", cost: 0, done: false, list: 'small', position: 2 },
+  { name: "Paint wall in Seb's room", cost: 0, done: false, list: 'small', position: 3 },
+  { name: "Buy new tumble dryer", cost: 250, done: false, list: 'small', position: 4 },
+  { name: "Order crittal door (1981×838mm)", cost: 250, done: false, list: 'small', position: 5 },
+  { name: "Book Mia — climbing", cost: 185, done: false, list: 'small', position: 6 },
+  { name: "Book Mia — drama", cost: 200, done: false, list: 'small', position: 7 },
+  { name: "Seb's suit for promo", cost: 350, done: false, list: 'small', position: 8 },
 ];
 
 const DEFAULT_BIG = [
-  { id: 101, name: "Carpet kids rooms + stairs", cost: 4000, done: false },
-  { id: 102, name: "Shutters (Amelie's room)", cost: 2000, done: false },
-  { id: 103, name: "Garden cabin", cost: 10000, done: false },
-  { id: 104, name: "Paint whole house", cost: 3000, done: false },
-  { id: 105, name: "Driveway touch-up", cost: 600, done: false },
-  { id: 106, name: "New garden furniture (summer 2026)", cost: 500, done: false },
+  { name: "Carpet kids rooms + stairs", cost: 4000, done: false, list: 'big', position: 0 },
+  { name: "Shutters (Amelie's room)", cost: 2000, done: false, list: 'big', position: 1 },
+  { name: "Garden cabin", cost: 10000, done: false, list: 'big', position: 2 },
+  { name: "Paint whole house", cost: 3000, done: false, list: 'big', position: 3 },
+  { name: "Driveway touch-up", cost: 600, done: false, list: 'big', position: 4 },
+  { name: "New garden furniture (summer 2026)", cost: 500, done: false, list: 'big', position: 5 },
 ];
 
-let smallItems = [], bigItems = [], nextId = 200;
+let smallItems = [], bigItems = [];
+let syncTimeout = null;
 
-function saveState() {
-  try {
-    localStorage.setItem('la_small', JSON.stringify(smallItems));
-    localStorage.setItem('la_big', JSON.stringify(bigItems));
-    localStorage.setItem('la_nextid', nextId);
-    const t = new Date().toLocaleTimeString('en-GB', {hour:'2-digit', minute:'2-digit'});
-    document.getElementById('last-saved').textContent = `Leachman Family · Saved at ${t}`;
-  } catch(e) {}
+function setSyncStatus(state) {
+  const dot = document.getElementById('sb-dot');
+  const txt = document.getElementById('sb-txt');
+  if (!dot || !txt) return;
+  dot.className = 'sb-dot ' + state;
+  if (state === 'synced') txt.textContent = 'Synced';
+  if (state === 'syncing') txt.textContent = 'Saving…';
+  if (state === 'error') txt.textContent = 'Sync error';
+  if (state === 'loading') txt.textContent = 'Loading…';
 }
 
-function loadState() {
+// ===== SUPABASE CRUD =====
+async function loadFromSupabase() {
+  setSyncStatus('loading');
   try {
-    const s = localStorage.getItem('la_small');
-    const b = localStorage.getItem('la_big');
-    if (s) smallItems = JSON.parse(s);
-    else smallItems = JSON.parse(JSON.stringify(DEFAULT_SMALL));
-    if (b) bigItems = JSON.parse(b);
-    else bigItems = JSON.parse(JSON.stringify(DEFAULT_BIG));
-    nextId = parseInt(localStorage.getItem('la_nextid') || '200');
+    const rows = await sbFetch('todos?order=position.asc,created_at.asc');
+    smallItems = rows.filter(r => r.list === 'small');
+    bigItems   = rows.filter(r => r.list === 'big');
+    // If DB is empty, seed with defaults
+    if (rows.length === 0) {
+      await seedDefaults();
+    } else {
+      renderList('small-list', smallItems);
+      renderList('big-list', bigItems);
+      setSyncStatus('synced');
+    }
   } catch(e) {
-    smallItems = JSON.parse(JSON.stringify(DEFAULT_SMALL));
-    bigItems = JSON.parse(JSON.stringify(DEFAULT_BIG));
+    console.error('Load error', e);
+    setSyncStatus('error');
   }
+}
+
+async function seedDefaults() {
+  setSyncStatus('syncing');
+  try {
+    const all = [...DEFAULT_SMALL, ...DEFAULT_BIG];
+    const rows = await sbFetch('todos', 'POST', all);
+    smallItems = rows.filter(r => r.list === 'small');
+    bigItems   = rows.filter(r => r.list === 'big');
+    renderList('small-list', smallItems);
+    renderList('big-list', bigItems);
+    setSyncStatus('synced');
+  } catch(e) {
+    console.error('Seed error', e);
+    setSyncStatus('error');
+  }
+}
+
+async function addItemToSupabase(item) {
+  setSyncStatus('syncing');
+  try {
+    const rows = await sbFetch('todos', 'POST', [item]);
+    setSyncStatus('synced');
+    return rows[0];
+  } catch(e) {
+    setSyncStatus('error');
+    throw e;
+  }
+}
+
+async function updateItemInSupabase(id, patch) {
+  setSyncStatus('syncing');
+  clearTimeout(syncTimeout);
+  syncTimeout = setTimeout(async () => {
+    try {
+      await sbFetch('todos?id=eq.' + id, 'PATCH', patch);
+      setSyncStatus('synced');
+    } catch(e) {
+      setSyncStatus('error');
+    }
+  }, 600);
+}
+
+async function deleteItemFromSupabase(id) {
+  setSyncStatus('syncing');
+  try {
+    await sbFetch('todos?id=eq.' + id, 'DELETE', null, {'Prefer': 'return=minimal'});
+    setSyncStatus('synced');
+  } catch(e) {
+    setSyncStatus('error');
+  }
+}
+
+async function reorderInSupabase(items) {
+  setSyncStatus('syncing');
+  clearTimeout(syncTimeout);
+  syncTimeout = setTimeout(async () => {
+    try {
+      await Promise.all(items.map((item, i) =>
+        sbFetch('todos?id=eq.' + item.id, 'PATCH', { position: i })
+      ));
+      setSyncStatus('synced');
+    } catch(e) {
+      setSyncStatus('error');
+    }
+  }, 800);
 }
 
 // ===== NAVIGATION =====
@@ -1189,48 +1292,77 @@ function fmt(n) {
 function renderList(listId, items) {
   const ul = document.getElementById(listId);
   ul.innerHTML = '';
-  items.forEach((item, idx) => {
-    const li = document.createElement('li');
-    li.className = 'todo-item';
+
+  const active    = items.filter(i => !i.done);
+  const completed = items.filter(i => i.done);
+
+  active.forEach((item, idx) => {
+    ul.appendChild(buildTodoItem(item, idx, listId, false));
+  });
+
+  if (completed.length > 0) {
+    const section = document.createElement('li');
+    section.className = 'todo-completed-section';
+    section.innerHTML = '<div class="todo-completed-label">Completed</div>';
+    section.style.listStyle = 'none';
+
+    const completedList = document.createElement('ul');
+    completedList.style.listStyle = 'none';
+    completedList.style.padding = '0';
+
+    completed.forEach((item, idx) => {
+      completedList.appendChild(buildTodoItem(item, idx, listId, true));
+    });
+
+    section.appendChild(completedList);
+    ul.appendChild(section);
+  }
+
+  updateTotals();
+  updateOverviewTotal();
+}
+
+function buildTodoItem(item, idx, listId, isCompleted) {
+  const li = document.createElement('li');
+  li.className = 'todo-item' + (isCompleted ? ' completed' : '');
+  if (!isCompleted) {
     li.draggable = true;
+    li.dataset.id = item.id;
     li.dataset.idx = idx;
+  }
 
-    li.innerHTML = `
-      <span class="drag-handle">⠿</span>
-      <div class="todo-check ${item.done ? 'checked' : ''}" onclick="toggleDone('${listId}',${idx})">
-        ${item.done ? '✓' : ''}
-      </div>
-      <div class="todo-name ${item.done ? 'done' : ''}"
-        contenteditable="false"
-        ondblclick="startEdit(this)"
-        onblur="finishEdit(this,'${listId}',${idx})"
-        onkeydown="if(event.key==='Enter'){event.preventDefault();this.blur()}"
-      >${escHtml(item.name)}</div>
-      <div class="todo-cost-wrap">
-        <span class="todo-cost-prefix">£</span>
-        <input class="todo-cost" type="number" min="0" value="${item.cost || ''}"
-          placeholder="0"
-          oninput="updateCost('${listId}',${idx},this.value)"
-        >
-      </div>
-      <button class="todo-delete" onclick="deleteItem('${listId}',${idx})" title="Remove">×</button>
-    `;
+  li.innerHTML = `
+    ${isCompleted ? '' : '<span class="drag-handle">⠿</span>'}
+    <div class="todo-check ${item.done ? 'checked' : ''}" onclick="toggleDone('${item.id}','${listId}')">
+      ${item.done ? '✓' : ''}
+    </div>
+    <div class="todo-name ${item.done ? 'done' : ''}"
+      contenteditable="false"
+      ${isCompleted ? '' : `ondblclick="startEdit(this)" onblur="finishEdit(this,'${item.id}','${listId}')" onkeydown="if(event.key==='Enter'){event.preventDefault();this.blur()}"`}
+    >${escHtml(item.name)}</div>
+    <div class="todo-cost-wrap">
+      <span class="todo-cost-prefix">£</span>
+      <input class="todo-cost" type="number" min="0" value="${item.cost || ''}"
+        placeholder="0"
+        ${isCompleted ? 'disabled' : `oninput="updateCost('${item.id}','${listId}',this.value)"`}
+      >
+    </div>
+    <button class="todo-delete" onclick="deleteItem('${item.id}','${listId}')" title="Remove">×</button>
+  `;
 
-    // Drag events
+  if (!isCompleted) {
     li.addEventListener('dragstart', onDragStart);
     li.addEventListener('dragover', onDragOver);
     li.addEventListener('dragleave', onDragLeave);
     li.addEventListener('drop', onDrop);
     li.addEventListener('dragend', onDragEnd);
+  }
 
-    ul.appendChild(li);
-  });
-  updateTotals();
-  updateOverviewTotal();
+  return li;
 }
 
 function escHtml(s) {
-  return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+  return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
 }
 
 function startEdit(el) {
@@ -1242,62 +1374,96 @@ function startEdit(el) {
   window.getSelection().addRange(range);
 }
 
-function finishEdit(el, listId, idx) {
+function finishEdit(el, id, listId) {
   el.contentEditable = 'false';
   const items = listId === 'small-list' ? smallItems : bigItems;
-  items[idx].name = el.textContent.trim() || items[idx].name;
-  saveState();
+  const item = items.find(i => i.id === id);
+  if (!item) return;
+  const newName = el.textContent.trim() || item.name;
+  if (newName !== item.name) {
+    item.name = newName;
+    updateItemInSupabase(id, { name: newName });
+  }
 }
 
-function toggleDone(listId, idx) {
+async function toggleDone(id, listId) {
   const items = listId === 'small-list' ? smallItems : bigItems;
-  items[idx].done = !items[idx].done;
+  const item = items.find(i => i.id === id);
+  if (!item) return;
+  item.done = !item.done;
+
+  // Animate: briefly mark then re-render
   renderList(listId, items);
-  saveState();
+
+  // Scroll completed item into view after animation
+  setTimeout(() => {
+    const completedSection = document.querySelector(`#${listId} .todo-completed-section`);
+    if (completedSection && item.done) {
+      completedSection.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    }
+  }, 100);
+
+  try {
+    await sbFetch('todos?id=eq.' + id, 'PATCH', { done: item.done });
+    setSyncStatus('synced');
+  } catch(e) {
+    setSyncStatus('error');
+  }
 }
 
-function updateCost(listId, idx, val) {
+function updateCost(id, listId, val) {
   const items = listId === 'small-list' ? smallItems : bigItems;
-  items[idx].cost = parseFloat(val) || 0;
+  const item = items.find(i => i.id === id);
+  if (!item) return;
+  item.cost = parseFloat(val) || 0;
   updateTotals();
   updateOverviewTotal();
-  saveState();
+  updateItemInSupabase(id, { cost: item.cost });
 }
 
-function deleteItem(listId, idx) {
+async function deleteItem(id, listId) {
   const items = listId === 'small-list' ? smallItems : bigItems;
+  const idx = items.findIndex(i => i.id === id);
+  if (idx === -1) return;
   items.splice(idx, 1);
   renderList(listId, items);
-  saveState();
+  await deleteItemFromSupabase(id);
 }
 
-function addItem(which) {
+async function addItem(which) {
   const nameEl = document.getElementById(which + '-name');
   const costEl = document.getElementById(which + '-cost');
   const name = nameEl.value.trim();
   if (!name) { nameEl.focus(); return; }
   const cost = parseFloat(costEl.value) || 0;
-  const item = { id: nextId++, name, cost, done: false };
-  if (which === 'small') smallItems.push(item);
-  else bigItems.push(item);
+  const listId = which === 'small' ? 'small-list' : 'big-list';
+  const items = which === 'small' ? smallItems : bigItems;
+  const position = items.filter(i => !i.done).length;
+
+  const newItem = { name, cost, done: false, list: which, position };
   nameEl.value = '';
   costEl.value = '';
-  renderList(which === 'small' ? 'small-list' : 'big-list', which === 'small' ? smallItems : bigItems);
-  saveState();
-  nameEl.focus();
+
+  try {
+    const saved = await addItemToSupabase(newItem);
+    items.push(saved);
+    renderList(listId, items);
+    nameEl.focus();
+  } catch(e) {
+    console.error('Add failed', e);
+  }
 }
 
 function updateTotals() {
   const smallTotal = smallItems.reduce((s, i) => s + (i.cost || 0), 0);
-  const bigTotal = bigItems.reduce((s, i) => s + (i.cost || 0), 0);
+  const bigTotal   = bigItems.reduce((s, i) => s + (i.cost || 0), 0);
   document.getElementById('small-total').textContent = fmt(smallTotal);
-  document.getElementById('big-total').textContent = fmt(bigTotal);
+  document.getElementById('big-total').textContent   = fmt(bigTotal);
   document.getElementById('big-total-tracker').textContent = fmt(bigTotal);
   const remaining = 10000 - bigTotal;
   const remEl = document.getElementById('big-remaining');
-  remEl.textContent = fmt(Math.abs(remaining));
-  remEl.className = 'data-row-val ' + (remaining < 0 ? 'red' : 'green');
   remEl.textContent = (remaining < 0 ? '−' : '') + fmt(Math.abs(remaining));
+  remEl.className = 'data-row-val ' + (remaining < 0 ? 'red' : 'green');
   const alertEl = document.getElementById('big-alert');
   alertEl.style.display = bigTotal > 10000 ? 'block' : 'none';
   alertEl.textContent = `Projects exceed mortgage top-up by ${fmt(bigTotal - 10000)}`;
@@ -1310,10 +1476,10 @@ function updateOverviewTotal() {
 }
 
 // ===== DRAG AND DROP =====
-let dragSrcIdx = null, dragListId = null;
+let dragSrcId = null, dragListId = null;
 
 function onDragStart(e) {
-  dragSrcIdx = parseInt(this.dataset.idx);
+  dragSrcId  = this.dataset.id;
   dragListId = this.closest('ul').id;
   this.classList.add('dragging');
   e.dataTransfer.effectAllowed = 'move';
@@ -1332,14 +1498,27 @@ function onDragLeave() {
 function onDrop(e) {
   e.preventDefault();
   this.classList.remove('drag-over');
-  const targetIdx = parseInt(this.dataset.idx);
-  const targetListId = this.closest('ul').id;
-  if (targetListId !== dragListId || dragSrcIdx === targetIdx) return;
+  const targetId   = this.dataset.id;
+  const targetList = this.closest('ul').id;
+  if (targetList !== dragListId || dragSrcId === targetId) return;
+
   const items = dragListId === 'small-list' ? smallItems : bigItems;
-  const moved = items.splice(dragSrcIdx, 1)[0];
-  items.splice(targetIdx, 0, moved);
-  renderList(dragListId, items);
-  saveState();
+  const active = items.filter(i => !i.done);
+  const srcIdx = active.findIndex(i => i.id === dragSrcId);
+  const tgtIdx = active.findIndex(i => i.id === targetId);
+  if (srcIdx === -1 || tgtIdx === -1) return;
+
+  const [moved] = active.splice(srcIdx, 1);
+  active.splice(tgtIdx, 0, moved);
+
+  // Rebuild items array: active (reordered) + done
+  const done = items.filter(i => i.done);
+  if (dragListId === 'small-list') smallItems = [...active, ...done];
+  else bigItems = [...active, ...done];
+
+  const updatedItems = dragListId === 'small-list' ? smallItems : bigItems;
+  renderList(dragListId, updatedItems);
+  reorderInSupabase(active);
 }
 
 function onDragEnd() {
@@ -1834,11 +2013,13 @@ function renderDecisionSummary(results) {
   </div>`;
 }
 
+
+
 // ===== INIT =====
-loadState();
-renderList('small-list', smallItems);
-renderList('big-list', bigItems);
-handleHash();
+document.addEventListener('DOMContentLoaded', async () => {
+  handleHash();
+  await loadFromSupabase();
+});
 </script>
 
 </body>
