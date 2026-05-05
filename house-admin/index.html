@@ -91,7 +91,7 @@
     border-color: var(--text);
   }
 
-  .page { display: none; padding: 36px 40px; max-width: 1100px; }
+  .page { display: none; padding: 36px 40px; max-width: 1600px; width: 100%; }
   .page.active { display: block; }
 
   /* ---- Grid helpers ---- */
@@ -1451,7 +1451,7 @@ async function deleteItem(id, listId) {
   await deleteItemFromSupabase(id);
 }
 
-async function addItem(which) {
+async async function addItem(which) {
   const nameEl = document.getElementById(which + '-name');
   const costEl = document.getElementById(which + '-cost');
   const name = nameEl.value.trim();
