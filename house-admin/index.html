@@ -935,7 +935,7 @@
 <!-- ===== TO-DO LISTS ===== -->
 <div class="page" id="page-todos">
 
-  <div class="grid-2">
+  <div class="grid-3">
 
     <!-- Small tasks -->
     <div>
@@ -979,6 +979,24 @@
         <div class="data-row"><span class="data-row-label">Total big projects</span><span class="data-row-val red" id="big-total-tracker">£0</span></div>
         <div class="data-row"><span class="data-row-label">Remaining / shortfall</span><span class="data-row-val" id="big-remaining">£10,000</span></div>
         <div id="big-alert" style="display:none;" class="alert alert-danger" style="margin-top:8px;">Projects exceed budget</div>
+      </div>
+    </div>
+
+
+    <!-- Wishlist -->
+    <div>
+      <div class="section-label">Wishlist</div>
+      <div class="card">
+        <ul class="todo-list" id="wish-list"></ul>
+        <div class="todo-total">
+          <span>Total wishlist</span>
+          <span id="wish-total">£0</span>
+        </div>
+        <div class="add-item-row">
+          <input class="add-input" id="wish-name" placeholder="Add wish…" onkeydown="if(event.key==='Enter')addItem('wish')">
+          <input class="add-input cost" id="wish-cost" placeholder="£ cost" type="number" min="0" onkeydown="if(event.key==='Enter')addItem('wish')">
+          <button class="add-btn" onclick="addItem('wish')">Add</button>
+        </div>
       </div>
     </div>
 
@@ -1153,7 +1171,7 @@ const DEFAULT_BIG = [
   { name: "New garden furniture (summer 2026)", cost: 500, done: false, list: 'big', position: 5 },
 ];
 
-let smallItems = [], bigItems = [];
+let smallItems = [], bigItems = [], wishItems = [];
 let syncTimeout = null;
 
 function setSyncStatus(state) {
@@ -1174,12 +1192,14 @@ async function loadFromSupabase() {
     const rows = await sbFetch('todos?order=position.asc,created_at.asc');
     smallItems = rows.filter(r => r.list === 'small');
     bigItems   = rows.filter(r => r.list === 'big');
+    wishItems  = rows.filter(r => r.list === 'wish');
     // If DB is empty, seed with defaults
     if (rows.length === 0) {
       await seedDefaults();
     } else {
       renderList('small-list', smallItems);
       renderList('big-list', bigItems);
+      renderList('wish-list', wishItems);
       setSyncStatus('synced');
     }
   } catch(e) {
@@ -1195,6 +1215,7 @@ async function seedDefaults() {
     const rows = await sbFetch('todos', 'POST', all);
     smallItems = rows.filter(r => r.list === 'small');
     bigItems   = rows.filter(r => r.list === 'big');
+    wishItems  = rows.filter(r => r.list === 'wish');
     renderList('small-list', smallItems);
     renderList('big-list', bigItems);
     setSyncStatus('synced');
@@ -1338,7 +1359,7 @@ function buildTodoItem(item, idx, listId, isCompleted) {
     </div>
     <div class="todo-name ${item.done ? 'done' : ''}"
       contenteditable="false"
-      ${isCompleted ? '' : `ondblclick="startEdit(this)" onblur="finishEdit(this,'${item.id}','${listId}')" onkeydown="if(event.key==='Enter'){event.preventDefault();this.blur()}"`}
+      ${isCompleted ? '' : `onclick="startEdit(this)" onblur="finishEdit(this,'${item.id}','${listId}')" onkeydown="if(event.key==='Enter'){event.preventDefault();this.blur()}"`}
     >${escHtml(item.name)}</div>
     <div class="todo-cost-wrap">
       <span class="todo-cost-prefix">£</span>
@@ -1376,7 +1397,7 @@ function startEdit(el) {
 
 function finishEdit(el, id, listId) {
   el.contentEditable = 'false';
-  const items = listId === 'small-list' ? smallItems : bigItems;
+  const items = listId === 'small-list' ? smallItems : listId === 'big-list' ? bigItems : wishItems;
   const item = items.find(i => i.id === id);
   if (!item) return;
   const newName = el.textContent.trim() || item.name;
@@ -1387,7 +1408,7 @@ function finishEdit(el, id, listId) {
 }
 
 async function toggleDone(id, listId) {
-  const items = listId === 'small-list' ? smallItems : bigItems;
+  const items = listId === 'small-list' ? smallItems : listId === 'big-list' ? bigItems : wishItems;
   const item = items.find(i => i.id === id);
   if (!item) return;
   item.done = !item.done;
@@ -1412,7 +1433,7 @@ async function toggleDone(id, listId) {
 }
 
 function updateCost(id, listId, val) {
-  const items = listId === 'small-list' ? smallItems : bigItems;
+  const items = listId === 'small-list' ? smallItems : listId === 'big-list' ? bigItems : wishItems;
   const item = items.find(i => i.id === id);
   if (!item) return;
   item.cost = parseFloat(val) || 0;
@@ -1422,7 +1443,7 @@ function updateCost(id, listId, val) {
 }
 
 async function deleteItem(id, listId) {
-  const items = listId === 'small-list' ? smallItems : bigItems;
+  const items = listId === 'small-list' ? smallItems : listId === 'big-list' ? bigItems : wishItems;
   const idx = items.findIndex(i => i.id === id);
   if (idx === -1) return;
   items.splice(idx, 1);
@@ -1436,8 +1457,8 @@ async function addItem(which) {
   const name = nameEl.value.trim();
   if (!name) { nameEl.focus(); return; }
   const cost = parseFloat(costEl.value) || 0;
-  const listId = which === 'small' ? 'small-list' : 'big-list';
-  const items = which === 'small' ? smallItems : bigItems;
+  const listId = which === 'small' ? 'small-list' : which === 'big' ? 'big-list' : 'wish-list';
+  const items = which === 'small' ? smallItems : which === 'big' ? bigItems : wishItems;
   const position = items.filter(i => !i.done).length;
 
   const newItem = { name, cost, done: false, list: which, position };
@@ -1457,9 +1478,11 @@ async function addItem(which) {
 function updateTotals() {
   const smallTotal = smallItems.reduce((s, i) => s + (i.cost || 0), 0);
   const bigTotal   = bigItems.reduce((s, i) => s + (i.cost || 0), 0);
+  const wishTotal  = wishItems.reduce((s, i) => s + (i.cost || 0), 0);
   document.getElementById('small-total').textContent = fmt(smallTotal);
   document.getElementById('big-total').textContent   = fmt(bigTotal);
   document.getElementById('big-total-tracker').textContent = fmt(bigTotal);
+  if (document.getElementById('wish-total')) document.getElementById('wish-total').textContent = fmt(wishTotal);
   const remaining = 10000 - bigTotal;
   const remEl = document.getElementById('big-remaining');
   remEl.textContent = (remaining < 0 ? '−' : '') + fmt(Math.abs(remaining));
