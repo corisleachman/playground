@@ -1174,14 +1174,15 @@ const DEFAULT_BIG = [
 let smallItems = [], bigItems = [], wishItems = [];
 let syncTimeout = null;
 
-function setSyncStatus(state) {
+function setSyncStatus(state, customMsg) {
   const dot = document.getElementById('sb-dot');
   const txt = document.getElementById('sb-txt');
   if (!dot || !txt) return;
   dot.className = 'sb-dot ' + state;
+  if (customMsg) { txt.textContent = customMsg; return; }
   if (state === 'synced') txt.textContent = 'Synced';
   if (state === 'syncing') txt.textContent = 'Saving…';
-  if (state === 'error') txt.textContent = 'Sync error';
+  if (state === 'error') txt.textContent = 'Sync error — check console';
   if (state === 'loading') txt.textContent = 'Loading…';
 }
 
@@ -1204,7 +1205,15 @@ async function loadFromSupabase() {
     }
   } catch(e) {
     console.error('Load error', e);
-    setSyncStatus('error');
+    let msg = e.message || '';
+    // Try to parse Supabase error JSON
+    try { const j = JSON.parse(msg); msg = j.message || j.hint || msg; } catch(_) {}
+    if (msg.includes('relation') && msg.includes('does not exist')) {
+      setSyncStatus('error', '⚠️ DB table missing — see console for SQL to create it');
+      console.warn('Create the todos table in Supabase with this SQL:\n\ncreate table todos (\n  id uuid primary key default gen_random_uuid(),\n  list text not null,\n  name text not null,\n  done boolean default false,\n  cost numeric,\n  position integer default 0,\n  created_at timestamptz default now()\n);\n\nalter table todos enable row level security;\ncreate policy "allow all" on todos for all using (true) with check (true);');
+    } else {
+      setSyncStatus('error', 'Sync error: ' + (msg || 'unknown'));
+    }
   }
 }
 
@@ -2047,3 +2056,4 @@ document.addEventListener('DOMContentLoaded', async () => {
 
 </body>
 </html>
+
