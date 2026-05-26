@@ -374,6 +374,75 @@
   }
   .add-btn:hover { opacity: 0.85; }
 
+  /* ---- Holiday table ---- */
+  .holiday-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+  }
+  .holiday-table th {
+    font-size: 11px;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--text-muted);
+    text-align: left;
+    padding: 6px 10px;
+    border-bottom: 1px solid var(--border);
+  }
+  .holiday-table td {
+    padding: 8px 10px;
+    border-bottom: 1px solid var(--border);
+    vertical-align: middle;
+  }
+  .holiday-table tbody tr:last-child td { border-bottom: none; }
+  .holiday-table .editable {
+    cursor: text;
+    min-width: 60px;
+    outline: none;
+    border-radius: 4px;
+    padding: 2px 4px;
+  }
+  .holiday-table .editable:focus {
+    background: var(--input-bg, #f5f5f5);
+    outline: 1px solid var(--accent);
+  }
+  .holiday-table input.hol-inline {
+    border: none;
+    background: transparent;
+    font-size: 13px;
+    color: var(--text);
+    width: 90px;
+    padding: 2px 4px;
+    border-radius: 4px;
+  }
+  .holiday-table input.hol-inline:focus {
+    background: var(--input-bg, #f5f5f5);
+    outline: 1px solid var(--accent);
+  }
+  .holiday-table .hol-delete {
+    background: none;
+    border: none;
+    color: var(--text-muted);
+    cursor: pointer;
+    font-size: 16px;
+    opacity: 0;
+    transition: opacity 0.15s;
+    padding: 0 4px;
+  }
+  .holiday-table tbody tr:hover .hol-delete { opacity: 1; }
+  .holiday-table .hol-delete:hover { color: var(--danger); }
+  .holiday-table .over-budget { color: var(--danger); font-weight: 600; }
+  .holiday-table .under-budget { color: var(--success, #2d9e5f); font-weight: 600; }
+  .holiday-totals-row td {
+    font-weight: 600;
+    font-size: 13px;
+    padding: 10px 10px 4px;
+    border-top: 2px solid var(--border);
+    border-bottom: none;
+  }
+  .holiday-add-row { flex-wrap: wrap; gap: 8px; }
+
   /* ---- Cash flow table ---- */
   .cf-table {
     width: 100%;
@@ -1001,6 +1070,41 @@
     </div>
 
   </div>
+
+  <!-- Holiday Planning -->
+  <div class="section-label" style="margin-top:28px;">Holiday planning</div>
+  <div class="card" id="holiday-card">
+    <table class="holiday-table" id="holiday-table">
+      <thead>
+        <tr>
+          <th>Holiday</th>
+          <th>Date</th>
+          <th>Budget</th>
+          <th>Cost</th>
+          <th>vs Budget</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody id="holiday-body"></tbody>
+      <tfoot>
+        <tr class="holiday-totals-row">
+          <td colspan="2">Totals</td>
+          <td id="holiday-total-budget">£0</td>
+          <td id="holiday-total-cost">£0</td>
+          <td id="holiday-total-diff"></td>
+          <td></td>
+        </tr>
+      </tfoot>
+    </table>
+    <div class="add-item-row holiday-add-row" style="margin-top:14px;">
+      <input class="add-input" id="hol-name" placeholder="Holiday name…" onkeydown="if(event.key==='Enter')addHoliday()">
+      <input class="add-input" id="hol-date" placeholder="Date (e.g. Aug 2025)" onkeydown="if(event.key==='Enter')addHoliday()">
+      <input class="add-input cost" id="hol-budget" placeholder="£ budget" type="number" min="0" onkeydown="if(event.key==='Enter')addHoliday()">
+      <input class="add-input cost" id="hol-cost" placeholder="£ cost" type="number" min="0" onkeydown="if(event.key==='Enter')addHoliday()">
+      <button class="add-btn" onclick="addHoliday()">Add</button>
+    </div>
+  </div>
+
 </div>
 
 <!-- ===== CASH FLOW ===== -->
@@ -1505,6 +1609,112 @@ function updateOverviewTotal() {
   const total = smallItems.reduce((s,i)=>s+(i.cost||0),0) + bigItems.reduce((s,i)=>s+(i.cost||0),0);
   const el = document.getElementById('ov-total-projects');
   if (el) el.textContent = fmt(total);
+}
+
+// ===== HOLIDAY PLANNING =====
+let holidayItems = [];
+
+async function loadHolidays() {
+  try {
+    const rows = await sbFetch('holidays?order=created_at.asc');
+    holidayItems = rows || [];
+    renderHolidays();
+  } catch(e) {
+    console.error('Holidays load error', e);
+  }
+}
+
+async function addHoliday() {
+  const nameEl   = document.getElementById('hol-name');
+  const dateEl   = document.getElementById('hol-date');
+  const budgetEl = document.getElementById('hol-budget');
+  const costEl   = document.getElementById('hol-cost');
+  const name = nameEl.value.trim();
+  if (!name) { nameEl.focus(); return; }
+  const item = {
+    name,
+    date: dateEl.value.trim() || null,
+    budget: parseFloat(budgetEl.value) || 0,
+    cost: parseFloat(costEl.value) || 0
+  };
+  nameEl.value = ''; dateEl.value = ''; budgetEl.value = ''; costEl.value = '';
+  try {
+    setSyncStatus('syncing');
+    const saved = await sbFetch('holidays', 'POST', [item]);
+    holidayItems.push(saved[0]);
+    renderHolidays();
+    setSyncStatus('synced');
+    nameEl.focus();
+  } catch(e) {
+    console.error('Add holiday failed', e);
+    setSyncStatus('error');
+  }
+}
+
+async function deleteHoliday(id) {
+  holidayItems = holidayItems.filter(h => h.id !== id);
+  renderHolidays();
+  try {
+    setSyncStatus('syncing');
+    await sbFetch('holidays?id=eq.' + id, 'DELETE', null, {'Prefer': 'return=minimal'});
+    setSyncStatus('synced');
+  } catch(e) { setSyncStatus('error'); }
+}
+
+async function updateHoliday(id, patch) {
+  const item = holidayItems.find(h => h.id === id);
+  if (!item) return;
+  Object.assign(item, patch);
+  renderHolidayTotals();
+  try {
+    setSyncStatus('syncing');
+    await sbFetch('holidays?id=eq.' + id, 'PATCH', patch);
+    setSyncStatus('synced');
+  } catch(e) { setSyncStatus('error'); }
+}
+
+function renderHolidays() {
+  const tbody = document.getElementById('holiday-body');
+  if (!tbody) return;
+  tbody.innerHTML = '';
+  holidayItems.forEach(h => {
+    const diff = (h.budget || 0) - (h.cost || 0);
+    const diffClass = diff < 0 ? 'over-budget' : diff > 0 ? 'under-budget' : '';
+    const diffText = diff === 0 ? '—' : (diff < 0 ? '−' : '+') + '£' + Math.abs(diff).toLocaleString('en-GB');
+    const tr = document.createElement('tr');
+    tr.innerHTML = `
+      <td><span class="editable" contenteditable="true"
+        onblur="updateHoliday('${h.id}',{name:this.textContent.trim()||'${escHtml(h.name)}'})"
+        onkeydown="if(event.key==='Enter'){event.preventDefault();this.blur()}"
+      >${escHtml(h.name)}</span></td>
+      <td><span class="editable" contenteditable="true"
+        onblur="updateHoliday('${h.id}',{date:this.textContent.trim()||null})"
+        onkeydown="if(event.key==='Enter'){event.preventDefault();this.blur()}"
+      >${escHtml(h.date || '')}</span></td>
+      <td><input class="hol-inline" type="number" min="0" value="${h.budget || ''}" placeholder="0"
+        onchange="updateHoliday('${h.id}',{budget:parseFloat(this.value)||0})"></td>
+      <td><input class="hol-inline" type="number" min="0" value="${h.cost || ''}" placeholder="0"
+        onchange="updateHoliday('${h.id}',{cost:parseFloat(this.value)||0})"></td>
+      <td class="${diffClass}">${diffText}</td>
+      <td><button class="hol-delete" onclick="deleteHoliday('${h.id}')" title="Remove">×</button></td>
+    `;
+    tbody.appendChild(tr);
+  });
+  renderHolidayTotals();
+}
+
+function renderHolidayTotals() {
+  const totalBudget = holidayItems.reduce((s, h) => s + (h.budget || 0), 0);
+  const totalCost   = holidayItems.reduce((s, h) => s + (h.cost || 0), 0);
+  const diff = totalBudget - totalCost;
+  const el = id => document.getElementById(id);
+  if (el('holiday-total-budget')) el('holiday-total-budget').textContent = fmt(totalBudget);
+  if (el('holiday-total-cost'))   el('holiday-total-cost').textContent   = fmt(totalCost);
+  if (el('holiday-total-diff')) {
+    const diffText = diff === 0 ? '—' : (diff < 0 ? '−' : '+') + '£' + Math.abs(diff).toLocaleString('en-GB');
+    el('holiday-total-diff').textContent = diffText;
+    el('holiday-total-diff').className = diff < 0 ? 'over-budget' : diff > 0 ? 'under-budget' : '';
+  }
 }
 
 // ===== DRAG AND DROP =====
@@ -2051,9 +2261,11 @@ function renderDecisionSummary(results) {
 document.addEventListener('DOMContentLoaded', async () => {
   handleHash();
   await loadFromSupabase();
+  await loadHolidays();
 });
 </script>
 
 </body>
 </html>
+
 
