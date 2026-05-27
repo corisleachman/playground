@@ -1398,6 +1398,35 @@ async function sbFetch(path, method = 'GET', body = null, extra = {}) {
   return text ? JSON.parse(text) : null;
 }
 
+// ===== NAVIGATION =====
+const HASH_MAP = {
+  '#overview':  'overview',
+  '#todos':     'todos',
+  '#cashflow':  'cashflow',
+  '#scenarios': 'scenarios',
+};
+
+function showPage(name) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.nav-link').forEach(a => a.classList.remove('active'));
+  const pageEl = document.getElementById('page-' + name);
+  if (!pageEl) return;
+  pageEl.classList.add('active');
+  const link = document.querySelector('.nav-link[href="#' + name + '"]');
+  if (link) link.classList.add('active');
+  if (name === 'cashflow') renderCashFlow();
+  if (name === 'overview') updateOverviewTotal();
+  if (name === 'scenarios') renderScenarios();
+}
+
+function handleHash() {
+  const hash = window.location.hash || '#overview';
+  const name = HASH_MAP[hash] || 'overview';
+  showPage(name);
+}
+
+window.addEventListener('hashchange', handleHash);
+
 // ===== STATE =====
 let allItems = [];        // unified items from Supabase
 let categories = [];      // list of category strings
@@ -1753,7 +1782,6 @@ function updateOverviewTotal() {
   if (el) el.textContent = fmt(total);
 }
 
-// ===== CASH FLOW =====
 // ===== CASH FLOW =====
 const MONTHS = ['Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
 
@@ -2252,6 +2280,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
 </body>
 </html>
+
 
 
 
