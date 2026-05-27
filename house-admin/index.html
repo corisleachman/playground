@@ -1579,8 +1579,11 @@ function renderTabs() {
   tabs.innerHTML = all.map(c => {
     const label = c === 'all' ? 'All' : c;
     const count = c === 'all' ? allItems.length : allItems.filter(i => i.category === c).length;
-    return `<button class="cat-tab${activeFilter === c ? ' active' : ''}" onclick="setFilter('${escHtml(c)}')">${escHtml(label)} <span class="tab-count">${count}</span></button>`;
+    return `<button class="cat-tab${activeFilter === c ? ' active' : ''}" data-cat="${escHtml(c)}">${escHtml(label)} <span class="tab-count">${count}</span></button>`;
   }).join('');
+  tabs.querySelectorAll('.cat-tab').forEach(btn => {
+    btn.addEventListener('click', () => setFilter(btn.dataset.cat));
+  });
 }
 
 function renderSummaryBoxes() {
@@ -1593,7 +1596,7 @@ function renderSummaryBoxes() {
     const excluded = items.length - included.length;
     const done = items.filter(i => i.done).length;
     return `
-      <div class="cat-summary-box" onclick="setFilter('${escHtml(cat)}')">
+      <div class="cat-summary-box" data-cat="${escHtml(cat)}">
         <div class="cat-summary-name">${escHtml(cat)}</div>
         <div class="cat-summary-total">${fmt(total)}</div>
         <div class="cat-summary-meta">
@@ -1603,6 +1606,9 @@ function renderSummaryBoxes() {
         </div>
       </div>`;
   }).join('');
+  grid.querySelectorAll('.cat-summary-box').forEach(box => {
+    box.addEventListener('click', () => setFilter(box.dataset.cat));
+  });
 }
 
 function renderTable() {
@@ -1639,6 +1645,7 @@ function renderTable() {
       <td class="col-name">
         <span class="item-name-text${isCompleted ? ' name-done' : ''}"
           contenteditable="${isCompleted ? 'false' : 'true'}"
+          data-id="${item.id}" data-field="name"
           onblur="onNameBlur(this,'${item.id}')"
           onkeydown="if(event.key==='Enter'){event.preventDefault();this.blur()}"
         >${escHtml(item.name)}</span>
@@ -1649,7 +1656,8 @@ function renderTable() {
       <td class="col-date">
         <span class="editable-cell"
           contenteditable="${isCompleted ? 'false' : 'true'}"
-          onblur="if(this.textContent.trim()!=='${escHtml(item.date||'')}')saveItemPatch('${item.id}',{date:this.textContent.trim()||null})"
+          data-id="${item.id}" data-field="date" data-orig="${escHtml(item.date||'')}"
+          onblur="onFieldBlur(this)"
           onkeydown="if(event.key==='Enter'){event.preventDefault();this.blur()}"
         >${escHtml(item.date || '')}</span>
       </td>
@@ -1700,6 +1708,17 @@ async function toggleItemDone(id) {
   const item = allItems.find(i => i.id === id);
   if (!item) return;
   await saveItemPatch(id, { done: !item.done });
+}
+
+function onFieldBlur(el) {
+  const id = el.dataset.id;
+  const field = el.dataset.field;
+  const orig = el.dataset.orig || '';
+  const val = el.textContent.trim();
+  if (val !== orig) {
+    el.dataset.orig = val;
+    saveItemPatch(id, { [field]: val || null });
+  }
 }
 
 function onNameBlur(el, id) {
@@ -2233,6 +2252,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
 </body>
 </html>
+
 
 
 
