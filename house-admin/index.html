@@ -394,6 +394,15 @@
   .cat-summary-total { font-size: 22px; font-weight: 600; color: var(--text); font-family: 'Lora', serif; }
   .cat-summary-meta { font-size: 11px; color: var(--text-muted); margin-top: 4px; }
   .excluded-note { color: var(--warn); }
+  .cat-summary-total-box {
+    background: var(--text) !important;
+    border-color: var(--text) !important;
+    cursor: pointer;
+  }
+  .cat-summary-total-box .cat-summary-name { color: rgba(255,255,255,0.6); }
+  .cat-summary-total-box .cat-summary-total { color: #fff; }
+  .cat-summary-total-box .cat-summary-meta { color: rgba(255,255,255,0.5); }
+  .cat-summary-total-box:hover { box-shadow: 0 2px 8px rgba(0,0,0,0.25) !important; border-color: var(--text) !important; }
 
   /* ---- Filter tabs ---- */
   .cat-tabs-row { display: flex; align-items: center; gap: 10px; margin-bottom: 12px; flex-wrap: wrap; }
@@ -1618,10 +1627,12 @@ function renderTabs() {
 function renderSummaryBoxes() {
   const grid = document.getElementById('cat-summary-grid');
   if (!grid) return;
-  grid.innerHTML = categories.map(cat => {
+
+  // Category boxes
+  const catBoxes = categories.map(cat => {
     const items = allItems.filter(i => i.category === cat);
     const included = items.filter(i => i.included !== false);
-    const total = included.reduce((s, i) => s + (i.cost || 0), 0);
+    const total = included.reduce((s, i) => s + (i.budget || 0), 0);
     const excluded = items.length - included.length;
     const done = items.filter(i => i.done).length;
     return `
@@ -1635,6 +1646,18 @@ function renderSummaryBoxes() {
         </div>
       </div>`;
   }).join('');
+
+  // Grand total box
+  const allIncluded = allItems.filter(i => i.included !== false);
+  const grandTotal = allIncluded.reduce((s, i) => s + (i.budget || 0), 0);
+  const totalBox = `
+    <div class="cat-summary-box cat-summary-total-box" data-cat="all">
+      <div class="cat-summary-name">Total budget</div>
+      <div class="cat-summary-total">${fmt(grandTotal)}</div>
+      <div class="cat-summary-meta">${allItems.length} item${allItems.length !== 1 ? 's' : ''} across ${categories.length} categories</div>
+    </div>`;
+
+  grid.innerHTML = totalBox + catBoxes;
   grid.querySelectorAll('.cat-summary-box').forEach(box => {
     box.addEventListener('click', () => setFilter(box.dataset.cat));
   });
@@ -2280,6 +2303,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
 </body>
 </html>
+
 
 
 
