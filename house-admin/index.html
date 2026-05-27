@@ -374,6 +374,213 @@
   }
   .add-btn:hover { opacity: 0.85; }
 
+  /* ---- Category summary boxes ---- */
+  .cat-summary-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    gap: 12px;
+    margin-bottom: 20px;
+  }
+  .cat-summary-box {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 14px 16px;
+    cursor: pointer;
+    transition: box-shadow 0.15s, border-color 0.15s;
+  }
+  .cat-summary-box:hover { border-color: var(--accent); box-shadow: 0 2px 8px rgba(0,0,0,0.08); }
+  .cat-summary-name { font-size: 11px; font-weight: 500; text-transform: uppercase; letter-spacing: 0.06em; color: var(--text-muted); margin-bottom: 4px; }
+  .cat-summary-total { font-size: 22px; font-weight: 600; color: var(--text); font-family: 'Lora', serif; }
+  .cat-summary-meta { font-size: 11px; color: var(--text-muted); margin-top: 4px; }
+  .excluded-note { color: var(--warn); }
+
+  /* ---- Filter tabs ---- */
+  .cat-tabs-row { display: flex; align-items: center; gap: 10px; margin-bottom: 12px; flex-wrap: wrap; }
+  .cat-tabs { display: flex; gap: 4px; flex-wrap: wrap; flex: 1; }
+  .cat-tab {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 5px 14px;
+    font-size: 13px;
+    cursor: pointer;
+    color: var(--text-mid);
+    transition: all 0.15s;
+    white-space: nowrap;
+  }
+  .cat-tab:hover { border-color: var(--accent); color: var(--accent); }
+  .cat-tab.active { background: var(--accent); border-color: var(--accent); color: #fff; font-weight: 500; }
+  .tab-count { font-size: 11px; opacity: 0.7; margin-left: 2px; }
+  .add-cat-btn {
+    background: none;
+    border: 1px dashed var(--border-strong);
+    border-radius: 20px;
+    padding: 5px 14px;
+    font-size: 13px;
+    color: var(--text-muted);
+    cursor: pointer;
+    white-space: nowrap;
+    transition: all 0.15s;
+  }
+  .add-cat-btn:hover { border-color: var(--accent); color: var(--accent); }
+
+  /* ---- Unified items table ---- */
+  .items-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+  }
+  .items-table thead th {
+    font-size: 11px;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--text-muted);
+    text-align: left;
+    padding: 10px 12px;
+    border-bottom: 1px solid var(--border);
+    background: var(--surface2);
+  }
+  .items-table tbody td {
+    padding: 9px 12px;
+    border-bottom: 1px solid var(--border);
+    vertical-align: middle;
+  }
+  .item-row:last-child td { border-bottom: none; }
+  .item-row.row-done { opacity: 0.55; }
+  .item-row.row-excluded .col-name,
+  .item-row.row-excluded .col-money,
+  .item-row.row-excluded .col-date { opacity: 0.4; }
+  .item-row:hover { background: var(--surface2); }
+
+  .col-toggle { width: 40px; text-align: center; }
+  .col-name { min-width: 160px; }
+  .col-cat  { width: 120px; }
+  .col-date { width: 100px; }
+  .col-money { width: 90px; }
+  .col-done { width: 44px; text-align: center; }
+  .col-del  { width: 36px; text-align: center; }
+
+  .item-name-text {
+    display: block;
+    outline: none;
+    border-radius: 4px;
+    padding: 2px 4px;
+    cursor: text;
+  }
+  .item-name-text:focus { background: var(--surface2); outline: 1px solid var(--accent); }
+  .name-done { text-decoration: line-through; color: var(--text-muted); }
+
+  .item-cat-badge {
+    display: inline-block;
+    border-radius: 4px;
+    padding: 2px 7px;
+    font-size: 11px;
+    font-weight: 500;
+    white-space: nowrap;
+  }
+
+  .editable-cell {
+    display: block;
+    outline: none;
+    border-radius: 4px;
+    padding: 2px 4px;
+    cursor: text;
+    color: var(--text-mid);
+    min-width: 40px;
+  }
+  .editable-cell:focus { background: var(--surface2); outline: 1px solid var(--accent); }
+
+  .money-wrap { display: flex; align-items: center; gap: 2px; }
+  .money-prefix { font-size: 12px; color: var(--text-muted); }
+  .money-input {
+    border: none;
+    background: transparent;
+    font-size: 13px;
+    color: var(--text);
+    width: 70px;
+    padding: 2px 4px;
+    border-radius: 4px;
+    text-align: right;
+  }
+  .money-input:focus { background: var(--surface2); outline: 1px solid var(--accent); }
+  .money-input:disabled { opacity: 0.4; }
+
+  .done-check {
+    width: 20px; height: 20px;
+    border: 1.5px solid var(--border-strong);
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 11px;
+    margin: 0 auto;
+    transition: all 0.15s;
+  }
+  .done-check:hover { border-color: var(--accent); }
+  .done-check.checked { background: var(--accent); border-color: var(--accent); color: #fff; }
+
+  .item-delete-btn {
+    background: none;
+    border: none;
+    color: var(--text-muted);
+    font-size: 18px;
+    cursor: pointer;
+    opacity: 0;
+    padding: 0 2px;
+    line-height: 1;
+    transition: opacity 0.15s, color 0.15s;
+  }
+  .item-row:hover .item-delete-btn { opacity: 1; }
+  .item-delete-btn:hover { color: var(--danger); }
+
+  .completed-sep td {
+    padding: 6px 12px 4px;
+    font-size: 11px;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--text-muted);
+    border-bottom: none;
+    background: var(--surface2);
+  }
+
+  .over-budget  { color: var(--danger); font-weight: 600; }
+  .under-budget { color: var(--success); font-weight: 600; }
+
+  /* ---- Toggle switch ---- */
+  .toggle-switch { display: inline-flex; align-items: center; cursor: pointer; }
+  .toggle-switch input { display: none; }
+  .toggle-slider {
+    width: 28px; height: 16px;
+    background: var(--border-strong);
+    border-radius: 8px;
+    position: relative;
+    transition: background 0.2s;
+    flex-shrink: 0;
+  }
+  .toggle-slider::after {
+    content: '';
+    position: absolute;
+    width: 12px; height: 12px;
+    background: #fff;
+    border-radius: 50%;
+    top: 2px; left: 2px;
+    transition: transform 0.2s;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.2);
+  }
+  .toggle-switch input:checked + .toggle-slider { background: var(--accent); }
+  .toggle-switch input:checked + .toggle-slider::after { transform: translateX(12px); }
+
+  /* ---- Add row for items ---- */
+  .items-add-row { flex-wrap: wrap; gap: 8px; }
+  .add-select {
+    appearance: none;
+    background: var(--surface) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M0 0l5 6 5-6z' fill='%239a958e'/%3E%3C/svg%3E") no-repeat right 10px center;
+    padding-right: 28px;
+    cursor: pointer;
+  }
+
   /* ---- Holiday table ---- */
   .holiday-table {
     width: 100%;
@@ -1004,109 +1211,47 @@
 <!-- ===== TO-DO LISTS ===== -->
 <div class="page" id="page-todos">
 
-  <div class="grid-3">
+  <!-- Summary boxes -->
+  <div class="cat-summary-grid" id="cat-summary-grid"></div>
 
-    <!-- Small tasks -->
-    <div>
-      <div class="section-label">Small tasks</div>
-      <div class="card">
-        <ul class="todo-list" id="small-list"></ul>
-        <div class="todo-total">
-          <span>Total confirmed spend</span>
-          <span id="small-total">£0</span>
-        </div>
-        <div class="add-item-row">
-          <input class="add-input" id="small-name" placeholder="Add task…" onkeydown="if(event.key==='Enter')addItem('small')">
-          <input class="add-input cost" id="small-cost" placeholder="£ cost" type="number" min="0" onkeydown="if(event.key==='Enter')addItem('small')">
-          <button class="add-btn" onclick="addItem('small')">Add</button>
-        </div>
-      </div>
-    </div>
-
-    <!-- Big projects -->
-    <div>
-      <div class="section-label">Big projects</div>
-      <div class="card">
-        <div class="alert alert-warn" style="margin-bottom:14px; margin-top:0;">
-          £10k available from mortgage top-up. Total wish list exceeds this — prioritise by dragging.
-        </div>
-        <ul class="todo-list" id="big-list"></ul>
-        <div class="todo-total">
-          <span>Total wish list</span>
-          <span id="big-total">£0</span>
-        </div>
-        <div class="add-item-row">
-          <input class="add-input" id="big-name" placeholder="Add project…" onkeydown="if(event.key==='Enter')addItem('big')">
-          <input class="add-input cost" id="big-cost" placeholder="£ cost" type="number" min="0" onkeydown="if(event.key==='Enter')addItem('big')">
-          <button class="add-btn" onclick="addItem('big')">Add</button>
-        </div>
-      </div>
-
-      <div class="card" style="margin-top:16px;">
-        <div class="card-title">Budget tracker</div>
-        <div class="data-row"><span class="data-row-label">Mortgage top-up available</span><span class="data-row-val green">£10,000</span></div>
-        <div class="data-row"><span class="data-row-label">Total big projects</span><span class="data-row-val red" id="big-total-tracker">£0</span></div>
-        <div class="data-row"><span class="data-row-label">Remaining / shortfall</span><span class="data-row-val" id="big-remaining">£10,000</span></div>
-        <div id="big-alert" style="display:none;" class="alert alert-danger" style="margin-top:8px;">Projects exceed budget</div>
-      </div>
-    </div>
-
-
-    <!-- Wishlist -->
-    <div>
-      <div class="section-label">Wishlist</div>
-      <div class="card">
-        <ul class="todo-list" id="wish-list"></ul>
-        <div class="todo-total">
-          <span>Total wishlist</span>
-          <span id="wish-total">£0</span>
-        </div>
-        <div class="add-item-row">
-          <input class="add-input" id="wish-name" placeholder="Add wish…" onkeydown="if(event.key==='Enter')addItem('wish')">
-          <input class="add-input cost" id="wish-cost" placeholder="£ cost" type="number" min="0" onkeydown="if(event.key==='Enter')addItem('wish')">
-          <button class="add-btn" onclick="addItem('wish')">Add</button>
-        </div>
-      </div>
-    </div>
-
+  <!-- Filter tabs -->
+  <div class="cat-tabs-row">
+    <div class="cat-tabs" id="cat-tabs"></div>
+    <button class="add-cat-btn" onclick="promptAddCategory()">+ Category</button>
   </div>
 
-  <!-- Holiday Planning -->
-  <div class="section-label" style="margin-top:28px;">Holiday planning</div>
-  <div class="card" id="holiday-card">
-    <table class="holiday-table" id="holiday-table">
+  <!-- Unified table -->
+  <div class="card" style="padding:0; overflow:hidden;">
+    <table class="items-table" id="items-table">
       <thead>
         <tr>
-          <th>Holiday</th>
-          <th>Date</th>
-          <th>Budget</th>
-          <th>Cost</th>
-          <th>vs Budget</th>
-          <th></th>
+          <th style="width:36px;"></th>
+          <th>Item</th>
+          <th style="width:110px;">Category</th>
+          <th style="width:100px;">Date</th>
+          <th style="width:90px;">Budget</th>
+          <th style="width:90px;">Cost</th>
+          <th style="width:60px;">Done</th>
+          <th style="width:36px;"></th>
         </tr>
       </thead>
-      <tbody id="holiday-body"></tbody>
-      <tfoot>
-        <tr class="holiday-totals-row">
-          <td colspan="2">Totals</td>
-          <td id="holiday-total-budget">£0</td>
-          <td id="holiday-total-cost">£0</td>
-          <td id="holiday-total-diff"></td>
-          <td></td>
-        </tr>
-      </tfoot>
+      <tbody id="items-body"></tbody>
     </table>
-    <div class="add-item-row holiday-add-row" style="margin-top:14px;">
-      <input class="add-input" id="hol-name" placeholder="Holiday name…" onkeydown="if(event.key==='Enter')addHoliday()">
-      <input class="add-input" id="hol-date" placeholder="Date (e.g. Aug 2025)" onkeydown="if(event.key==='Enter')addHoliday()">
-      <input class="add-input cost" id="hol-budget" placeholder="£ budget" type="number" min="0" onkeydown="if(event.key==='Enter')addHoliday()">
-      <input class="add-input cost" id="hol-cost" placeholder="£ cost" type="number" min="0" onkeydown="if(event.key==='Enter')addHoliday()">
-      <button class="add-btn" onclick="addHoliday()">Add</button>
+  </div>
+
+  <!-- Add row -->
+  <div class="card" style="margin-top:12px;">
+    <div class="add-item-row items-add-row">
+      <input class="add-input" id="new-name" placeholder="Item name…" onkeydown="if(event.key==='Enter')addNewItem()">
+      <select class="add-input add-select" id="new-cat"></select>
+      <input class="add-input" id="new-date" placeholder="Date" style="width:100px;" onkeydown="if(event.key==='Enter')addNewItem()">
+      <input class="add-input cost" id="new-budget" placeholder="£ budget" type="number" min="0" onkeydown="if(event.key==='Enter')addNewItem()">
+      <input class="add-input cost" id="new-cost" placeholder="£ cost" type="number" min="0" onkeydown="if(event.key==='Enter')addNewItem()">
+      <button class="add-btn" onclick="addNewItem()">Add</button>
     </div>
   </div>
 
 </div>
-
 <!-- ===== CASH FLOW ===== -->
 <div class="page" id="page-cashflow">
 
@@ -1254,29 +1399,28 @@ async function sbFetch(path, method = 'GET', body = null, extra = {}) {
 }
 
 // ===== STATE =====
-const DEFAULT_SMALL = [
-  { name: "Book electrician (kitchen)", cost: 160, done: false, list: 'small', position: 0 },
-  { name: "Change thermostat", cost: 0, done: false, list: 'small', position: 1 },
-  { name: "Paint ceiling in en-suite", cost: 0, done: false, list: 'small', position: 2 },
-  { name: "Paint wall in Seb's room", cost: 0, done: false, list: 'small', position: 3 },
-  { name: "Buy new tumble dryer", cost: 250, done: false, list: 'small', position: 4 },
-  { name: "Order crittal door (1981×838mm)", cost: 250, done: false, list: 'small', position: 5 },
-  { name: "Book Mia — climbing", cost: 185, done: false, list: 'small', position: 6 },
-  { name: "Book Mia — drama", cost: 200, done: false, list: 'small', position: 7 },
-  { name: "Seb's suit for promo", cost: 350, done: false, list: 'small', position: 8 },
-];
-
-const DEFAULT_BIG = [
-  { name: "Carpet kids rooms + stairs", cost: 4000, done: false, list: 'big', position: 0 },
-  { name: "Shutters (Amelie's room)", cost: 2000, done: false, list: 'big', position: 1 },
-  { name: "Garden cabin", cost: 10000, done: false, list: 'big', position: 2 },
-  { name: "Paint whole house", cost: 3000, done: false, list: 'big', position: 3 },
-  { name: "Driveway touch-up", cost: 600, done: false, list: 'big', position: 4 },
-  { name: "New garden furniture (summer 2026)", cost: 500, done: false, list: 'big', position: 5 },
-];
-
-let smallItems = [], bigItems = [], wishItems = [];
+let allItems = [];        // unified items from Supabase
+let categories = [];      // list of category strings
+let activeFilter = 'all'; // current tab
 let syncTimeout = null;
+
+const DEFAULT_ITEMS = [
+  { name: "Book electrician (kitchen)", cost: 160, budget: 0, date: null, done: false, included: true, category: 'Small tasks', position: 0 },
+  { name: "Change thermostat", cost: 0, budget: 0, date: null, done: false, included: true, category: 'Small tasks', position: 1 },
+  { name: "Paint ceiling in en-suite", cost: 0, budget: 0, date: null, done: false, included: true, category: 'Small tasks', position: 2 },
+  { name: "Paint wall in Seb's room", cost: 0, budget: 0, date: null, done: false, included: true, category: 'Small tasks', position: 3 },
+  { name: "Buy new tumble dryer", cost: 250, budget: 0, date: null, done: false, included: true, category: 'Small tasks', position: 4 },
+  { name: "Order crittal door (1981×838mm)", cost: 250, budget: 0, date: null, done: false, included: true, category: 'Small tasks', position: 5 },
+  { name: "Book Mia — climbing", cost: 185, budget: 0, date: null, done: false, included: true, category: 'Small tasks', position: 6 },
+  { name: "Book Mia — drama", cost: 200, budget: 0, date: null, done: false, included: true, category: 'Small tasks', position: 7 },
+  { name: "Seb's suit for promo", cost: 350, budget: 0, date: null, done: false, included: true, category: 'Small tasks', position: 8 },
+  { name: "Carpet kids rooms + stairs", cost: 4000, budget: 4000, date: null, done: false, included: true, category: 'Big projects', position: 0 },
+  { name: "Shutters (Amelie's room)", cost: 2000, budget: 2000, date: null, done: false, included: true, category: 'Big projects', position: 1 },
+  { name: "Garden cabin", cost: 10000, budget: 10000, date: null, done: false, included: true, category: 'Big projects', position: 2 },
+  { name: "Paint whole house", cost: 3000, budget: 3000, date: null, done: false, included: true, category: 'Big projects', position: 3 },
+  { name: "Driveway touch-up", cost: 600, budget: 600, date: null, done: false, included: true, category: 'Big projects', position: 4 },
+  { name: "New garden furniture (summer 2026)", cost: 500, budget: 500, date: null, done: false, included: true, category: 'Big projects', position: 5 },
+];
 
 function setSyncStatus(state, customMsg) {
   const dot = document.getElementById('sb-dot');
@@ -1291,46 +1435,33 @@ function setSyncStatus(state, customMsg) {
 }
 
 // ===== SUPABASE CRUD =====
-async function loadFromSupabase() {
+async function loadItems() {
   setSyncStatus('loading');
   try {
-    const rows = await sbFetch('todos?order=position.asc,created_at.asc');
-    smallItems = rows.filter(r => r.list === 'small');
-    bigItems   = rows.filter(r => r.list === 'big');
-    wishItems  = rows.filter(r => r.list === 'wish');
-    // If DB is empty, seed with defaults
+    const rows = await sbFetch('items?order=position.asc,created_at.asc');
     if (rows.length === 0) {
-      await seedDefaults();
+      await seedDefaultItems();
     } else {
-      renderList('small-list', smallItems);
-      renderList('big-list', bigItems);
-      renderList('wish-list', wishItems);
+      allItems = rows;
+      deriveCategories();
+      renderAll();
       setSyncStatus('synced');
     }
   } catch(e) {
     console.error('Load error', e);
     let msg = e.message || '';
-    // Try to parse Supabase error JSON
     try { const j = JSON.parse(msg); msg = j.message || j.hint || msg; } catch(_) {}
-    if (msg.includes('relation') && msg.includes('does not exist')) {
-      setSyncStatus('error', '⚠️ DB table missing — see console for SQL to create it');
-      console.warn('Create the todos table in Supabase with this SQL:\n\ncreate table todos (\n  id uuid primary key default gen_random_uuid(),\n  list text not null,\n  name text not null,\n  done boolean default false,\n  cost numeric,\n  position integer default 0,\n  created_at timestamptz default now()\n);\n\nalter table todos enable row level security;\ncreate policy "allow all" on todos for all using (true) with check (true);');
-    } else {
-      setSyncStatus('error', 'Sync error: ' + (msg || 'unknown'));
-    }
+    setSyncStatus('error', 'Sync error — check console');
   }
 }
 
-async function seedDefaults() {
+async function seedDefaultItems() {
   setSyncStatus('syncing');
   try {
-    const all = [...DEFAULT_SMALL, ...DEFAULT_BIG];
-    const rows = await sbFetch('todos', 'POST', all);
-    smallItems = rows.filter(r => r.list === 'small');
-    bigItems   = rows.filter(r => r.list === 'big');
-    wishItems  = rows.filter(r => r.list === 'wish');
-    renderList('small-list', smallItems);
-    renderList('big-list', bigItems);
+    const rows = await sbFetch('items', 'POST', DEFAULT_ITEMS);
+    allItems = rows;
+    deriveCategories();
+    renderAll();
     setSyncStatus('synced');
   } catch(e) {
     console.error('Seed error', e);
@@ -1338,436 +1469,272 @@ async function seedDefaults() {
   }
 }
 
-async function addItemToSupabase(item) {
-  setSyncStatus('syncing');
-  try {
-    const rows = await sbFetch('todos', 'POST', [item]);
-    setSyncStatus('synced');
-    return rows[0];
-  } catch(e) {
-    setSyncStatus('error');
-    throw e;
-  }
-}
-
-async function updateItemInSupabase(id, patch) {
-  setSyncStatus('syncing');
+async function saveItemPatch(id, patch) {
+  const item = allItems.find(i => i.id === id);
+  if (!item) return;
+  Object.assign(item, patch);
+  renderAll();
   clearTimeout(syncTimeout);
   syncTimeout = setTimeout(async () => {
     try {
-      await sbFetch('todos?id=eq.' + id, 'PATCH', patch);
+      setSyncStatus('syncing');
+      await sbFetch('items?id=eq.' + id, 'PATCH', patch);
       setSyncStatus('synced');
-    } catch(e) {
-      setSyncStatus('error');
-    }
+    } catch(e) { setSyncStatus('error'); }
   }, 600);
 }
 
-async function deleteItemFromSupabase(id) {
-  setSyncStatus('syncing');
+async function deleteItemById(id) {
+  allItems = allItems.filter(i => i.id !== id);
+  deriveCategories();
+  renderAll();
   try {
-    await sbFetch('todos?id=eq.' + id, 'DELETE', null, {'Prefer': 'return=minimal'});
+    setSyncStatus('syncing');
+    await sbFetch('items?id=eq.' + id, 'DELETE', null, {'Prefer': 'return=minimal'});
     setSyncStatus('synced');
+  } catch(e) { setSyncStatus('error'); }
+}
+
+async function addNewItem() {
+  const nameEl   = document.getElementById('new-name');
+  const catEl    = document.getElementById('new-cat');
+  const dateEl   = document.getElementById('new-date');
+  const budgetEl = document.getElementById('new-budget');
+  const costEl   = document.getElementById('new-cost');
+  const name = nameEl.value.trim();
+  if (!name) { nameEl.focus(); return; }
+  const category = catEl.value || (categories[0] || 'General');
+  const position = allItems.filter(i => i.category === category && !i.done).length;
+  const newItem = {
+    name,
+    category,
+    date: dateEl.value.trim() || null,
+    budget: parseFloat(budgetEl.value) || 0,
+    cost: parseFloat(costEl.value) || 0,
+    done: false,
+    included: true,
+    position
+  };
+  nameEl.value = ''; dateEl.value = ''; budgetEl.value = ''; costEl.value = '';
+  try {
+    setSyncStatus('syncing');
+    const saved = await sbFetch('items', 'POST', [newItem]);
+    allItems.push(saved[0]);
+    deriveCategories();
+    renderAll();
+    setSyncStatus('synced');
+    nameEl.focus();
   } catch(e) {
+    console.error('Add failed', e);
     setSyncStatus('error');
   }
 }
 
-async function reorderInSupabase(items) {
-  setSyncStatus('syncing');
-  clearTimeout(syncTimeout);
-  syncTimeout = setTimeout(async () => {
-    try {
-      await Promise.all(items.map((item, i) =>
-        sbFetch('todos?id=eq.' + item.id, 'PATCH', { position: i })
-      ));
-      setSyncStatus('synced');
-    } catch(e) {
-      setSyncStatus('error');
+// ===== CATEGORY MANAGEMENT =====
+function deriveCategories() {
+  const seen = new Set();
+  allItems.forEach(i => { if (i.category) seen.add(i.category); });
+  categories = [...seen];
+  // Rebuild add-row dropdown
+  const sel = document.getElementById('new-cat');
+  if (sel) {
+    const prev = sel.value;
+    sel.innerHTML = categories.map(c => `<option value="${escHtml(c)}">${escHtml(c)}</option>`).join('');
+    if (prev && categories.includes(prev)) sel.value = prev;
+  }
+}
+
+function promptAddCategory() {
+  const name = prompt('New category name:');
+  if (!name || !name.trim()) return;
+  const cat = name.trim();
+  if (categories.includes(cat)) { alert('Category already exists.'); return; }
+  categories.push(cat);
+  activeFilter = cat;
+  const sel = document.getElementById('new-cat');
+  if (sel) {
+    const opt = document.createElement('option');
+    opt.value = cat; opt.textContent = cat;
+    sel.appendChild(opt);
+    sel.value = cat;
+  }
+  renderTabs();
+  renderSummaryBoxes();
+  renderTable();
+}
+
+// ===== RENDERING =====
+function renderAll() {
+  deriveCategories();
+  renderTabs();
+  renderSummaryBoxes();
+  renderTable();
+  updateOverviewTotal();
+}
+
+function renderTabs() {
+  const tabs = document.getElementById('cat-tabs');
+  if (!tabs) return;
+  const all = ['all', ...categories];
+  tabs.innerHTML = all.map(c => {
+    const label = c === 'all' ? 'All' : c;
+    const count = c === 'all' ? allItems.length : allItems.filter(i => i.category === c).length;
+    return `<button class="cat-tab${activeFilter === c ? ' active' : ''}" onclick="setFilter('${escHtml(c)}')">${escHtml(label)} <span class="tab-count">${count}</span></button>`;
+  }).join('');
+}
+
+function renderSummaryBoxes() {
+  const grid = document.getElementById('cat-summary-grid');
+  if (!grid) return;
+  grid.innerHTML = categories.map(cat => {
+    const items = allItems.filter(i => i.category === cat);
+    const included = items.filter(i => i.included !== false);
+    const total = included.reduce((s, i) => s + (i.cost || 0), 0);
+    const excluded = items.length - included.length;
+    const done = items.filter(i => i.done).length;
+    return `
+      <div class="cat-summary-box" onclick="setFilter('${escHtml(cat)}')">
+        <div class="cat-summary-name">${escHtml(cat)}</div>
+        <div class="cat-summary-total">${fmt(total)}</div>
+        <div class="cat-summary-meta">
+          ${items.length} item${items.length !== 1 ? 's' : ''}
+          ${excluded > 0 ? ` · <span class="excluded-note">${excluded} excluded</span>` : ''}
+          ${done > 0 ? ` · ${done} done` : ''}
+        </div>
+      </div>`;
+  }).join('');
+}
+
+function renderTable() {
+  const tbody = document.getElementById('items-body');
+  if (!tbody) return;
+  const filtered = activeFilter === 'all'
+    ? allItems
+    : allItems.filter(i => i.category === activeFilter);
+
+  const active    = filtered.filter(i => !i.done);
+  const completed = filtered.filter(i => i.done);
+  const sorted = [...active, ...completed];
+
+  tbody.innerHTML = '';
+  sorted.forEach((item, idx) => {
+    const isCompleted = item.done;
+    const isIncluded  = item.included !== false;
+    const diff = (item.budget || 0) > 0 ? (item.budget || 0) - (item.cost || 0) : null;
+    const diffHtml = diff !== null
+      ? `<span class="${diff < 0 ? 'over-budget' : 'under-budget'}">${diff < 0 ? '−' : '+'}${fmt(Math.abs(diff))}</span>`
+      : '';
+
+    const tr = document.createElement('tr');
+    tr.className = 'item-row' + (isCompleted ? ' row-done' : '') + (isIncluded ? '' : ' row-excluded');
+    tr.dataset.id = item.id;
+
+    tr.innerHTML = `
+      <td class="col-toggle">
+        <label class="toggle-switch" title="${isIncluded ? 'Click to exclude from totals' : 'Click to include in totals'}">
+          <input type="checkbox" ${isIncluded ? 'checked' : ''} onchange="saveItemPatch('${item.id}',{included:this.checked})">
+          <span class="toggle-slider"></span>
+        </label>
+      </td>
+      <td class="col-name">
+        <span class="item-name-text${isCompleted ? ' name-done' : ''}"
+          contenteditable="${isCompleted ? 'false' : 'true'}"
+          onblur="onNameBlur(this,'${item.id}')"
+          onkeydown="if(event.key==='Enter'){event.preventDefault();this.blur()}"
+        >${escHtml(item.name)}</span>
+      </td>
+      <td class="col-cat">
+        <span class="item-cat-badge" style="background:${catColour(item.category)}15;color:${catColour(item.category)};">${escHtml(item.category || '')}</span>
+      </td>
+      <td class="col-date">
+        <span class="editable-cell"
+          contenteditable="${isCompleted ? 'false' : 'true'}"
+          onblur="if(this.textContent.trim()!=='${escHtml(item.date||'')}')saveItemPatch('${item.id}',{date:this.textContent.trim()||null})"
+          onkeydown="if(event.key==='Enter'){event.preventDefault();this.blur()}"
+        >${escHtml(item.date || '')}</span>
+      </td>
+      <td class="col-money">
+        <div class="money-wrap">
+          <span class="money-prefix">£</span>
+          <input class="money-input" type="number" min="0" value="${item.budget || ''}" placeholder="0"
+            ${isCompleted ? 'disabled' : ''}
+            onchange="saveItemPatch('${item.id}',{budget:parseFloat(this.value)||0})">
+        </div>
+      </td>
+      <td class="col-money">
+        <div class="money-wrap">
+          <span class="money-prefix">£</span>
+          <input class="money-input" type="number" min="0" value="${item.cost || ''}" placeholder="0"
+            ${isCompleted ? 'disabled' : ''}
+            onchange="saveItemPatch('${item.id}',{cost:parseFloat(this.value)||0})">
+        </div>
+      </td>
+      <td class="col-done">
+        <div class="done-check${isCompleted ? ' checked' : ''}" onclick="toggleItemDone('${item.id}')">
+          ${isCompleted ? '✓' : ''}
+        </div>
+      </td>
+      <td class="col-del">
+        <button class="item-delete-btn" onclick="deleteItemById('${item.id}')" title="Remove">×</button>
+      </td>
+    `;
+    tbody.appendChild(tr);
+
+    // separator between active and completed
+    if (!isCompleted && idx === active.length - 1 && completed.length > 0) {
+      const sep = document.createElement('tr');
+      sep.className = 'completed-sep';
+      sep.innerHTML = `<td colspan="8"><span>Completed</span></td>`;
+      tbody.appendChild(sep);
     }
-  }, 800);
+  });
 }
 
-// ===== NAVIGATION =====
-const HASH_MAP = {
-  '#overview': 'overview',
-  '#todos': 'todos',
-  '#cashflow': 'cashflow',
-  '#scenarios': 'scenarios',
-};
-
-function showPage(name) {
-  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-  document.querySelectorAll('.nav-link').forEach(a => a.classList.remove('active'));
-  const pageEl = document.getElementById('page-' + name);
-  if (!pageEl) return;
-  pageEl.classList.add('active');
-  const link = document.querySelector('.nav-link[href="#' + name + '"]');
-  if (link) link.classList.add('active');
-  if (name === 'cashflow') renderCashFlow();
-  if (name === 'overview') updateOverviewTotal();
-  if (name === 'scenarios') renderScenarios();
+function setFilter(cat) {
+  activeFilter = cat;
+  renderTabs();
+  renderTable();
 }
 
-function handleHash() {
-  const hash = window.location.hash || '#overview';
-  const name = HASH_MAP[hash] || 'overview';
-  showPage(name);
+async function toggleItemDone(id) {
+  const item = allItems.find(i => i.id === id);
+  if (!item) return;
+  await saveItemPatch(id, { done: !item.done });
 }
 
-window.addEventListener('hashchange', handleHash);
+function onNameBlur(el, id) {
+  const item = allItems.find(i => i.id === id);
+  if (!item) return;
+  const newName = el.textContent.trim();
+  if (newName && newName !== item.name) saveItemPatch(id, { name: newName });
+  else el.textContent = item.name; // revert if empty
+}
 
-// ===== TODO RENDERING =====
+// Category colours — deterministic from name
+function catColour(name) {
+  const palette = ['#2d5a3d','#1a3a6b','#7a3a00','#5a1a6b','#8b2020','#006060','#4a4a00'];
+  let hash = 0;
+  for (let i = 0; i < (name||'').length; i++) hash = (hash * 31 + name.charCodeAt(i)) & 0xffffffff;
+  return palette[Math.abs(hash) % palette.length];
+}
+
 function fmt(n) {
   if (!n && n !== 0) return '—';
   return '£' + Number(n).toLocaleString('en-GB');
 }
 
-function renderList(listId, items) {
-  const ul = document.getElementById(listId);
-  ul.innerHTML = '';
-
-  const active    = items.filter(i => !i.done);
-  const completed = items.filter(i => i.done);
-
-  active.forEach((item, idx) => {
-    ul.appendChild(buildTodoItem(item, idx, listId, false));
-  });
-
-  if (completed.length > 0) {
-    const section = document.createElement('li');
-    section.className = 'todo-completed-section';
-    section.innerHTML = '<div class="todo-completed-label">Completed</div>';
-    section.style.listStyle = 'none';
-
-    const completedList = document.createElement('ul');
-    completedList.style.listStyle = 'none';
-    completedList.style.padding = '0';
-
-    completed.forEach((item, idx) => {
-      completedList.appendChild(buildTodoItem(item, idx, listId, true));
-    });
-
-    section.appendChild(completedList);
-    ul.appendChild(section);
-  }
-
-  updateTotals();
-  updateOverviewTotal();
-}
-
-function buildTodoItem(item, idx, listId, isCompleted) {
-  const li = document.createElement('li');
-  li.className = 'todo-item' + (isCompleted ? ' completed' : '');
-  if (!isCompleted) {
-    li.draggable = true;
-    li.dataset.id = item.id;
-    li.dataset.idx = idx;
-  }
-
-  li.innerHTML = `
-    ${isCompleted ? '' : '<span class="drag-handle">⠿</span>'}
-    <div class="todo-check ${item.done ? 'checked' : ''}" onclick="toggleDone('${item.id}','${listId}')">
-      ${item.done ? '✓' : ''}
-    </div>
-    <div class="todo-name ${item.done ? 'done' : ''}"
-      contenteditable="false"
-      ${isCompleted ? '' : `onclick="startEdit(this)" onblur="finishEdit(this,'${item.id}','${listId}')" onkeydown="if(event.key==='Enter'){event.preventDefault();this.blur()}"`}
-    >${escHtml(item.name)}</div>
-    <div class="todo-cost-wrap">
-      <span class="todo-cost-prefix">£</span>
-      <input class="todo-cost" type="number" min="0" value="${item.cost || ''}"
-        placeholder="0"
-        ${isCompleted ? 'disabled' : `oninput="updateCost('${item.id}','${listId}',this.value)"`}
-      >
-    </div>
-    <button class="todo-delete" onclick="deleteItem('${item.id}','${listId}')" title="Remove">×</button>
-  `;
-
-  if (!isCompleted) {
-    li.addEventListener('dragstart', onDragStart);
-    li.addEventListener('dragover', onDragOver);
-    li.addEventListener('dragleave', onDragLeave);
-    li.addEventListener('drop', onDrop);
-    li.addEventListener('dragend', onDragEnd);
-  }
-
-  return li;
-}
-
 function escHtml(s) {
-  return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
-}
-
-function startEdit(el) {
-  el.contentEditable = 'true';
-  el.focus();
-  const range = document.createRange();
-  range.selectNodeContents(el);
-  window.getSelection().removeAllRanges();
-  window.getSelection().addRange(range);
-}
-
-function finishEdit(el, id, listId) {
-  el.contentEditable = 'false';
-  const items = listId === 'small-list' ? smallItems : listId === 'big-list' ? bigItems : wishItems;
-  const item = items.find(i => i.id === id);
-  if (!item) return;
-  const newName = el.textContent.trim() || item.name;
-  if (newName !== item.name) {
-    item.name = newName;
-    updateItemInSupabase(id, { name: newName });
-  }
-}
-
-async function toggleDone(id, listId) {
-  const items = listId === 'small-list' ? smallItems : listId === 'big-list' ? bigItems : wishItems;
-  const item = items.find(i => i.id === id);
-  if (!item) return;
-  item.done = !item.done;
-
-  // Animate: briefly mark then re-render
-  renderList(listId, items);
-
-  // Scroll completed item into view after animation
-  setTimeout(() => {
-    const completedSection = document.querySelector(`#${listId} .todo-completed-section`);
-    if (completedSection && item.done) {
-      completedSection.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-    }
-  }, 100);
-
-  try {
-    await sbFetch('todos?id=eq.' + id, 'PATCH', { done: item.done });
-    setSyncStatus('synced');
-  } catch(e) {
-    setSyncStatus('error');
-  }
-}
-
-function updateCost(id, listId, val) {
-  const items = listId === 'small-list' ? smallItems : listId === 'big-list' ? bigItems : wishItems;
-  const item = items.find(i => i.id === id);
-  if (!item) return;
-  item.cost = parseFloat(val) || 0;
-  updateTotals();
-  updateOverviewTotal();
-  updateItemInSupabase(id, { cost: item.cost });
-}
-
-async function deleteItem(id, listId) {
-  const items = listId === 'small-list' ? smallItems : listId === 'big-list' ? bigItems : wishItems;
-  const idx = items.findIndex(i => i.id === id);
-  if (idx === -1) return;
-  items.splice(idx, 1);
-  renderList(listId, items);
-  await deleteItemFromSupabase(id);
-}
-
-async function addItem(which) {
-  const nameEl = document.getElementById(which + '-name');
-  const costEl = document.getElementById(which + '-cost');
-  const name = nameEl.value.trim();
-  if (!name) { nameEl.focus(); return; }
-  const cost = parseFloat(costEl.value) || 0;
-  const listId = which === 'small' ? 'small-list' : which === 'big' ? 'big-list' : 'wish-list';
-  const items = which === 'small' ? smallItems : which === 'big' ? bigItems : wishItems;
-  const position = items.filter(i => !i.done).length;
-
-  const newItem = { name, cost, done: false, list: which, position };
-  nameEl.value = '';
-  costEl.value = '';
-
-  try {
-    const saved = await addItemToSupabase(newItem);
-    items.push(saved);
-    renderList(listId, items);
-    nameEl.focus();
-  } catch(e) {
-    console.error('Add failed', e);
-  }
-}
-
-function updateTotals() {
-  const smallTotal = smallItems.reduce((s, i) => s + (i.cost || 0), 0);
-  const bigTotal   = bigItems.reduce((s, i) => s + (i.cost || 0), 0);
-  const wishTotal  = wishItems.reduce((s, i) => s + (i.cost || 0), 0);
-  document.getElementById('small-total').textContent = fmt(smallTotal);
-  document.getElementById('big-total').textContent   = fmt(bigTotal);
-  document.getElementById('big-total-tracker').textContent = fmt(bigTotal);
-  if (document.getElementById('wish-total')) document.getElementById('wish-total').textContent = fmt(wishTotal);
-  const remaining = 10000 - bigTotal;
-  const remEl = document.getElementById('big-remaining');
-  remEl.textContent = (remaining < 0 ? '−' : '') + fmt(Math.abs(remaining));
-  remEl.className = 'data-row-val ' + (remaining < 0 ? 'red' : 'green');
-  const alertEl = document.getElementById('big-alert');
-  alertEl.style.display = bigTotal > 10000 ? 'block' : 'none';
-  alertEl.textContent = `Projects exceed mortgage top-up by ${fmt(bigTotal - 10000)}`;
+  return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/'/g,'&#39;').replace(/"/g,'&quot;');
 }
 
 function updateOverviewTotal() {
-  const total = smallItems.reduce((s,i)=>s+(i.cost||0),0) + bigItems.reduce((s,i)=>s+(i.cost||0),0);
+  const included = allItems.filter(i => i.included !== false);
+  const total = included.reduce((s,i)=>s+(i.cost||0),0);
   const el = document.getElementById('ov-total-projects');
   if (el) el.textContent = fmt(total);
 }
 
-// ===== HOLIDAY PLANNING =====
-let holidayItems = [];
-
-async function loadHolidays() {
-  try {
-    const rows = await sbFetch('holidays?order=created_at.asc');
-    holidayItems = rows || [];
-    renderHolidays();
-  } catch(e) {
-    console.error('Holidays load error', e);
-  }
-}
-
-async function addHoliday() {
-  const nameEl   = document.getElementById('hol-name');
-  const dateEl   = document.getElementById('hol-date');
-  const budgetEl = document.getElementById('hol-budget');
-  const costEl   = document.getElementById('hol-cost');
-  const name = nameEl.value.trim();
-  if (!name) { nameEl.focus(); return; }
-  const item = {
-    name,
-    date: dateEl.value.trim() || null,
-    budget: parseFloat(budgetEl.value) || 0,
-    cost: parseFloat(costEl.value) || 0
-  };
-  nameEl.value = ''; dateEl.value = ''; budgetEl.value = ''; costEl.value = '';
-  try {
-    setSyncStatus('syncing');
-    const saved = await sbFetch('holidays', 'POST', [item]);
-    holidayItems.push(saved[0]);
-    renderHolidays();
-    setSyncStatus('synced');
-    nameEl.focus();
-  } catch(e) {
-    console.error('Add holiday failed', e);
-    setSyncStatus('error');
-  }
-}
-
-async function deleteHoliday(id) {
-  holidayItems = holidayItems.filter(h => h.id !== id);
-  renderHolidays();
-  try {
-    setSyncStatus('syncing');
-    await sbFetch('holidays?id=eq.' + id, 'DELETE', null, {'Prefer': 'return=minimal'});
-    setSyncStatus('synced');
-  } catch(e) { setSyncStatus('error'); }
-}
-
-async function updateHoliday(id, patch) {
-  const item = holidayItems.find(h => h.id === id);
-  if (!item) return;
-  Object.assign(item, patch);
-  renderHolidayTotals();
-  try {
-    setSyncStatus('syncing');
-    await sbFetch('holidays?id=eq.' + id, 'PATCH', patch);
-    setSyncStatus('synced');
-  } catch(e) { setSyncStatus('error'); }
-}
-
-function renderHolidays() {
-  const tbody = document.getElementById('holiday-body');
-  if (!tbody) return;
-  tbody.innerHTML = '';
-  holidayItems.forEach(h => {
-    const diff = (h.budget || 0) - (h.cost || 0);
-    const diffClass = diff < 0 ? 'over-budget' : diff > 0 ? 'under-budget' : '';
-    const diffText = diff === 0 ? '—' : (diff < 0 ? '−' : '+') + '£' + Math.abs(diff).toLocaleString('en-GB');
-    const tr = document.createElement('tr');
-    tr.innerHTML = `
-      <td><span class="editable" contenteditable="true"
-        onblur="updateHoliday('${h.id}',{name:this.textContent.trim()||'${escHtml(h.name)}'})"
-        onkeydown="if(event.key==='Enter'){event.preventDefault();this.blur()}"
-      >${escHtml(h.name)}</span></td>
-      <td><span class="editable" contenteditable="true"
-        onblur="updateHoliday('${h.id}',{date:this.textContent.trim()||null})"
-        onkeydown="if(event.key==='Enter'){event.preventDefault();this.blur()}"
-      >${escHtml(h.date || '')}</span></td>
-      <td><input class="hol-inline" type="number" min="0" value="${h.budget || ''}" placeholder="0"
-        onchange="updateHoliday('${h.id}',{budget:parseFloat(this.value)||0})"></td>
-      <td><input class="hol-inline" type="number" min="0" value="${h.cost || ''}" placeholder="0"
-        onchange="updateHoliday('${h.id}',{cost:parseFloat(this.value)||0})"></td>
-      <td class="${diffClass}">${diffText}</td>
-      <td><button class="hol-delete" onclick="deleteHoliday('${h.id}')" title="Remove">×</button></td>
-    `;
-    tbody.appendChild(tr);
-  });
-  renderHolidayTotals();
-}
-
-function renderHolidayTotals() {
-  const totalBudget = holidayItems.reduce((s, h) => s + (h.budget || 0), 0);
-  const totalCost   = holidayItems.reduce((s, h) => s + (h.cost || 0), 0);
-  const diff = totalBudget - totalCost;
-  const el = id => document.getElementById(id);
-  if (el('holiday-total-budget')) el('holiday-total-budget').textContent = fmt(totalBudget);
-  if (el('holiday-total-cost'))   el('holiday-total-cost').textContent   = fmt(totalCost);
-  if (el('holiday-total-diff')) {
-    const diffText = diff === 0 ? '—' : (diff < 0 ? '−' : '+') + '£' + Math.abs(diff).toLocaleString('en-GB');
-    el('holiday-total-diff').textContent = diffText;
-    el('holiday-total-diff').className = diff < 0 ? 'over-budget' : diff > 0 ? 'under-budget' : '';
-  }
-}
-
-// ===== DRAG AND DROP =====
-let dragSrcId = null, dragListId = null;
-
-function onDragStart(e) {
-  dragSrcId  = this.dataset.id;
-  dragListId = this.closest('ul').id;
-  this.classList.add('dragging');
-  e.dataTransfer.effectAllowed = 'move';
-}
-
-function onDragOver(e) {
-  e.preventDefault();
-  e.dataTransfer.dropEffect = 'move';
-  this.classList.add('drag-over');
-}
-
-function onDragLeave() {
-  this.classList.remove('drag-over');
-}
-
-function onDrop(e) {
-  e.preventDefault();
-  this.classList.remove('drag-over');
-  const targetId   = this.dataset.id;
-  const targetList = this.closest('ul').id;
-  if (targetList !== dragListId || dragSrcId === targetId) return;
-
-  const items = dragListId === 'small-list' ? smallItems : bigItems;
-  const active = items.filter(i => !i.done);
-  const srcIdx = active.findIndex(i => i.id === dragSrcId);
-  const tgtIdx = active.findIndex(i => i.id === targetId);
-  if (srcIdx === -1 || tgtIdx === -1) return;
-
-  const [moved] = active.splice(srcIdx, 1);
-  active.splice(tgtIdx, 0, moved);
-
-  // Rebuild items array: active (reordered) + done
-  const done = items.filter(i => i.done);
-  if (dragListId === 'small-list') smallItems = [...active, ...done];
-  else bigItems = [...active, ...done];
-
-  const updatedItems = dragListId === 'small-list' ? smallItems : bigItems;
-  renderList(dragListId, updatedItems);
-  reorderInSupabase(active);
-}
-
-function onDragEnd() {
-  this.classList.remove('dragging');
-  document.querySelectorAll('.todo-item').forEach(el => el.classList.remove('drag-over'));
-}
-
+// ===== CASH FLOW =====
 // ===== CASH FLOW =====
 const MONTHS = ['Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
 
@@ -2260,12 +2227,12 @@ function renderDecisionSummary(results) {
 // ===== INIT =====
 document.addEventListener('DOMContentLoaded', async () => {
   handleHash();
-  await loadFromSupabase();
-  await loadHolidays();
+  await loadItems();
 });
 </script>
 
 </body>
 </html>
+
 
 
