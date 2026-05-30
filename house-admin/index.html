@@ -405,6 +405,24 @@
   .cat-summary-total-box:hover { box-shadow: 0 2px 8px rgba(0,0,0,0.25) !important; border-color: var(--text) !important; }
 
   /* ---- Filter tabs ---- */
+  /* ---- Sticky todos header ---- */
+  .todos-sticky-header {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    background: var(--bg);
+    padding: 16px 0 4px;
+    margin: -16px 0 0;
+    border-bottom: 1px solid var(--border);
+    margin-left: -40px;
+    margin-right: -40px;
+    padding-left: 40px;
+    padding-right: 40px;
+  }
+  @media (max-width: 700px) {
+    .todos-sticky-header { margin-left: -20px; margin-right: -20px; padding-left: 20px; padding-right: 20px; }
+  }
+
   .cat-tabs-row { display: flex; align-items: center; gap: 10px; margin-bottom: 12px; flex-wrap: wrap; }
   .cat-tabs { display: flex; gap: 4px; flex-wrap: wrap; flex: 1; }
   .cat-tab {
@@ -1220,13 +1238,13 @@
 <!-- ===== TO-DO LISTS ===== -->
 <div class="page" id="page-todos">
 
-  <!-- Summary boxes -->
-  <div class="cat-summary-grid" id="cat-summary-grid"></div>
-
-  <!-- Filter tabs -->
-  <div class="cat-tabs-row">
-    <div class="cat-tabs" id="cat-tabs"></div>
-    <button class="add-cat-btn" onclick="promptAddCategory()">+ Category</button>
+  <!-- Sticky header: summary boxes + filter tabs -->
+  <div class="todos-sticky-header" id="todos-sticky-header">
+    <div class="cat-summary-grid" id="cat-summary-grid"></div>
+    <div class="cat-tabs-row">
+      <div class="cat-tabs" id="cat-tabs"></div>
+      <button class="add-cat-btn" onclick="promptAddCategory()">+ Category</button>
+    </div>
   </div>
 
   <!-- Unified table -->
