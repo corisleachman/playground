@@ -507,6 +507,46 @@
     font-weight: 500;
     white-space: nowrap;
   }
+  .item-cat-editable {
+    cursor: pointer;
+    position: relative;
+  }
+  .item-cat-editable:hover {
+    opacity: 0.8;
+    outline: 1px dashed currentColor;
+    outline-offset: 1px;
+  }
+  .cat-picker-dropdown {
+    position: fixed;
+    z-index: 9999;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    box-shadow: 0 4px 18px rgba(0,0,0,0.18);
+    min-width: 160px;
+    padding: 6px 0;
+    font-size: 13px;
+  }
+  .cat-picker-option {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 7px 14px;
+    cursor: pointer;
+    color: var(--text);
+  }
+  .cat-picker-option:hover {
+    background: var(--surface2);
+  }
+  .cat-picker-option.selected {
+    font-weight: 600;
+  }
+  .cat-picker-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
 
   .editable-cell {
     display: block;
@@ -1721,7 +1761,12 @@ function renderTable() {
         >${escHtml(item.name)}</span>
       </td>
       <td class="col-cat">
-        <span class="item-cat-badge" style="background:${catColour(item.category)}15;color:${catColour(item.category)};">${escHtml(item.category || '')}</span>
+        <span class="item-cat-badge item-cat-editable"
+          style="background:${catColour(item.category)}15;color:${catColour(item.category)};"
+          title="Click to change category"
+          data-id="${item.id}"
+          onclick="openCatPicker(this)"
+        >${escHtml(item.category || '')}</span>
       </td>
       <td class="col-date">
         <span class="editable-cell"
@@ -1800,6 +1845,48 @@ function onNameBlur(el, id) {
 }
 
 // Category colours — deterministic from name
+function openCatPicker(badgeEl) {
+  // Remove any existing picker
+  closeCatPicker();
+  const itemId = badgeEl.dataset.id;
+  const currentCat = badgeEl.textContent.trim();
+
+  const dropdown = document.createElement('div');
+  dropdown.className = 'cat-picker-dropdown';
+  dropdown.id = 'cat-picker-dropdown';
+
+  categories.forEach(cat => {
+    const opt = document.createElement('div');
+    opt.className = 'cat-picker-option' + (cat === currentCat ? ' selected' : '');
+    const colour = catColour(cat);
+    opt.innerHTML = `<span class="cat-picker-dot" style="background:${colour};"></span><span>${escHtml(cat)}</span>`;
+    opt.addEventListener('click', async (e) => {
+      e.stopPropagation();
+      closeCatPicker();
+      if (cat === currentCat) return;
+      await saveItemPatch(itemId, { category: cat });
+    });
+    dropdown.appendChild(opt);
+  });
+
+  // Position below the badge
+  const rect = badgeEl.getBoundingClientRect();
+  dropdown.style.top = (rect.bottom + 4) + 'px';
+  dropdown.style.left = rect.left + 'px';
+
+  document.body.appendChild(dropdown);
+
+  // Close on outside click
+  setTimeout(() => {
+    document.addEventListener('click', closeCatPicker, { once: true });
+  }, 0);
+}
+
+function closeCatPicker() {
+  const el = document.getElementById('cat-picker-dropdown');
+  if (el) el.remove();
+}
+
 function catColour(name) {
   const palette = ['#2d5a3d','#1a3a6b','#7a3a00','#5a1a6b','#8b2020','#006060','#4a4a00'];
   let hash = 0;
